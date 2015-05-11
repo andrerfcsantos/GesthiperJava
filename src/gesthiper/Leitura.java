@@ -73,14 +73,16 @@ public final class Leitura {
             while(bin.ready()){
                linha = bin.readLine();
                st = new StringTokenizer(linha, " \r\n");
-               produtos.add(new Produto(st.nextToken()));
+               GestorModulos.regista_produto(new Produto(st.nextToken()));
+               /* produtos.add(new Produto(st.nextToken()));*/
             }
             
             bin.close();
             
+            /*
             for(Produto prod : produtos){
                 System.out.print("Produto "+ (i++) + ": " +prod.getCodigoProduto()+"\n");
-            }
+            }*/
             
         } catch (FileNotFoundException ex) {
             System.out.print("Ficheiro não encontrado.\n");
@@ -104,10 +106,11 @@ public final class Leitura {
             }
 
             bin.close();
-
+            
+            /*
             for (Cliente cli : clientes) {
                 System.out.print("Cliente " + (i++) + ": " + cli.getCodigoCliente() + "\n");
-            }
+            }*/
 
         } catch (FileNotFoundException ex) {
             System.out.print("Ficheiro não encontrado.\n");
@@ -143,10 +146,10 @@ public final class Leitura {
             }
 
             bin.close();
-
+            /*
             for (Compra c : compras) {
                 System.out.print("" + (i++) + " => "+ c.toString()+"\n");
-            }
+            }*/
 
         } catch (FileNotFoundException ex) {
             System.out.print("Ficheiro não encontrado.\n");
