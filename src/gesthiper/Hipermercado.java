@@ -1,16 +1,16 @@
 package gesthiper;
 
-import dados.Produto;
+import dados.*;
 import modulos.*;
 
-public final class GestorModulos {
+public final class Hipermercado {
 
     public static CatalogoClientes mod_cat_clientes;
     public static CatalogoProdutos mod_cat_produtos;
     public static Contabilidade mod_contabilidade;
     public static Compras mod_compras;
 
-    private GestorModulos(){}
+    private Hipermercado(){}
     
      public static void inicializaModulos(){
         mod_cat_clientes = new CatalogoClientes();

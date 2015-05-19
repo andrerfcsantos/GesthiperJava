@@ -26,6 +26,11 @@ public class CatalogoProdutos {
         catalogo.get(indice).add(produto.clone());
     }
     
+    public void remove_produto(Produto produto){
+        int indice = calcula_indice(produto.getCodigoProduto().charAt(0));
+        catalogo.get(indice).remove(produto);
+    }
+    
     public boolean existeProduto(Produto produto){
         int indice = calcula_indice(produto.getCodigoProduto().charAt(0));
         return catalogo.get(indice).contains(produto);
@@ -47,9 +52,8 @@ public class CatalogoProdutos {
     }
     
     private int calcula_indice(char l) {
-        int res = 0;
         char letra = Character.toUpperCase(l);
-        res = Character.isAlphabetic(letra) ? letra - 'A' : 26;
+        int res = Character.isAlphabetic(letra) ? letra - 'A' : 26;
         return res;
     }
 

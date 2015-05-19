@@ -15,14 +15,24 @@ public class Paginador<E extends List<?>> {
     
     private Paginador(){}
     
-    public Paginador(List<?> lista){
-        if(lista == null) throw new NullPointerException("Tentativa de inicializar paginador com array nulo.");
-        this.lista=(E) lista;
+    public Paginador(List<?> lista) {
+        int tamanho;
+        if (lista == null) {
+            throw new NullPointerException("Tentativa de inicializar paginador com array nulo.");
+        }
+        tamanho =   this.lista.size();
+        this.lista = (E) lista;
         this.elems_por_pag = ELEMENTOS_POR_PAG_DEFAULT;
-        this.goto_pagina(1);
+        this.posicao_inicial = (tamanho > 0 ) ? 0 :PAGINA_IMPOSSIVEL;
+        this.num_elems_pag = (tamanho > this.elems_por_pag) ? this.elems_por_pag : tamanho;
+        this.num_pag = 1;
     }
     
-    public final void goto_pagina(int numero_pagina) {
+    public Paginador(List<?> lista, int num_elemetos_por_pag, int pag){
+        
+    }
+    
+    public void goto_pagina(int numero_pagina) {
         int comeco_pag = this.elems_por_pag * (numero_pagina - 1);
         int diferenca = this.lista.size() - comeco_pag;
 
@@ -35,5 +45,16 @@ public class Paginador<E extends List<?>> {
             this.num_elems_pag = PAGINA_IMPOSSIVEL;
             this.num_pag = PAGINA_IMPOSSIVEL;
         }
+    }
+    
+    public boolean pagina_existe(){
+        return pagina_existe(this.num_pag);
+    }
+    
+    public boolean pagina_existe(int num_pag){
+        int comeco_pag = this.elems_por_pag * (num_pag - 1);
+        int diferenca = this.lista.size() - comeco_pag;
+        
+        return diferenca > 0 && num_pag > 0;
     }
 }

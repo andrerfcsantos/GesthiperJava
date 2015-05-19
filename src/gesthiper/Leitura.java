@@ -73,7 +73,7 @@ public final class Leitura {
             while(bin.ready()){
                linha = bin.readLine();
                st = new StringTokenizer(linha, " \r\n");
-               GestorModulos.regista_produto(new Produto(st.nextToken()));
+               Hipermercado.regista_produto(new Produto(st.nextToken()));
                /* produtos.add(new Produto(st.nextToken()));*/
             }
             
