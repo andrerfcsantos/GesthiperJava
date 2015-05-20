@@ -7,7 +7,7 @@ public enum Mes {
     ABRIL       (4, "Abr"),
     MAIO        (5, "Mai"),
     JUNHO       (6, "Jun"),
-    JULHO       (7,"Jul"),
+    JULHO       (7, "Jul"),
     AGOSTO      (8, "Ago"),
     SETEMBRO    (9, "Set"),
     OUTUBRO     (10, "Out"),
