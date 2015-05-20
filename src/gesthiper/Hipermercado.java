@@ -10,7 +10,7 @@ public final class Hipermercado {
     public static Contabilidade mod_contabilidade;
     public static Compras mod_compras;
 
-    private Hipermercado(){}
+    //private Hipermercado(){}
     
      public static void inicializaModulos(){
         mod_cat_clientes = new CatalogoClientes();

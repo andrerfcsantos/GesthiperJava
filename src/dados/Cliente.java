@@ -7,7 +7,7 @@ public class Cliente {
     CONSTRUCTORES
     */
     public Cliente(){
-        codigo_cliente = null;
+        codigo_cliente = "";
     }
     
     public Cliente(String cod_cliente){
@@ -39,6 +39,8 @@ public class Cliente {
     }
     
     
+    
+    
     @Override
     public boolean equals(Object obj){
         if(this == obj) return true;
@@ -48,7 +50,17 @@ public class Cliente {
         return this.equals(cliente);
     }
     
-    @Override
+   
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((codigo_cliente == null) ? 0 : codigo_cliente.hashCode());
+		return result;
+	}
+
+	@Override
     public Cliente clone(){
         return new Cliente(this);
     }
@@ -57,5 +69,7 @@ public class Cliente {
     public String toString() {
         return "Cliente{" + "codigo_cliente=" + codigo_cliente + '}';
     }
+
+	
     
 }

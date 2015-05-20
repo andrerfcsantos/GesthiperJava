@@ -8,7 +8,7 @@ public class Produto {
     */
     
     public Produto(){
-        codigo_produto = null;
+        codigo_produto = "";
     }
     
     public Produto(String cod_produto){
