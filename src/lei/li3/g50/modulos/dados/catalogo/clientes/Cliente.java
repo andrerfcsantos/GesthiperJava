@@ -1,4 +1,4 @@
-package dados;
+package lei.li3.g50.modulos.dados.catalogo.clientes;
 
 public class Cliente {
     private String codigo_cliente;

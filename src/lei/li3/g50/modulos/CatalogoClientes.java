@@ -1,10 +1,10 @@
-package modulos;
+package lei.li3.g50.modulos;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
 
-import utilitarios.ComparatorClientePorCodigo;
-import dados.Cliente;
+import lei.li3.g50.modulos.dados.catalogo.clientes.Cliente;
+import lei.li3.g50.utilitarios.ComparatorClientePorCodigo;
 
 public class CatalogoClientes {
 

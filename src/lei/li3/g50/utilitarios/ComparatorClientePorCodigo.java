@@ -1,7 +1,8 @@
-package utilitarios;
+package lei.li3.g50.utilitarios;
 
-import dados.Cliente;
 import java.util.Comparator;
+
+import lei.li3.g50.modulos.dados.catalogo.clientes.Cliente;
 
 public class ComparatorClientePorCodigo implements Comparator<Cliente> {
 

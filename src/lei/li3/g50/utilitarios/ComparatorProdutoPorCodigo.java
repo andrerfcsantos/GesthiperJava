@@ -1,7 +1,8 @@
-package utilitarios;
+package lei.li3.g50.utilitarios;
 
-import dados.Produto;
 import java.util.Comparator;
+
+import lei.li3.g50.modulos.dados.catalogo.produtos.Produto;
 
 public class ComparatorProdutoPorCodigo implements Comparator<Produto> {
 

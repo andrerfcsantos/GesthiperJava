@@ -1,4 +1,4 @@
-package excepcoes;
+package lei.li3.g50.excepcoes;
 
 public class PaginaImpossivelException extends Exception {
 

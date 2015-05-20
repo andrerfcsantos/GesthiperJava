@@ -1,9 +1,10 @@
-package modulos;
+package lei.li3.g50.modulos;
 
-import dados.Produto;
 import java.util.ArrayList;
 import java.util.TreeSet;
-import utilitarios.ComparatorProdutoPorCodigo;
+
+import lei.li3.g50.modulos.dados.catalogo.produtos.Produto;
+import lei.li3.g50.utilitarios.ComparatorProdutoPorCodigo;
 
 public class CatalogoProdutos {
     

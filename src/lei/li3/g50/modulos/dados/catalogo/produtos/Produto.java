@@ -1,4 +1,4 @@
-package dados;
+package lei.li3.g50.modulos.dados.catalogo.produtos;
 
 public class Produto {
     private String codigo_produto;

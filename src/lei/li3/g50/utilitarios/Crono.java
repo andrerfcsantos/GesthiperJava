@@ -1,4 +1,4 @@
-package utilitarios;
+package lei.li3.g50.utilitarios;
 
 /**
  * Crono = mede um tempo entre start() e stop()
