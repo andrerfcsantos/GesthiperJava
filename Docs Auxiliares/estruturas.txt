@@ -1,8 +1,8 @@
 ==========
 CATALOGOS
 ==========
-TreeSet<Cliente>
-TreeSet<Produto>
+TreeSet<Cliente> arvoreClientes
+TreeSet<Produto> arvoreProdutos
 
 Nota:
 Depois de ver as queries, penso que neste trabalho os catálogos não vão ser muito importantes, porque ao contrário de C, não temos queries a pedir para ver Clientes e Produtos começados por uma determinada letra. A única situação em que vejo que os catálogos sejam úteis é mesmo para ver o total de produtos (que facilmente poderia ser também tirado dos outros modulos, mas whatever) e para verificações de se um produto/cliente existe ou não.
@@ -14,46 +14,59 @@ CONTABILIDADE
 
 Nota: A notação [meses][tipo_compra] refere-se a uma matriz 12x2, em que cada linha corresponde a um mês e cada coluna corresponde ao tipo de compra 0=NORMAL, 1=PROMOCAO. Assim, totalCompras[5][1], diz o total de compras com PROMOCAO (1) feitas em Junho (mês 6, logo indice 5).
 
-- totalComprasPorMes			[meses][tipo_compra]
-- totalUnidadesVendidasPorMes	[meses][tipo_compra]
-- totalFacturadoPorMes			[meses][tipo_compra]
+- int totalComprasPorMes			[meses][tipo_compra]
+- int totalUnidadesVendidasPorMes	[meses][tipo_compra]
+- double totalFacturadoPorMes		[meses][tipo_compra]
 (Estes 3 valores a seguir representam apenas os totais das matrizes anteriores. É informação redundante, mas torna queries em que tem que ser feita a travessia da arvore mais eficientes)
-- totalCompras			
-- totalUnidadesVendidas
-- totalFacturadoPor	
+- int totalCompras			
+- int totalUnidadesVendidas
+- double totalFacturado
 
-- TreeSet<FichaProdutoContabilidade>(new ComparadorClientePorCodigo) - esta árvore é preenchida com todos os produtos, mesmo os nao comprados, ver justificaçao no documento das queries
+- TreeSet<FichaProdutoContabilidade> produtos = new TreeSet<>(new ComparadorFichaProdutoContabilidadePorCodigoProduto) - esta árvore é preenchida com todos os produtos, mesmo os nao comprados, ver justificaçao no documento das queries
 
 Em que FichaProdutoContabilidade teria:
-- Cliente (chave da arvore, ordenados por codigo, consoante indicado pelo comparador)
-- unidades_vendidas_do_produto	[meses][tipo_compra]
-- num_compras_do_produto	   	[meses][tipo_compra]
-- facturacao_produto			[meses][tipo_compra]
+- Cliente cliente (chave da arvore, ordenados por codigo, consoante indicado pelo comparador)
+- int numUnidadesProdutoVendidasPorMes	[meses][tipo_compra]
+- int numComprasProdutoPorMes			[meses][tipo_compra]
+- double factruracaoProdutoPorMes		[meses][tipo_compra]
+
+- int numUnidadesProdutoVendidas
+- int numComprasProduto
+- double factruracaoProduto
 
 
 
 ==============
 COMPRAS
 ==============
-- numero_clientes[meses][tipo_compra]
-- TreeSet<FichaClienteCompras>(new ComparadorFichaCLientePorCodigo)
-- TreeSet<ParProdutoNClientes>(new ComparadorParProdNCLientesPorCodigoProduto)
+- int numeroComprasValorZero
+- int numeroClientes 	[meses][tipo_compra]
+- ArrayList<Compra> comprasInvalidas = new ArrayList<>();
+- TreeSet<FichaClienteCompras> arvoreClientes = TreeSet<>(new ComparadorFichaCLientePorCodigo)
+- TreeSet<ParProdutoNClientes> arvoreParesProdutoNClientes = TreeSet<>(new ComparadorParProdNCLientesPorCodigoProduto)
 
 Em que FichaClienteCompras teria a informação de compras gerais do cliente bem como dos produtos comprados:
-- Cliente (chave da arvore, ordenados por codigo, consoante indicado pelo comparador)
-- num_unidades_compradas	[meses][tipo_compra]
-- num_compras 				[meses][tipo_compra]
-- dinheiro_gasto 			[meses][tipo_compra]
-- TreeSet<FichaProdutoDeClienteCompras>(new ComparadorFichaProdutoDeClientePorCodigoDeProduto)
+- Cliente cliente (chave da arvore, ordenados por codigo, consoante indicado pelo comparador)
+- int numUnidadesCompradasClientePorMes			[meses][tipo_compra]
+- int numComprasClientePorMes 					[meses][tipo_compra]
+- double dinheiroGastoClientePorMes 			[meses][tipo_compra]
+
+- int numUnidadesCompradasCliente
+- int numComprasCliente
+- double dinheiroGastoCliente
+- TreeSet<FichaProdutoDeClienteCompras> produtosCliente = new TreeSet<>(new ComparadorFichaProdutoDeClientePorCodigoDeProduto)
 
 Em que FichaProdutoDeClienteCompras teria a informação de compras de um produto por um cliente:
-- Produto (chave da arvore, ordenados por codigo, consoante indicado pelo comparador)
-- num_unidades_compradas	[meses][tipo_compra]
-- num_compras 				[meses][tipo_compra]
+- Produto produto (chave da arvore, ordenados por codigo, consoante indicado pelo comparador)
+- int numUnidadesCompradasProdutoClientePorMes		[meses][tipo_compra]
+- int numComprasProdutoClientePorMes 				[meses][tipo_compra]
+- int numUnidadesCompradasProdutoCliente
+- int numComprasProdutoCliente
 
 Em que ParProdutoNClientes teria:
-- Produto
-- numero_clientes
+- Produto produto(chave da arvore)
+- int numeroClientesPorMes	[meses]
+- int numeroClientes
 
 
 
