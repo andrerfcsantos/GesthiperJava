@@ -1,0 +1,11 @@
+========================
+CONSULTAS ESTATISTICAS
+========================
+
+1
+Nº total de produtos -> fazer size() a TreeSet<Produto> dos catalogos
+Nº total de prods diferentes comprados -> percorrer TreeSet<FichaProdutoContabilidade> da contabilidade e ver em que casos nº de compras >0, consultando o inteiro do total respectivo
+Nº total de prods diferentes comprados -> percorrer TreeSet<FichaProdutoContabilidade> da contabilidade e ver em que casos nº de compras =0, consultando o inteiro do total respectivo
+Numero total de clientes -> fazer size() a TreeSet<FichaClienteCompras> das compras
+Total de clientes que fizeram compras -> percorrer TreeSet<FichaClienteCompras> das compras e ver quantos clientes tem compras > 0, consultando o inteiro do total respectivo
+
