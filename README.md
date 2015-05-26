@@ -10,4 +10,4 @@ do Minho. Trabalho prático de *JAVA*.
 |*Autores*     |Nº Aluno |  Email                                             | Telemóvel |
 |------------- |---------|----------------------------------------------------|---------- |
 |André Santos  | a61778  | [a61778@alunos.uminho.pt](a61778@alunos.uminho.pt) |           |
-|Bruno Pereira | a72628  | [pereirabruno@gmail.com](pereirabruno@gmail.com)   | 917691726 |
+|Bruno Pereira | a72628  | [pereirabruno05@gmail.com](pereirabruno05@gmail.com)   | 917691726 |
