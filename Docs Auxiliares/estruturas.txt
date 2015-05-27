@@ -21,7 +21,6 @@ Nota: A notação [meses][tipo_compra] refere-se a uma matriz 12x2, em que cada 
 - int totalCompras			
 - int totalUnidadesVendidas
 - double totalFacturado
-
 - TreeSet<FichaProdutoContabilidade> produtos = new TreeSet<>(new ComparadorFichaProdutoContabilidadePorCodigoProduto) - esta árvore é preenchida com todos os produtos, mesmo os nao comprados, ver justificaçao no documento das queries
 
 Em que FichaProdutoContabilidade teria:
@@ -40,7 +39,7 @@ Em que FichaProdutoContabilidade teria:
 COMPRAS
 ==============
 - int numeroComprasValorZero
-- int numeroClientes 	[meses][tipo_compra]
+- int numeroClientesPorMes 	[meses][tipo_compra]
 - ArrayList<Compra> comprasInvalidas = new ArrayList<>();
 - TreeSet<FichaClienteCompras> arvoreClientes = TreeSet<>(new ComparadorFichaCLientePorCodigo)
 - TreeSet<ParProdutoNClientes> arvoreParesProdutoNClientes = TreeSet<>(new ComparadorParProdNCLientesPorCodigoProduto)
@@ -50,7 +49,6 @@ Em que FichaClienteCompras teria a informação de compras gerais do cliente bem
 - int numUnidadesCompradasClientePorMes			[meses][tipo_compra]
 - int numComprasClientePorMes 					[meses][tipo_compra]
 - double dinheiroGastoClientePorMes 			[meses][tipo_compra]
-
 - int numUnidadesCompradasCliente
 - int numComprasCliente
 - double dinheiroGastoCliente
