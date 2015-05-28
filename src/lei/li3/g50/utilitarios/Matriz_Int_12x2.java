@@ -1,3 +1,5 @@
+package lei.li3.g50.utilitarios;
+
 import java.util.Arrays;
 import lei.li3.g50.excepcoes.MatrizNao12x2;
 

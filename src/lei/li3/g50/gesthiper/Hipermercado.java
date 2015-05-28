@@ -1,12 +1,9 @@
 package lei.li3.g50.gesthiper;
 
-import lei.li3.g50.modulos.CatalogoClientes;
-import lei.li3.g50.modulos.CatalogoProdutos;
-import lei.li3.g50.modulos.Compras;
-import lei.li3.g50.modulos.Contabilidade;
-import lei.li3.g50.modulos.dados.catalogo.clientes.Cliente;
-import lei.li3.g50.modulos.dados.catalogo.produtos.Produto;
-import lei.li3.g50.modulos.dados.compras.Compra;
+import lei.li3.g50.modulos.catalogos.*;
+import lei.li3.g50.modulos.compras.*;
+import lei.li3.g50.modulos.contabilidade.*;
+import lei.li3.g50.modulos.dados.*;
 
 public class Hipermercado {
 
@@ -42,8 +39,8 @@ public class Hipermercado {
 		mod_cat_produtos.insere_produto(produto);
 	}
 
-	public void regista_cliente(Cliente produto) {
-
+	public void regista_cliente(Cliente cliente) {
+                mod_cat_clientes.insere_cliente(cliente);
 	}
 
 	public void regista_compra(Compra compra) {

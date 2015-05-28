@@ -1,6 +1,6 @@
-package lei.li3.g50.modulos.dados.contabilidade;
+package lei.li3.g50.modulos.contabilidade;
 
-import lei.li3.g50.dados.enumerados.TipoCompra;
+import lei.li3.g50.modulos.dados.TipoCompra;
 
 public class ContabilidadeProduto {
 	

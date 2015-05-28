@@ -1,4 +1,4 @@
-package lei.li3.g50.modulos.dados.contabilidade;
+package lei.li3.g50.modulos.contabilidade;
 
 import java.util.ArrayList;
 import java.util.List;

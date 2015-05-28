@@ -11,14 +11,14 @@ public final class Interface {
 		Scanner input = new Scanner(System.in);
 		int escolha;
 
-		System.out.print("=================================");
-		System.out.print(" GESTHIPER >> Leitura Ficheiros   ");
-		System.out.print("=================================");
-		System.out.print("   1) Ler ficheiro objecto       ");
-		System.out.print("   2) Ler ficheiros genericos    ");
-		System.out.print("   3) Procura automatica ficheiro objecto ");
-		System.out.print("   4) Procura automatica ficheiro generico ");
-		System.out.print("=================================");
+		System.out.print("=================================\n");
+		System.out.print(" GESTHIPER >> Leitura Ficheiros   \n");
+		System.out.print("=================================\n");
+		System.out.print("   1) Ler ficheiro objecto       \n");
+		System.out.print("   2) Ler ficheiros genericos    \n");
+		System.out.print("   3) Procura automatica ficheiro objecto \n");
+		System.out.print("   4) Procura automatica ficheiro generico \n");
+		System.out.print("=================================\n");
 		System.out.print("Escolha uma opção: ");
 		escolha = input.nextInt();
 

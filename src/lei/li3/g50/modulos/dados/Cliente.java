@@ -1,6 +1,6 @@
-package lei.li3.g50.modulos.dados.catalogo.clientes;
+package lei.li3.g50.modulos.dados;
 
-public class Cliente {
+public class Cliente implements Comparable<Cliente>{
     private String codigo_cliente;
     
     /*
@@ -68,6 +68,11 @@ public class Cliente {
     @Override
     public String toString() {
         return "Cliente{" + "codigo_cliente=" + codigo_cliente + '}';
+    }
+
+    @Override
+    public int compareTo(Cliente c) {
+        return this.codigo_cliente.compareTo(c.getCodigoCliente());
     }
 
 	

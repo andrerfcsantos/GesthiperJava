@@ -1,9 +1,7 @@
-package lei.li3.g50.modulos.dados.compras;
+package lei.li3.g50.modulos.dados;
 
-import lei.li3.g50.dados.enumerados.Mes;
-import lei.li3.g50.dados.enumerados.TipoCompra;
-import lei.li3.g50.modulos.dados.catalogo.clientes.Cliente;
-import lei.li3.g50.modulos.dados.catalogo.produtos.Produto;
+import lei.li3.g50.modulos.dados.Cliente;
+import lei.li3.g50.modulos.dados.Produto;
 
 public class Compra {
 	public static final int COMPRA_INVALIDA = -1;

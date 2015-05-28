@@ -1,6 +1,6 @@
-package lei.li3.g50.modulos.dados.catalogo.produtos;
+package lei.li3.g50.modulos.dados;
 
-public class Produto {
+public class Produto implements Comparable<Produto>{
     private String codigo_produto;
     
     /*
@@ -58,4 +58,7 @@ public class Produto {
         return "Produto{" + "codigo_produto=" + codigo_produto + '}';
     }
 
+    public int compareTo(Produto c) {
+        return this.codigo_produto.compareTo(c.getCodigoProduto());
+    }
 }

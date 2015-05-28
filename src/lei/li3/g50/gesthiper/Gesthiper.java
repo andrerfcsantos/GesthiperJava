@@ -7,7 +7,10 @@ public class Gesthiper {
 	public static void main(String[] args) {
 		hipermercado = new Hipermercado();
 		Leitura.mostra_ficheiros();
+                Interface.leitura();
+                testes_aos_modulos();
 	}
+        
 
 	public static Hipermercado getHipermercado() {
 		return hipermercado;
@@ -18,17 +21,7 @@ public class Gesthiper {
 	}
 
 	public static void testes_aos_modulos() {
-		System.out.print("Numero de produtos registados: "
-				+ hipermercado.getMod_cat_produtos().getNumeroProdutosTotal()
-				+ "\n");
-
-		for (char letra = 'A'; letra <= 'Z'; letra++) {
-			System.out.print(""
-					+ letra
-					+ " "
-					+ hipermercado.getMod_cat_produtos()
-							.getNumeroProdutosLetra(letra) + "\n");
-		}
-
+		System.out.print(""+hipermercado.getMod_cat_clientes().toString()+"\n");
+		System.out.print(""+hipermercado.getMod_cat_produtos().toString()+"\n");
 	}
 }
