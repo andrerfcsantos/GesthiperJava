@@ -2,6 +2,8 @@ package lei.li3.g50.utilitarios;
 
 import java.util.Arrays;
 import lei.li3.g50.excepcoes.MatrizNao12x2;
+import lei.li3.g50.modulos.dados.Mes;
+import lei.li3.g50.modulos.dados.TipoCompra;
 
 public class Matriz_Double_12x2 {
 
@@ -58,6 +60,46 @@ public class Matriz_Double_12x2 {
             }
         }
         return tmp;
+    }
+
+    public double getValueAt(Mes mes, TipoCompra tipo_compra) {
+        double resultado;
+
+        if (tipo_compra == TipoCompra.AMBOS) {
+            resultado = this.matriz[mes.mesToIndex()][0] + this.matriz[mes.mesToIndex()][1];
+        } else {
+            resultado = this.matriz[mes.mesToIndex()][tipo_compra.getIndice()];
+        }
+        return resultado;
+    }
+
+    public double getSumValues(Mes mes_inf, Mes mes_sup, TipoCompra tipo_compra) {
+        double resultado = 0;
+        int indice_menor = Math.min(mes_inf.mesToIndex(), mes_sup.mesToIndex());
+        int indice_maior = Math.max(mes_inf.mesToIndex(), mes_sup.mesToIndex());
+
+        switch (tipo_compra) {
+            case NORMAL:
+                for (int i = indice_menor; i <= indice_maior; i++) {
+                    resultado += this.matriz[i][TipoCompra.NORMAL.getIndice()];
+                }
+                break;
+            case PROMOCAO:
+                for (int i = indice_menor; i <= indice_maior; i++) {
+                    resultado += this.matriz[i][TipoCompra.PROMOCAO.getIndice()];
+                }
+                break;
+            case AMBOS:
+                for (int i = indice_menor; i <= indice_maior; i++) {
+                    resultado += this.matriz[i][TipoCompra.NORMAL.getIndice()]
+                            + this.matriz[i][TipoCompra.PROMOCAO.getIndice()];
+                }
+                break;
+            default:
+                break;
+        }
+
+        return resultado;
     }
 
     public double getDoubleAt(int row, int col) {

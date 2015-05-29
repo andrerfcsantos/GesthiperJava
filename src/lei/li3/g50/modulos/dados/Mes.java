@@ -84,7 +84,11 @@ public enum Mes {
     public String getMes_extenso() {
         return mes_extenso;
     }
-
+    
+    public int mesToIndex(){
+        return this.num_mes-1;
+    }
+    
     public static Mes numero_to_mes(int n_mes) {
         Mes resultado;
         switch (n_mes) {

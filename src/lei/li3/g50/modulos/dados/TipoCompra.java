@@ -1,24 +1,34 @@
 package lei.li3.g50.modulos.dados;
 
 public enum TipoCompra {
-    NORMAL('N', "N", "Normal", "Norm."),
-    PROMOCAO('P', "P", "Promoção", "Promo.");
+    NORMAL(0,'N', "N", "Normal", "Norm."),
+    PROMOCAO(1,'P', "P", "Promoção", "Promo."),
+    AMBOS(2, 'A', "A", "Ambos", "Amb.");
     
+    int indice;
     char letra_representativa;
     String representacao_ficheiro;
     String representacao_capitalizada;
     String abreviatura;
+
     
-    private TipoCompra(char letra_representativa, 
+    
+    private TipoCompra(int indice,
+                        char letra_representativa, 
                         String representacao_ficheiro, 
                         String representacao_capitalizada, 
                         String abreviatura) {
+        this.indice = indice;
         this.letra_representativa = letra_representativa;
         this.representacao_ficheiro = representacao_ficheiro;
         this.representacao_capitalizada = representacao_capitalizada;
         this.abreviatura = abreviatura;
     }
 
+    public int getIndice() {
+        return indice;
+    }
+    
     public static TipoCompra getNORMAL() {
         return NORMAL;
     }
@@ -26,7 +36,11 @@ public enum TipoCompra {
     public static TipoCompra getPROMOCAO() {
         return PROMOCAO;
     }
-
+    
+    public static TipoCompra getAMBOS() {
+        return AMBOS;
+    }
+    
     public char getLetra_representativa() {
         return letra_representativa;
     }

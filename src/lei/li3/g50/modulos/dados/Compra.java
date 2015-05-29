@@ -1,7 +1,5 @@
 package lei.li3.g50.modulos.dados;
 
-import lei.li3.g50.modulos.dados.Cliente;
-import lei.li3.g50.modulos.dados.Produto;
 
 public class Compra {
 	public static final int COMPRA_INVALIDA = -1;
