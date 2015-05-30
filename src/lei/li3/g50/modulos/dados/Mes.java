@@ -85,7 +85,7 @@ public enum Mes {
         return mes_extenso;
     }
     
-    public int mesToIndex(){
+    public int getIndiceArray(){
         return this.num_mes-1;
     }
     
