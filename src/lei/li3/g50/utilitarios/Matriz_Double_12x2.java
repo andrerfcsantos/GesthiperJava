@@ -11,11 +11,13 @@ public class Matriz_Double_12x2 {
     public static int MAX_COL = 2;
 
     private double[][] matriz = new double[MAX_ROW][MAX_COL];
-
+    private double total;
     /*
      CONSTRUCTORES
      */
+
     public Matriz_Double_12x2() {
+        this.total = 0;
         for (int i = 0; i < MAX_ROW; i++) {
             for (int j = 0; j < MAX_COL; j++) {
                 this.matriz[i][j] = 0.0;
@@ -25,7 +27,7 @@ public class Matriz_Double_12x2 {
 
     public Matriz_Double_12x2(double[][] matriz) throws MatrizNao12x2 {
         super();
-
+        this.total = 0;
         /*
          NOTA: Como tinhas, this.matriz[i][j] = this.getMatriz() não faz o que queres.
          Provavelmente querias ter dito this.setMatriz(matriz), mas isso é unsafe,
@@ -38,6 +40,7 @@ public class Matriz_Double_12x2 {
             for (int i = 0; i < MAX_ROW; i++) {
                 for (int j = 0; j < MAX_COL; j++) {
                     this.matriz[i][j] = matriz[i][j];
+                    this.total += this.matriz[i][j];
                 }
             }
         }
@@ -46,6 +49,7 @@ public class Matriz_Double_12x2 {
     public Matriz_Double_12x2(Matriz_Double_12x2 matriz) {
         super();
         this.matriz = matriz.getMatriz();
+        this.total = 0;
     }
 
     /*
@@ -62,37 +66,45 @@ public class Matriz_Double_12x2 {
         return tmp;
     }
 
-    public double getValueAt(Mes mes, TipoCompra tipo_compra) {
+    public double getDoubleAt(int row, int col) {
+        return this.matriz[row][col];
+    }
+
+    public double getSomaTotal() {
+        return this.total;
+    }
+
+    public double getValorMesTipoCompra(Mes mes, TipoCompra tipo_compra) {
         double resultado;
 
         if (tipo_compra == TipoCompra.AMBOS) {
-            resultado = this.matriz[mes.mesToIndex()][0] + this.matriz[mes.mesToIndex()][1];
+            resultado = this.matriz[mes.getIndiceArray()][0] + this.matriz[mes.getIndiceArray()][1];
         } else {
-            resultado = this.matriz[mes.mesToIndex()][tipo_compra.getIndice()];
+            resultado = this.matriz[mes.getIndiceArray()][tipo_compra.getIndiceArray()];
         }
         return resultado;
     }
 
-    public double getSumValues(Mes mes_inf, Mes mes_sup, TipoCompra tipo_compra) {
+    public double getValorEntreMeses(Mes mes_inf, Mes mes_sup, TipoCompra tipo_compra) {
         double resultado = 0;
-        int indice_menor = Math.min(mes_inf.mesToIndex(), mes_sup.mesToIndex());
-        int indice_maior = Math.max(mes_inf.mesToIndex(), mes_sup.mesToIndex());
+        int indice_menor = Math.min(mes_inf.getIndiceArray(), mes_sup.getIndiceArray());
+        int indice_maior = Math.max(mes_inf.getIndiceArray(), mes_sup.getIndiceArray());
 
         switch (tipo_compra) {
             case NORMAL:
                 for (int i = indice_menor; i <= indice_maior; i++) {
-                    resultado += this.matriz[i][TipoCompra.NORMAL.getIndice()];
+                    resultado += this.matriz[i][TipoCompra.NORMAL.getIndiceArray()];
                 }
                 break;
             case PROMOCAO:
                 for (int i = indice_menor; i <= indice_maior; i++) {
-                    resultado += this.matriz[i][TipoCompra.PROMOCAO.getIndice()];
+                    resultado += this.matriz[i][TipoCompra.PROMOCAO.getIndiceArray()];
                 }
                 break;
             case AMBOS:
                 for (int i = indice_menor; i <= indice_maior; i++) {
-                    resultado += this.matriz[i][TipoCompra.NORMAL.getIndice()]
-                            + this.matriz[i][TipoCompra.PROMOCAO.getIndice()];
+                    resultado += this.matriz[i][TipoCompra.NORMAL.getIndiceArray()]
+                            + this.matriz[i][TipoCompra.PROMOCAO.getIndiceArray()];
                 }
                 break;
             default:
@@ -102,23 +114,35 @@ public class Matriz_Double_12x2 {
         return resultado;
     }
 
-    public double getDoubleAt(int row, int col) {
-        return this.matriz[row][col];
-    }
 
     /*
      SETS
      */
-    public void setMatriz(double[][] matriz) {
-        for (int i = 0; i < MAX_ROW; i++) {
-            for (int j = 0; j < MAX_COL; j++) {
-                this.matriz[i][j] = matriz[i][j];
+    public void setMatriz(int[][] matriz) throws MatrizNao12x2 {
+        if (matriz.length == 12 && matriz[0].length == 2) {
+            this.total = 0;
+            for (int i = 0; i < MAX_ROW; i++) {
+                for (int j = 0; j < MAX_COL; j++) {
+                    this.matriz[i][j] = matriz[i][j];
+                    this.total += this.matriz[i][j];
+                }
             }
+        } else {
+            throw new MatrizNao12x2();
         }
     }
 
-    public void setDoubleAt(int row, int col, double value) {
-        this.matriz[row][col] = value;
+    public void setDoubleAt(int row, int col, double valor) {
+        double valor_antigo = this.matriz[row][col];
+        double diferenca = valor - valor_antigo;
+        this.matriz[row][col] = valor;
+        this.total += diferenca;
+    }
+
+    public void setValorMesTipoCompra(Mes mes, TipoCompra tipo_compra, double valor) {
+        if (tipo_compra != TipoCompra.AMBOS) {
+            this.setDoubleAt(mes.getIndiceArray(), tipo_compra.getIndiceArray(), valor);
+        }
     }
 
     /*
