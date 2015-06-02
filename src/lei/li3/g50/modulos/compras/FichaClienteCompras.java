@@ -15,11 +15,11 @@ import lei.li3.g50.utilitarios.Matriz_Int_12x2;
 
 public class FichaClienteCompras {
 
-    Cliente cliente;
-    Matriz_Int_12x2 numUnidadesCompradasClientePorMes;
-    Matriz_Int_12x2 numComprasClientePorMes;
-    Matriz_Double_12x2 dinheiroGastoClientePorMes;
-    TreeSet<FichaProdutoDeClienteCompras> produtosCliente;
+    private Cliente cliente;
+    private Matriz_Int_12x2 numUnidadesCompradasClientePorMes;
+    private Matriz_Int_12x2 numComprasClientePorMes;
+    private Matriz_Double_12x2 dinheiroGastoClientePorMes;
+    private TreeSet<FichaProdutoDeClienteCompras> produtosCliente;
 
     /*
      CONSTRUCTORES
