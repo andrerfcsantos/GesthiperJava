@@ -145,7 +145,7 @@ public class Matriz_Double_12x2 {
         }
     }
 
-    public void addValorMesTipoCompra(Mes mes, TipoCompra tipo_compra, int valor) {
+    public void addValorMesTipoCompra(Mes mes, TipoCompra tipo_compra, double valor) {
         if (tipo_compra != TipoCompra.AMBOS) {
             this.matriz[mes.getIndiceArray()][tipo_compra.getIndiceArray()] += valor;
             this.total += valor;
