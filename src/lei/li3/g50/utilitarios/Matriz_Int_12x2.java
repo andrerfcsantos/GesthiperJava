@@ -145,7 +145,14 @@ public class Matriz_Int_12x2 {
             this.setIntAt(mes.getIndiceArray(), tipo_compra.getIndiceArray(), valor);
         }
     }
-
+    
+    public void addValorMesTipoCompra(Mes mes, TipoCompra tipo_compra, int valor){
+        if (tipo_compra != TipoCompra.AMBOS){
+            this.matriz[mes.getIndiceArray()][tipo_compra.getIndiceArray()] += valor;
+            this.total += valor;
+        }
+    }
+    
     /*
      METODOS STANDARD
      */
