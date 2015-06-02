@@ -106,7 +106,12 @@ public class ParProdutoNClientes implements Comparable<ParProdutoNClientes> {
         this.numeroClientesPorMes[indice] = numero_clientes;
         this.numeroTotalClientes += diferenca;
     }
-
+    
+    public void addNumeroClientesMes(Mes mes, int numero_clientes){
+        this.numeroClientesPorMes[mes.getIndiceArray()] += numero_clientes;
+        this.numeroTotalClientes += numero_clientes;
+    }
+    
     public void setNumeroClientesPorMes(int[] numeroClientesPorMes)
             throws ArrayNaoTem12Comprimento {
 
@@ -140,6 +145,9 @@ public class ParProdutoNClientes implements Comparable<ParProdutoNClientes> {
 
     @Override
     public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+        
         if (obj == null) {
             return false;
         }
@@ -155,10 +163,8 @@ public class ParProdutoNClientes implements Comparable<ParProdutoNClientes> {
         StringBuilder sb = new StringBuilder();
 
         sb.append("ParProdutoNClientes{");
-        sb.append("produto=");
-        sb.append(produto.toString());
-        sb.append(", numeroTotalClientes=");
-        sb.append(numeroTotalClientes);
+        sb.append("produto=").append(produto.toString());
+        sb.append(", numeroTotalClientes=").append(numeroTotalClientes);
         sb.append('}');
         
         return sb.toString();

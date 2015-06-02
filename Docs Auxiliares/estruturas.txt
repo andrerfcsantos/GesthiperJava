@@ -40,7 +40,6 @@ COMPRAS
 ==============
 - int numeroComprasValorZero
 - int numeroClientesPorMes 	[meses][tipo_compra]
-- ArrayList<Compra> comprasInvalidas = new ArrayList<>();
 - TreeSet<FichaClienteCompras> arvoreClientes = TreeSet<>(new ComparadorFichaCLientePorCodigo)
 - TreeSet<ParProdutoNClientes> arvoreParesProdutoNClientes = TreeSet<>(new ComparadorParProdNCLientesPorCodigoProduto)
 

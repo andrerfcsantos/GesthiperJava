@@ -1,7 +1,9 @@
 package lei.li3.g50.modulos.compras;
 
 import java.util.Objects;
+import lei.li3.g50.modulos.dados.Mes;
 import lei.li3.g50.modulos.dados.Produto;
+import lei.li3.g50.modulos.dados.TipoCompra;
 import lei.li3.g50.utilitarios.Matriz_Int_12x2;
 
 public class FichaProdutoDeClienteCompras {
@@ -9,8 +11,27 @@ public class FichaProdutoDeClienteCompras {
     private Produto produto;
     private Matriz_Int_12x2 numUnidadesCompradasProdutoClientePorMes;
     private Matriz_Int_12x2 numComprasProdutoClientePorMes;
-    private int numUnidadesCompradasProdutoCliente;
-    private int numComprasProdutoCliente;
+
+    /*
+     CONSTRUCTORES
+     */
+    public FichaProdutoDeClienteCompras() {
+        produto = new Produto();
+        numUnidadesCompradasProdutoClientePorMes = new Matriz_Int_12x2();
+        numComprasProdutoClientePorMes = new Matriz_Int_12x2();
+    }
+
+    public FichaProdutoDeClienteCompras(Produto produto) {
+        this.produto = produto.clone();
+        numUnidadesCompradasProdutoClientePorMes = new Matriz_Int_12x2();
+        numComprasProdutoClientePorMes = new Matriz_Int_12x2();
+    }
+
+    public FichaProdutoDeClienteCompras(FichaProdutoDeClienteCompras ficha) {
+        this.produto = ficha.getProduto();
+        numUnidadesCompradasProdutoClientePorMes = ficha.getNumUnidadesCompradasProdutoClientePorMes();
+        numComprasProdutoClientePorMes = ficha.getNumComprasProdutoClientePorMes();
+    }
 
     /*
      GET'S
@@ -28,12 +49,37 @@ public class FichaProdutoDeClienteCompras {
     }
 
     public int getNumUnidadesCompradasProdutoCliente() {
-        return numUnidadesCompradasProdutoCliente;
+        return numUnidadesCompradasProdutoClientePorMes.getSomaTotal();
+    }
+    
+    public int getNumUnidadesCompradasProdutoClienteMes(Mes mes) {
+        return numUnidadesCompradasProdutoClientePorMes.getValorMesTipoCompra(mes, TipoCompra.AMBOS);
+    }
+
+    public int getNumUnidadesCompradasProdutoClienteMes(Mes mes, TipoCompra tipo_compra) {
+        return numUnidadesCompradasProdutoClientePorMes.getValorMesTipoCompra(mes, tipo_compra);
+    }
+
+    public int getNumUnidadesCompradasProdutoClienteMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
+        return numUnidadesCompradasProdutoClientePorMes.getValorEntreMeses(mes2, mes2, tipo_compra);
     }
 
     public int getNumComprasProdutoCliente() {
-        return numComprasProdutoCliente;
+        return this.numComprasProdutoClientePorMes.getSomaTotal();
     }
+
+    public int getNumComprasProdutoClienteMes(Mes mes) {
+        return numComprasProdutoClientePorMes.getValorMesTipoCompra(mes, TipoCompra.AMBOS);
+    }
+
+    public int getNumComprasProdutoClienteMes(Mes mes, TipoCompra tipo_compra) {
+        return numComprasProdutoClientePorMes.getValorMesTipoCompra(mes, tipo_compra);
+    }
+
+    public int getNumComprasProdutoClienteMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
+        return numComprasProdutoClientePorMes.getValorEntreMeses(mes2, mes2, tipo_compra);
+    }
+
 
     /*
      SET'S
@@ -49,15 +95,28 @@ public class FichaProdutoDeClienteCompras {
     public void setNumComprasProdutoClientePorMes(Matriz_Int_12x2 numComprasProdutoClientePorMes) {
         this.numComprasProdutoClientePorMes = numComprasProdutoClientePorMes.clone();
     }
-
-    public void setNumUnidadesCompradasProdutoCliente(int numUnidadesCompradasProdutoCliente) {
-        this.numUnidadesCompradasProdutoCliente = numUnidadesCompradasProdutoCliente;
+    
+    public void setNumComprasProdutoClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
+        this.numComprasProdutoClientePorMes.setValorMesTipoCompra(mes, tipo_compra, valor);
     }
-
-    public void setNumComprasProdutoCliente(int numComprasProdutoCliente) {
-        this.numComprasProdutoCliente = numComprasProdutoCliente;
+    
+    public void addNumComprasProdutoClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
+        this.numComprasProdutoClientePorMes.addValorMesTipoCompra(mes, tipo_compra, valor);
     }
-
+    
+    public void setNumUnidadesCompradasProdutoClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
+        this.numUnidadesCompradasProdutoClientePorMes.setValorMesTipoCompra(mes, tipo_compra, valor);
+    }
+    
+    public void addNumUnidadesCompradasProdutoClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
+        this.numUnidadesCompradasProdutoClientePorMes.addValorMesTipoCompra(mes, tipo_compra, valor);
+    }
+    
+    
+    /*
+    METODOS STANDARD
+    */
+    
     @Override
     public int hashCode() {
         int hash = 3;
@@ -67,6 +126,10 @@ public class FichaProdutoDeClienteCompras {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
         if (obj == null) {
             return false;
         }
@@ -82,15 +145,17 @@ public class FichaProdutoDeClienteCompras {
         StringBuilder sb = new StringBuilder();
 
         sb.append("FichaProdutoDeClienteCompras{");
-        sb.append("produto=");
-        sb.append(produto.toString());
-        sb.append(", numUnidadesCompradasProdutoCliente=");
-        sb.append(numUnidadesCompradasProdutoCliente);
-        sb.append(", numComprasProdutoCliente=");
-        sb.append(numComprasProdutoCliente);
+        sb.append("Produto=").append(produto.toString());
+        sb.append(", Total unidade compradas=").append(this.numUnidadesCompradasProdutoClientePorMes.getSomaTotal());
+        sb.append(", Total compras=").append(this.numComprasProdutoClientePorMes.getSomaTotal());
         sb.append('}');
-        
+
         return sb.toString();
     }
-
+    
+    
+    @Override
+    public FichaProdutoDeClienteCompras clone(){
+        return new FichaProdutoDeClienteCompras(this);
+    }
 }
