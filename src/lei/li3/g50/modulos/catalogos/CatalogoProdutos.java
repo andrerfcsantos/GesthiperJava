@@ -1,6 +1,7 @@
 package lei.li3.g50.modulos.catalogos;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.TreeSet;
@@ -12,6 +13,9 @@ public class CatalogoProdutos {
 
     private ArrayList<TreeSet<Produto>> catalogo;
 
+    /*
+     CONSTRUCTORES
+     */
     public CatalogoProdutos() {
         TreeSet<Produto> arvore;
         catalogo = new ArrayList<>(27);
@@ -22,7 +26,31 @@ public class CatalogoProdutos {
         }
 
     }
-    
+
+    public CatalogoProdutos(Collection<Produto> coleccao) {
+        this();
+        int i, indice;
+        for (Produto produto : coleccao) {
+            indice = calcula_indice(produto.getCodigoProduto().charAt(0));
+            catalogo.get(indice).add(produto.clone());
+        }
+
+    }
+
+    public CatalogoProdutos(CatalogoProdutos cat) {
+        this();
+        int i, indice;
+        for (i = 0; i < cat.catalogo.size(); i++) {
+            for (Produto produto : cat.catalogo.get(i)) {
+                indice = calcula_indice(produto.getCodigoProduto().charAt(0));
+                catalogo.get(indice).add(produto.clone());
+            }
+        }
+    }
+
+    /*
+     GETTERS
+     */
     public List<Produto> getProdutos() {
         ArrayList<Produto> resultado = new ArrayList<>();
 
@@ -45,20 +73,6 @@ public class CatalogoProdutos {
 
         return (List<Produto>) resultado;
     }
-    public void insere_produto(Produto produto) {
-        int indice = calcula_indice(produto.getCodigoProduto().charAt(0));
-        catalogo.get(indice).add(produto.clone());
-    }
-
-    public void remove_produto(Produto produto) {
-        int indice = calcula_indice(produto.getCodigoProduto().charAt(0));
-        catalogo.get(indice).remove(produto);
-    }
-
-    public boolean existeProduto(Produto produto) {
-        int indice = calcula_indice(produto.getCodigoProduto().charAt(0));
-        return catalogo.get(indice).contains(produto);
-    }
 
     public int getNumeroProdutosTotal() {
         int total = 0;
@@ -75,12 +89,64 @@ public class CatalogoProdutos {
         return catalogo.get(indice).size();
     }
 
+    /*
+     METODOS INSTANCIA
+     */
+    public void insere_produto(Produto produto) {
+        int indice = calcula_indice(produto.getCodigoProduto().charAt(0));
+        catalogo.get(indice).add(produto.clone());
+    }
+
+    public void remove_produto(Produto produto) {
+        int indice = calcula_indice(produto.getCodigoProduto().charAt(0));
+        catalogo.get(indice).remove(produto);
+    }
+
+    public boolean existeProduto(Produto produto) {
+        int indice = calcula_indice(produto.getCodigoProduto().charAt(0));
+        return catalogo.get(indice).contains(produto);
+    }
+
     private int calcula_indice(char l) {
         char letra = Character.toUpperCase(l);
         int res = Character.isAlphabetic(letra) ? letra - 'A' : 26;
         return res;
     }
 
+    private boolean equalsCatalogos(CatalogoProdutos cat) {
+        int i;
+
+        /*
+         Tem o mesmo numero de arvores?
+         */
+        if (this.catalogo.size() != cat.catalogo.size()) {
+            return false;
+        }
+
+        /*
+         Temdo o mesmo número de arvores, as arvores têm o mesmo tamanho?
+         */
+        for (i = 0; i < this.catalogo.size(); i++) {
+            if (this.catalogo.get(i).size() == cat.catalogo.get(i).size()) {
+                return false;
+            }
+        }
+
+        /*
+         Os elementos em cada um dos TreeSet sao os mesmos?
+         */
+        for (i = 0; i < this.catalogo.size(); i++) {
+            if (!this.catalogo.get(i).containsAll(cat.catalogo.get(i))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /*
+     METODOS STANDARD
+     */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -90,6 +156,10 @@ public class CatalogoProdutos {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
         if (obj == null) {
             return false;
         }
@@ -97,13 +167,7 @@ public class CatalogoProdutos {
             return false;
         }
         final CatalogoProdutos other = (CatalogoProdutos) obj;
-        /*
-         TODO: Melhorar algoritmo de comparação.
-         */
-        if (!Objects.equals(this.catalogo, other.catalogo)) {
-            return false;
-        }
-        return true;
+        return this.equalsCatalogos(other);
     }
 
     @Override
@@ -120,4 +184,8 @@ public class CatalogoProdutos {
         return sb.toString();
     }
 
+    @Override
+    public CatalogoProdutos clone() {
+        return new CatalogoProdutos(this);
+    }
 }
