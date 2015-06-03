@@ -67,6 +67,7 @@ public class FichaClienteCompras {
 
         if (ficha_produto == null) {
             ficha_produto = new FichaProdutoDeClienteCompras(compra.getProduto());
+            this.produtosCliente.add(ficha_produto);
         }
         
         ficha_produto.addNumComprasProdutoClienteMes(mes, tipo_compra, 1);
