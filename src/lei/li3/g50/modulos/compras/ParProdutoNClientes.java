@@ -1,13 +1,12 @@
 package lei.li3.g50.modulos.compras;
 
-import java.util.Objects;
+import java.util.Arrays;
 import lei.li3.g50.excepcoes.ArrayNaoTem12Comprimento;
 import lei.li3.g50.modulos.dados.Mes;
 import lei.li3.g50.modulos.dados.Produto;
 
-public class ParProdutoNClientes implements Comparable<ParProdutoNClientes> {
+public class ParProdutoNClientes {
 
-    private Produto produto;
     private int numeroClientesPorMes[];
     private int numeroTotalClientes;
 
@@ -15,21 +14,14 @@ public class ParProdutoNClientes implements Comparable<ParProdutoNClientes> {
      CONSTRUCTORES
      */
     public ParProdutoNClientes() {
-        this.produto = new Produto();
         this.numeroClientesPorMes = new int[12];
         this.numeroTotalClientes = 0;
     }
 
-    public ParProdutoNClientes(Produto produto) {
-        this.produto = produto.clone();
-        this.numeroClientesPorMes = new int[12];
-        this.numeroTotalClientes = 0;
-    }
 
     public ParProdutoNClientes(Produto produto, int[] numeroClientesPorMes)
             throws ArrayNaoTem12Comprimento {
 
-        this.produto = produto.clone();
         this.numeroTotalClientes = 0;
         this.numeroClientesPorMes = new int[12];
         if (numeroClientesPorMes.length == 12) {
@@ -44,7 +36,6 @@ public class ParProdutoNClientes implements Comparable<ParProdutoNClientes> {
     }
 
     public ParProdutoNClientes(ParProdutoNClientes par) {
-        this.produto = produto.clone();
         this.numeroTotalClientes = par.getNumeroTotalClientes();
         this.numeroClientesPorMes = new int[12];
 
@@ -56,10 +47,7 @@ public class ParProdutoNClientes implements Comparable<ParProdutoNClientes> {
     /*
      GETTERS
      */
-    public Produto getProduto() {
-        return produto.clone();
-    }
-
+  
     public int[] getNumeroClientesPorMes() {
         int temp[] = new int[12];
         for (int i = 0; i < 12; i++) {
@@ -95,9 +83,7 @@ public class ParProdutoNClientes implements Comparable<ParProdutoNClientes> {
     /*
      SETTERS
      */
-    public void setProduto(Produto produto) {
-        this.produto = produto.clone();
-    }
+    
 
     public void setNumeroClientesMes(Mes mes, int numero_clientes) {
         int indice = mes.getIndiceArray();
@@ -135,13 +121,16 @@ public class ParProdutoNClientes implements Comparable<ParProdutoNClientes> {
     public ParProdutoNClientes clone(){
         return new ParProdutoNClientes(this);
     }
-    
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + Objects.hashCode(this.produto);
+        int hash = 7;
+        hash = 41 * hash + Arrays.hashCode(this.numeroClientesPorMes);
+        hash = 41 * hash + this.numeroTotalClientes;
         return hash;
     }
+    
+    
 
     @Override
     public boolean equals(Object obj) {
@@ -155,23 +144,19 @@ public class ParProdutoNClientes implements Comparable<ParProdutoNClientes> {
             return false;
         }
         final ParProdutoNClientes other = (ParProdutoNClientes) obj;
-        return this.produto.equals(other.getProduto());
+        return (this.numeroTotalClientes == other.numeroTotalClientes)
+                && Arrays.equals(this.numeroClientesPorMes, other.numeroClientesPorMes);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("ParProdutoNClientes{");
-        sb.append("produto=").append(produto.toString());
+        sb.append("ParProdutoNClientes{");;
         sb.append(", numeroTotalClientes=").append(numeroTotalClientes);
         sb.append('}');
         
         return sb.toString();
     }
     
-    @Override
-    public int compareTo(ParProdutoNClientes t) {
-        return this.produto.getCodigoProduto().compareTo(t.getProduto().getCodigoProduto());
-    }
 }

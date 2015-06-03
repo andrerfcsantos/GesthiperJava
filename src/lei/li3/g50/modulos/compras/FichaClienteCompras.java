@@ -3,52 +3,38 @@ package lei.li3.g50.modulos.compras;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 import java.util.TreeSet;
-import lei.li3.g50.modulos.dados.Cliente;
-import lei.li3.g50.modulos.dados.Compra;
-import lei.li3.g50.modulos.dados.Mes;
-import lei.li3.g50.modulos.dados.Produto;
-import lei.li3.g50.modulos.dados.TipoCompra;
-import lei.li3.g50.utilitarios.ComparadorFichaProdutoDeClientePorCodigoDeProduto;
+import lei.li3.g50.modulos.dados.*;
 import lei.li3.g50.utilitarios.Matriz_Double_12x2;
 import lei.li3.g50.utilitarios.Matriz_Int_12x2;
 
 public class FichaClienteCompras {
 
-    private Cliente cliente;
     private Matriz_Int_12x2 numUnidadesCompradasClientePorMes;
     private Matriz_Int_12x2 numComprasClientePorMes;
     private Matriz_Double_12x2 dinheiroGastoClientePorMes;
-    private TreeSet<FichaProdutoDeClienteCompras> produtosCliente;
+    private TreeMap<Produto, FichaProdutoDeClienteCompras> produtosCliente;
 
     /*
      CONSTRUCTORES
      */
     public FichaClienteCompras() {
-        cliente = new Cliente();
         numUnidadesCompradasClientePorMes = new Matriz_Int_12x2();
         numComprasClientePorMes = new Matriz_Int_12x2();
         dinheiroGastoClientePorMes = new Matriz_Double_12x2();
-        produtosCliente = new TreeSet<>(new ComparadorFichaProdutoDeClientePorCodigoDeProduto());
-    }
-
-    public FichaClienteCompras(Cliente cliente) {
-        this.cliente = cliente.clone();
-        numUnidadesCompradasClientePorMes = new Matriz_Int_12x2();
-        numComprasClientePorMes = new Matriz_Int_12x2();
-        dinheiroGastoClientePorMes = new Matriz_Double_12x2();
-        produtosCliente = new TreeSet<>(new ComparadorFichaProdutoDeClientePorCodigoDeProduto());
+        produtosCliente = new TreeMap<>();
     }
 
     public FichaClienteCompras(FichaClienteCompras ficha) {
-        this.cliente = ficha.getCliente();
         numUnidadesCompradasClientePorMes = ficha.getNumUnidadesCompradasClientePorMes();
         numComprasClientePorMes = ficha.getNumComprasClientePorMes();
         dinheiroGastoClientePorMes = ficha.getDinheiroGastoClientePorMes();
 
-        for (FichaProdutoDeClienteCompras fichaProdCli : ficha.produtosCliente) {
-            this.produtosCliente.add(fichaProdCli.clone());
+        for (Map.Entry<Produto, FichaProdutoDeClienteCompras> entrada : ficha.produtosCliente.entrySet()) {
+            this.produtosCliente.put(entrada.getKey().clone(), entrada.getValue().clone());
         }
     }
 
@@ -66,8 +52,8 @@ public class FichaClienteCompras {
         ficha_produto = this.getFichaProdutoNoClone(compra.getProduto());
 
         if (ficha_produto == null) {
-            ficha_produto = new FichaProdutoDeClienteCompras(compra.getProduto());
-            this.produtosCliente.add(ficha_produto);
+            ficha_produto = new FichaProdutoDeClienteCompras();
+            this.produtosCliente.put(compra.getProduto(),ficha_produto);
         }
         
         ficha_produto.addNumComprasProdutoClienteMes(mes, tipo_compra, 1);
@@ -77,42 +63,13 @@ public class FichaClienteCompras {
      GETTERS
      */
 
-    public Cliente getCliente() {
-        return cliente.clone();
-    }
 
     public FichaProdutoDeClienteCompras getFichaProduto(Produto produto) {
-        FichaProdutoDeClienteCompras ficha = null;
-        FichaProdutoDeClienteCompras ficha_iterada;
-        boolean encontrado = false;
-        Iterator<FichaProdutoDeClienteCompras> it = this.produtosCliente.iterator();
-
-        while (it.hasNext() && !encontrado) {
-            ficha_iterada = it.next();
-            if (ficha_iterada.getProduto().equals(produto)) {
-                encontrado = true;
-                ficha = ficha_iterada;
-            }
-        }
-
-        return encontrado ? ficha.clone() : null;
+        return this.produtosCliente.get(produto).clone();
     }
 
     public FichaProdutoDeClienteCompras getFichaProdutoNoClone(Produto produto) {
-        FichaProdutoDeClienteCompras ficha = null;
-        FichaProdutoDeClienteCompras ficha_iterada;
-        boolean encontrado = false;
-        Iterator<FichaProdutoDeClienteCompras> it = this.produtosCliente.iterator();
-
-        while (it.hasNext() && !encontrado) {
-            ficha_iterada = it.next();
-            if (ficha_iterada.getProduto().equals(produto)) {
-                encontrado = true;
-                ficha = ficha_iterada;
-            }
-        }
-
-        return encontrado ? ficha : null;
+        return this.produtosCliente.get(produto);
     }
 
     /* Nº UNIDADES */
@@ -154,21 +111,18 @@ public class FichaClienteCompras {
         return dinheiroGastoClientePorMes.getValorEntreMeses(mes1, mes2, tipo_compra);
     }
 
-    public List<FichaProdutoDeClienteCompras> getProdutosCliente() {
-        ArrayList<FichaProdutoDeClienteCompras> resultado = new ArrayList<>();
-        for (FichaProdutoDeClienteCompras ficha : this.produtosCliente) {
-            resultado.add(ficha.clone());
+    public List<Produto> getProdutosCliente() {
+        ArrayList<Produto> resultado = new ArrayList<>();
+        for (Produto produto : this.produtosCliente.keySet()) {
+            resultado.add(produto.clone());
         }
-        return (List<FichaProdutoDeClienteCompras>) resultado;
+        return (List<Produto>) resultado;
     }
 
     /*
      SETTERS
      */
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente.clone();
-    }
-
+    
     /* Nº UNIDADES */
     public void setNumUnidadesCompradasClientePorMes(Matriz_Int_12x2 numUnidadesCompradasClientePorMes) {
         this.numUnidadesCompradasClientePorMes = numUnidadesCompradasClientePorMes.clone();
@@ -208,28 +162,21 @@ public class FichaClienteCompras {
         this.dinheiroGastoClientePorMes.addValorMesTipoCompra(mes, tipo_compra, valor);
     }
 
-    public void setProdutosCliente(TreeSet<FichaProdutoDeClienteCompras> produtosCliente) {
-        this.produtosCliente = new TreeSet<>();
-        for (FichaProdutoDeClienteCompras fichaProdCliente : produtosCliente) {
-            this.produtosCliente.add(fichaProdCliente.clone());
-        }
-    }
 
     /*
      METODOS INSTANCIA
      */
     public boolean produtoExiste(Produto produto) {
-        FichaProdutoDeClienteCompras produtoToFicha = new FichaProdutoDeClienteCompras(produto);
-        return this.produtosCliente.contains(produtoToFicha);
+        return this.produtosCliente.containsKey(produto);
     }
-
+    
+    
     /*
      METODOS STANDARD
      */
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 53 * hash + Objects.hashCode(this.cliente);
         hash = 53 * hash + Objects.hashCode(this.numUnidadesCompradasClientePorMes);
         hash = 53 * hash + Objects.hashCode(this.numComprasClientePorMes);
         hash = 53 * hash + Objects.hashCode(this.dinheiroGastoClientePorMes);
@@ -250,18 +197,16 @@ public class FichaClienteCompras {
             return false;
         }
         final FichaClienteCompras other = (FichaClienteCompras) obj;
-        return this.cliente.equals(other.getCliente())
-                && this.dinheiroGastoClientePorMes.equals(other.getDinheiroGastoClientePorMes())
+        return this.dinheiroGastoClientePorMes.equals(other.getDinheiroGastoClientePorMes())
                 && this.numComprasClientePorMes.equals(other.getNumComprasClientePorMes())
                 && this.numUnidadesCompradasClientePorMes.equals(other.getNumUnidadesCompradasClientePorMes())
-                && this.produtosCliente.containsAll(other.produtosCliente);
+                && this.produtosCliente.size() == other.produtosCliente.size();
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("FichaClienteCompras{");
-        sb.append("cliente=").append(cliente);
         sb.append(", Total unidades compras=").append(numUnidadesCompradasClientePorMes.getSomaTotal());
         sb.append(", Total Compras=").append(numComprasClientePorMes.getSomaTotal());
         sb.append(", € Gasto=").append(dinheiroGastoClientePorMes.getSomaTotal());

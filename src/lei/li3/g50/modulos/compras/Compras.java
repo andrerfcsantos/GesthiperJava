@@ -1,40 +1,45 @@
 package lei.li3.g50.modulos.compras;
 
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
-import java.util.TreeSet;
+import java.util.TreeMap;
 import lei.li3.g50.modulos.dados.*;
-import lei.li3.g50.utilitarios.ComparadorFichaClientePorCodigo;
-import lei.li3.g50.utilitarios.ComparadorParProdNClientesPorCodigoProduto;;
 
 public class Compras {
 
     private int numeroComprasValorZero;
     private int numeroClientesPorMes[];
-    private TreeSet<FichaClienteCompras> arvoreClientes;
-    private TreeSet<ParProdutoNClientes> arvoreParesProdutoNClientes;
+    private TreeMap<Cliente, FichaClienteCompras> arvoreClientes;
+    private TreeMap<Produto, ParProdutoNClientes> arvoreParesProdutoNClientes;
 
     public Compras() {
         this.numeroComprasValorZero = 0;
         numeroClientesPorMes = new int[12];
-        arvoreClientes = new TreeSet<>(new ComparadorFichaClientePorCodigo());
-        arvoreParesProdutoNClientes = new TreeSet<>(new ComparadorParProdNClientesPorCodigoProduto());
+        arvoreClientes = new TreeMap<>();
+        arvoreParesProdutoNClientes = new TreeMap<>();
     }
 
     public Compras(Compras compras) {
         this.numeroComprasValorZero = compras.getNumeroComprasValorZero();
         for(int i=0;i<12;i++) this.numeroClientesPorMes[i] = compras.numeroClientesPorMes[i];
-        arvoreClientes = compras.getArvoreClientes();
-        arvoreParesProdutoNClientes = compras.getArvoreParesProdutoNClientes();
+        
+        for (Map.Entry<Cliente, FichaClienteCompras> entrada : compras.arvoreClientes.entrySet()) {
+            this.arvoreClientes.put(entrada.getKey().clone(), entrada.getValue().clone());
+        }
+        
+        for (Map.Entry<Produto, ParProdutoNClientes> entrada : compras.arvoreParesProdutoNClientes.entrySet()) {
+            this.arvoreParesProdutoNClientes.put(entrada.getKey().clone(), entrada.getValue().clone());
+        }
+        
     }
 
     public void registaCliente(Cliente cliente) {
-        this.arvoreClientes.add(new FichaClienteCompras(cliente));
+        this.arvoreClientes.put(cliente.clone(), new FichaClienteCompras());
     }
 
     public void registaProduto(Produto produto) {
-        this.arvoreParesProdutoNClientes.add(new ParProdutoNClientes(produto));
+        this.arvoreParesProdutoNClientes.put(produto.clone(),new ParProdutoNClientes());
     }
 
     public void registaCompra(Compra compra) {
@@ -68,57 +73,13 @@ public class Compras {
         return this.numeroClientesPorMes[mes.getIndiceArray()];
     }
 
-    public TreeSet<FichaClienteCompras> getArvoreClientes() {
-        TreeSet<FichaClienteCompras> resultado = new TreeSet<>(new ComparadorFichaClientePorCodigo());
 
-        for (FichaClienteCompras ficha : this.arvoreClientes) {
-            resultado.add(ficha.clone());
-        }
-        return resultado;
-    }
-
-    public TreeSet<ParProdutoNClientes> getArvoreParesProdutoNClientes() {
-        TreeSet<ParProdutoNClientes> resultado = new TreeSet<>(new ComparadorParProdNClientesPorCodigoProduto());
-
-        for (ParProdutoNClientes ficha : this.arvoreParesProdutoNClientes) {
-            resultado.add(ficha.clone());
-        }
-        return resultado;
-    }
 
     public FichaClienteCompras getFichaCliente(Cliente cliente) {
-        FichaClienteCompras ficha = null;
-        FichaClienteCompras ficha_iterada;
-        boolean encontrado = false;
-        Iterator<FichaClienteCompras> it = this.arvoreClientes.iterator();
-
-        while (it.hasNext() && !encontrado) {
-            ficha_iterada = it.next();
-            if (ficha_iterada.getCliente().equals(cliente)) {
-                encontrado = true;
-                ficha = ficha_iterada;
-            }
-        }
-
-        return encontrado ? ficha.clone() : null;
-
+        return this.arvoreClientes.get(cliente).clone();
     }
     private FichaClienteCompras getFichaClienteNoClone(Cliente cliente) {
-        FichaClienteCompras ficha = null;
-        FichaClienteCompras ficha_iterada;
-        boolean encontrado = false;
-        Iterator<FichaClienteCompras> it = this.arvoreClientes.iterator();
-
-        while (it.hasNext() && !encontrado) {
-            ficha_iterada = it.next();
-            if (ficha_iterada.getCliente().equals(cliente)) {
-                encontrado = true;
-                ficha = ficha_iterada;
-            }
-        }
-
-        return encontrado ? ficha : null;
-
+        return this.arvoreClientes.get(cliente);
     }
 
     /*
@@ -145,8 +106,8 @@ public class Compras {
             return false;
         }
         final Compras other = (Compras) obj;
-        return this.arvoreClientes.containsAll(other.arvoreClientes)
-                && this.arvoreParesProdutoNClientes.containsAll(other.arvoreClientes)
+        return this.arvoreClientes.size() == other.arvoreClientes.size()
+                && this.arvoreParesProdutoNClientes.size() == other.arvoreParesProdutoNClientes.size()
                 && Arrays.equals(this.numeroClientesPorMes, other.numeroClientesPorMes)
                 && this.numeroComprasValorZero == other.numeroComprasValorZero;
     }
