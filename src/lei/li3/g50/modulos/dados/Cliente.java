@@ -47,7 +47,7 @@ public class Cliente implements Comparable<Cliente>{
         if(obj == null) return false;
         if(this.getClass() != obj.getClass()) return false;
         Cliente cliente = (Cliente) obj;
-        return this.equals(cliente);
+        return this.codigo_cliente.equals(cliente.codigo_cliente);
     }
     
    

@@ -45,7 +45,7 @@ public class Produto implements Comparable<Produto>{
         if(obj == null) return false;
         if(this.getClass() != obj.getClass()) return false;
         Produto produto = (Produto) obj;
-        return this.equals(produto);
+        return this.codigo_produto.equals(produto.codigo_produto);
     }
     
     @Override
