@@ -42,6 +42,7 @@ public final class Leitura {
         System.out.print("   2) Ler ficheiros genericos    \n");
         System.out.print("   3) Procura automatica ficheiro objecto \n");
         System.out.print("   4) Procura automatica ficheiro generico \n");
+        System.out.print("   5) Sair \n");
         System.out.print("=================================\n");
         System.out.print("Escolha uma opção: ");
         escolha = input.nextInt();
@@ -59,6 +60,8 @@ public final class Leitura {
             case 4:
                 leFicheirosGenericosPAutomatica();
                 break;
+            case 5:
+                System.exit(0);
             default:
                 break;
         }
@@ -205,13 +208,13 @@ public final class Leitura {
             compra.setCliente(new Cliente(st.nextToken()));
             compra.setMes(Mes.numero_to_mes(Integer.parseInt(st.nextToken())));
             
-            if(i%1000 == 0) System.out.print("Compra:" + (i++) + "\n");
             
             if (compraValida(compra)) {
                 hiper.regista_compra(compra);
             } else {
                 compras_invalidas++;
             }
+            
         }
         //System.out.print(compras_invalidas);
         bin.close();
