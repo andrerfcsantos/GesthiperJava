@@ -1,5 +1,6 @@
 package lei.li3.g50.modulos.compras;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.TreeSet;
@@ -146,7 +147,7 @@ public class Compras {
         final Compras other = (Compras) obj;
         return this.arvoreClientes.containsAll(other.arvoreClientes)
                 && this.arvoreParesProdutoNClientes.containsAll(other.arvoreClientes)
-                && this.numeroClientesPorMes.equals(other.numeroClientesPorMes)
+                && Arrays.equals(this.numeroClientesPorMes, other.numeroClientesPorMes)
                 && this.numeroComprasValorZero == other.numeroComprasValorZero;
     }
 

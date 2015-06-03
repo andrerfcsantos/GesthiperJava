@@ -30,8 +30,8 @@ public final class Leitura {
         "datasets/Compras1.txt", "Compras1.txt",
         "../datasets/Compras1.txt", "datasets/Compras3.txt",
         "Compras3.txt", "../datasets/Compras3.txt"};
-    
-    	public static void menuLeitura() {
+
+    public static void menuLeitura() {
         Scanner input = new Scanner(System.in);
         int escolha;
 
@@ -64,9 +64,7 @@ public final class Leitura {
         }
 
     }
-    
-    
-    
+
     public static void leFicheirosGenericosPAutomatica() {
         int escolha;
         File ficheiro_clientes, ficheiro_produtos, ficheiro_compras;
@@ -75,50 +73,48 @@ public final class Leitura {
         ArrayList<File> ficheiros_compras = procura_ficheiros_compras();
         Scanner sc = new Scanner(System.in);
         try {
-            
-            
+
             if (ficheiros_clientes.size() == 1) {
                 System.out.print("" + ficheiros_clientes.size() + " ficheiro(s) de clientes encontrado(s) \n");
                 ficheiro_clientes = ficheiros_clientes.get(0);
                 le_ficheiro_clientes(ficheiro_clientes.getPath());
             }
-            if(ficheiros_clientes.size() > 1){
+            if (ficheiros_clientes.size() > 1) {
                 System.out.print("" + ficheiros_clientes.size() + " ficheiros de clientes encontrados \n");
                 mostraOpcoesFicheiros(ficheiros_clientes);
                 System.out.print("Insira nº do ficheiro: ");
                 escolha = sc.nextInt();
-                ficheiro_clientes = ficheiros_clientes.get(escolha-1);
+                ficheiro_clientes = ficheiros_clientes.get(escolha - 1);
                 le_ficheiro_clientes(ficheiro_clientes.getPath());
             }
-            
+
             if (ficheiros_produtos.size() == 1) {
                 System.out.print("" + ficheiros_produtos.size() + " ficheiro(s) de produtos encontrado(s) \n");
                 ficheiro_produtos = ficheiros_produtos.get(0);
                 le_ficheiro_produtos(ficheiro_produtos.getPath());
             }
-            if(ficheiros_produtos.size() > 1){
+            if (ficheiros_produtos.size() > 1) {
                 System.out.print("" + ficheiros_produtos.size() + " ficheiros de produtos encontrados \n");
                 mostraOpcoesFicheiros(ficheiros_produtos);
                 System.out.print("Insira nº do ficheiro: ");
                 escolha = sc.nextInt();
-                ficheiro_produtos = ficheiros_produtos.get(escolha-1);
+                ficheiro_produtos = ficheiros_produtos.get(escolha - 1);
                 le_ficheiro_produtos(ficheiro_produtos.getPath());
             }
-            
+
             if (ficheiros_compras.size() == 1) {
                 System.out.print("" + ficheiros_compras.size() + " ficheiro(s) de compras encontrado(s) \n");
                 ficheiro_compras = ficheiros_compras.get(0);
-                le_ficheiro_produtos(ficheiro_compras.getPath());
+                le_ficheiro_compras(ficheiro_compras.getPath());
             }
-            if(ficheiros_compras.size() > 1){
+            if (ficheiros_compras.size() > 1) {
                 System.out.print("" + ficheiros_compras.size() + " ficheiros de compras encontrados \n");
                 mostraOpcoesFicheiros(ficheiros_compras);
                 System.out.print("Insira nº do ficheiro: ");
                 escolha = sc.nextInt();
-                ficheiro_compras = ficheiros_compras.get(escolha-1);
-                le_ficheiro_produtos(ficheiro_compras.getPath());
+                ficheiro_compras = ficheiros_compras.get(escolha - 1);
+                le_ficheiro_compras(ficheiro_compras.getPath());
             }
-            
 
         } catch (FileNotFoundException ex) {
             System.out.printf("Um ou mais ficheiros não foram encontrados.\n");
@@ -184,6 +180,7 @@ public final class Leitura {
     public static void le_ficheiro_compras(String str_ficheiro_compras)
             throws FileNotFoundException, IOException {
         int compras_invalidas = 0;
+        int i=0;
         Hipermercado hiper = Gesthiper.getHipermercado();
         String linha;
         StringTokenizer st;
@@ -207,19 +204,20 @@ public final class Leitura {
                     : TipoCompra.PROMOCAO);
             compra.setCliente(new Cliente(st.nextToken()));
             compra.setMes(Mes.numero_to_mes(Integer.parseInt(st.nextToken())));
-            /*
-            if(compraValida(compra)){
+            
+            if(i%1000 == 0) System.out.print("Compra:" + (i++) + "\n");
+            
+            if (compraValida(compra)) {
                 hiper.regista_compra(compra);
-            }else{
+            } else {
                 compras_invalidas++;
             }
-            */
         }
         //System.out.print(compras_invalidas);
         bin.close();
     }
-    
-        public static void leFicheirosGenericosDados() {
+
+    public static void leFicheirosGenericosDados() {
         String nome_ficheiro_produtos;
         String nome_ficheiro_clientes;
         String nome_ficheiro_compras;
@@ -236,8 +234,7 @@ public final class Leitura {
 
         le_ficheiros(nome_ficheiro_produtos, nome_ficheiro_clientes, nome_ficheiro_compras);
     }
-    
-    
+
     public static void leFicheiroObjectoDado() {
         String nome_ficheiro;
         Scanner input = new Scanner(System.in);
@@ -301,7 +298,7 @@ public final class Leitura {
          }
          */
     }
-    
+
     public static ArrayList<File> procura_ficheiros_clientes() {
         ArrayList<File> ficheiros_clientes = new ArrayList<>(fich_clientes_default.length);
 
@@ -336,22 +333,21 @@ public final class Leitura {
         }
         return ficheiros_compras;
     }
-    
-    public static void mostraOpcoesFicheiros(ArrayList<File> lista){
+
+    public static void mostraOpcoesFicheiros(ArrayList<File> lista) {
         int tamanho = lista.size();
         System.out.print("Escolha que ficheiro quer ler: \n");
-        for(int i=0;i<tamanho;i++){
-            System.out.print("   " + (i+1) + ") " + lista.get(i).getPath() + "\n");
+        for (int i = 0; i < tamanho; i++) {
+            System.out.print("   " + (i + 1) + ") " + lista.get(i).getPath() + "\n");
         }
     }
-    
-    
-    public static boolean compraValida(Compra compra){
+
+    public static boolean compraValida(Compra compra) {
         Hipermercado hiper = Gesthiper.getHipermercado();
         return hiper.clienteExiste(compra.getCliente())
                 && hiper.produtoExiste(compra.getProduto())
                 && compra.getPreco() >= 0
-                && compra.getQuantidade() >=0;
-        
+                && compra.getQuantidade() >= 0;
+
     }
 }
