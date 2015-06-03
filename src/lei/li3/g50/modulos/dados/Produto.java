@@ -1,5 +1,7 @@
 package lei.li3.g50.modulos.dados;
 
+import java.util.Objects;
+
 public class Produto implements Comparable<Produto>{
     private String codigo_produto;
     
@@ -34,10 +36,6 @@ public class Produto implements Comparable<Produto>{
     METODOS PRODUTO
     */
     
-        public boolean equals(Produto produto){
-        return this.codigo_produto.equals(produto.getCodigoProduto());
-    }
-    
     
     @Override
     public boolean equals(Object obj){
@@ -55,10 +53,23 @@ public class Produto implements Comparable<Produto>{
     
     @Override
     public String toString() {
-        return "Produto{" + "codigo_produto=" + codigo_produto + '}';
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("Produto{" + "codigo_produto=").append(codigo_produto).append('}');
+        
+        return sb.toString();
     }
 
+    @Override
+    public int hashCode() {
+        return codigo_produto.hashCode();
+    }
+    
+    @Override
     public int compareTo(Produto c) {
         return this.codigo_produto.compareTo(c.getCodigoProduto());
     }
+    
+    
+    
 }
