@@ -39,10 +39,14 @@ public class Compras {
     public void registaCompra(Compra compra) {
             Mes mes = compra.getMes();
             FichaClienteCompras ficha_cliente = getFichaClienteNoClone(compra.getCliente());
+            
             if(ficha_cliente.getNumComprasMes(mes, TipoCompra.AMBOS) == 0)
                 numeroClientesPorMes[mes.getIndiceArray()]++;
             
+            if(compra.getPreco()==0)
+                this.numeroComprasValorZero++;
             
+            ficha_cliente.regista_compra(compra);
     }
 
     /*
@@ -58,6 +62,9 @@ public class Compras {
         for(int i=0;i<12;i++) resultado[i] = this.numeroClientesPorMes[i];
         
         return resultado;
+    }
+    public int getNumeroClientesPorMes(Mes mes) {
+        return this.numeroClientesPorMes[mes.getIndiceArray()];
     }
 
     public TreeSet<FichaClienteCompras> getArvoreClientes() {
@@ -109,7 +116,7 @@ public class Compras {
             }
         }
 
-        return encontrado ? ficha.clone() : null;
+        return encontrado ? ficha : null;
 
     }
 

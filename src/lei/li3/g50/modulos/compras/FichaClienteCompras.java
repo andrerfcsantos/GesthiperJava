@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.TreeSet;
 import lei.li3.g50.modulos.dados.Cliente;
+import lei.li3.g50.modulos.dados.Compra;
 import lei.li3.g50.modulos.dados.Mes;
 import lei.li3.g50.modulos.dados.Produto;
 import lei.li3.g50.modulos.dados.TipoCompra;
@@ -51,68 +52,107 @@ public class FichaClienteCompras {
         }
     }
 
+    public void regista_compra(Compra compra) {
+        FichaProdutoDeClienteCompras ficha_produto;
+        int unidades_compradas = compra.getQuantidade();
+        double preco = compra.getPreco();
+        Mes mes = compra.getMes();
+        TipoCompra tipo_compra = compra.getTipoCompra();
+
+        this.numUnidadesCompradasClientePorMes.addValorMesTipoCompra(mes, tipo_compra, unidades_compradas);
+        this.numComprasClientePorMes.addValorMesTipoCompra(mes, tipo_compra, 1);
+        this.dinheiroGastoClientePorMes.addValorMesTipoCompra(mes, tipo_compra, preco * (unidades_compradas + 0.0));
+
+        ficha_produto = this.getFichaProdutoNoClone(compra.getProduto());
+
+        if (ficha_produto == null) {
+            ficha_produto = new FichaProdutoDeClienteCompras(compra.getProduto());
+        }
+        
+        ficha_produto.addNumComprasProdutoClienteMes(mes, tipo_compra, 1);
+        ficha_produto.addNumUnidadesCompradasProdutoClienteMes(mes, tipo_compra, unidades_compradas);
+    }
     /*
      GETTERS
      */
+
     public Cliente getCliente() {
         return cliente.clone();
     }
-    
-    public FichaProdutoDeClienteCompras getFichaProduto(Produto produto){
+
+    public FichaProdutoDeClienteCompras getFichaProduto(Produto produto) {
         FichaProdutoDeClienteCompras ficha = null;
         FichaProdutoDeClienteCompras ficha_iterada;
-        boolean encontrado=false;
+        boolean encontrado = false;
         Iterator<FichaProdutoDeClienteCompras> it = this.produtosCliente.iterator();
-        
-        while(it.hasNext() && !encontrado){
+
+        while (it.hasNext() && !encontrado) {
             ficha_iterada = it.next();
-            if(ficha_iterada.getProduto().equals(produto)){
+            if (ficha_iterada.getProduto().equals(produto)) {
                 encontrado = true;
                 ficha = ficha_iterada;
             }
         }
-        
+
         return encontrado ? ficha.clone() : null;
     }
-    
+
+    public FichaProdutoDeClienteCompras getFichaProdutoNoClone(Produto produto) {
+        FichaProdutoDeClienteCompras ficha = null;
+        FichaProdutoDeClienteCompras ficha_iterada;
+        boolean encontrado = false;
+        Iterator<FichaProdutoDeClienteCompras> it = this.produtosCliente.iterator();
+
+        while (it.hasNext() && !encontrado) {
+            ficha_iterada = it.next();
+            if (ficha_iterada.getProduto().equals(produto)) {
+                encontrado = true;
+                ficha = ficha_iterada;
+            }
+        }
+
+        return encontrado ? ficha : null;
+    }
+
     /* Nº UNIDADES */
     public Matriz_Int_12x2 getNumUnidadesCompradasClientePorMes() {
         return numUnidadesCompradasClientePorMes.clone();
     }
-    
+
     public int getNumUnidadesCompradasMes(Mes mes, TipoCompra tipo_compra) {
         return this.numUnidadesCompradasClientePorMes.getValorMesTipoCompra(mes, tipo_compra);
     }
-    
+
     public int getNumUnidadesCompradasMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
         return this.numUnidadesCompradasClientePorMes.getValorEntreMeses(mes1, mes2, tipo_compra);
     }
-    
+
     /* Nº COMPRAS */
     public Matriz_Int_12x2 getNumComprasClientePorMes() {
         return numComprasClientePorMes.clone();
     }
-    
+
     public int getNumComprasMes(Mes mes, TipoCompra tipo_compra) {
         return this.numComprasClientePorMes.getValorMesTipoCompra(mes, tipo_compra);
     }
-    
+
     public int getNumComprasMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
         return this.numComprasClientePorMes.getValorEntreMeses(mes1, mes2, tipo_compra);
     }
-    
+
     /* € GASTO */
     public Matriz_Double_12x2 getDinheiroGastoClientePorMes() {
         return dinheiroGastoClientePorMes.clone();
     }
-    
+
     public double getDinheiroGastoClientePorMes(Mes mes, TipoCompra tipo_compra) {
         return dinheiroGastoClientePorMes.getValorMesTipoCompra(mes, tipo_compra);
     }
+
     public double getDinheiroGastoClienteMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
         return dinheiroGastoClientePorMes.getValorEntreMeses(mes1, mes2, tipo_compra);
     }
-    
+
     public List<FichaProdutoDeClienteCompras> getProdutosCliente() {
         ArrayList<FichaProdutoDeClienteCompras> resultado = new ArrayList<>();
         for (FichaProdutoDeClienteCompras ficha : this.produtosCliente) {
@@ -127,58 +167,61 @@ public class FichaClienteCompras {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente.clone();
     }
-    
-    
+
     /* Nº UNIDADES */
     public void setNumUnidadesCompradasClientePorMes(Matriz_Int_12x2 numUnidadesCompradasClientePorMes) {
         this.numUnidadesCompradasClientePorMes = numUnidadesCompradasClientePorMes.clone();
     }
+
     public void setNumUnidadesCompradasClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
         this.numUnidadesCompradasClientePorMes.setValorMesTipoCompra(mes, tipo_compra, valor);
     }
+
     public void addNumUnidadesCompradasClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
         this.numUnidadesCompradasClientePorMes.addValorMesTipoCompra(mes, tipo_compra, valor);
     }
-    
+
     /* Nº COMPRAS */
     public void setNumComprasClientePorMes(Matriz_Int_12x2 numComprasClientePorMes) {
         this.numComprasClientePorMes = numComprasClientePorMes.clone();
     }
+
     public void setNumComprasClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
         this.numComprasClientePorMes.setValorMesTipoCompra(mes, tipo_compra, valor);
     }
+
     public void addNumComprasClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
         this.numComprasClientePorMes.addValorMesTipoCompra(mes, tipo_compra, valor);
     }
-    
+
     /* € GASTO */
     public void setDinheiroGastoClientePorMes(Matriz_Double_12x2 dinheiroGastoClientePorMes) {
         this.dinheiroGastoClientePorMes = dinheiroGastoClientePorMes.clone();
     }
+
     public void setDinheiroGastoClienteMes(Mes mes, TipoCompra tipo_compra, double valor) {
         this.dinheiroGastoClientePorMes.setValorMesTipoCompra(mes, tipo_compra, valor);
     }
+
     public void addDinheiroGastoClienteMes(Mes mes, TipoCompra tipo_compra, double valor) {
         this.dinheiroGastoClientePorMes.addValorMesTipoCompra(mes, tipo_compra, valor);
     }
 
     public void setProdutosCliente(TreeSet<FichaProdutoDeClienteCompras> produtosCliente) {
         this.produtosCliente = new TreeSet<>();
-        for(FichaProdutoDeClienteCompras fichaProdCliente : produtosCliente){
+        for (FichaProdutoDeClienteCompras fichaProdCliente : produtosCliente) {
             this.produtosCliente.add(fichaProdCliente.clone());
         }
     }
 
-    
     /*
-    METODOS INSTANCIA
-    */
-    
-    public boolean produtoExiste(Produto produto){
+     METODOS INSTANCIA
+     */
+    public boolean produtoExiste(Produto produto) {
         FichaProdutoDeClienteCompras produtoToFicha = new FichaProdutoDeClienteCompras(produto);
         return this.produtosCliente.contains(produtoToFicha);
     }
-    
+
     /*
      METODOS STANDARD
      */
@@ -226,9 +269,9 @@ public class FichaClienteCompras {
 
         return sb.toString();
     }
-    
+
     @Override
-    public FichaClienteCompras clone(){
+    public FichaClienteCompras clone() {
         return new FichaClienteCompras(this);
     }
 
