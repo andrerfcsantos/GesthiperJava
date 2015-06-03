@@ -7,7 +7,7 @@ public class Gesthiper {
 	public static void main(String[] args) {
 		hipermercado = new Hipermercado();
 		Leitura.mostra_ficheiros();
-                Interface.leitura();
+                Leitura.menuLeitura();
                 testes_aos_modulos();
 	}
         

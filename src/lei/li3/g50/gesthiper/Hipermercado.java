@@ -37,13 +37,26 @@ public class Hipermercado {
 
 	public void regista_produto(Produto produto) {
 		mod_cat_produtos.insere_produto(produto);
+                mod_compras.registaProduto(produto);
 	}
 
 	public void regista_cliente(Cliente cliente) {
                 mod_cat_clientes.insere_cliente(cliente);
+                mod_compras.registaCliente(cliente);
 	}
 
 	public void regista_compra(Compra compra) {
-
+                mod_compras.registaCompra(compra);
 	}
+        
+        
+        public boolean clienteExiste(Cliente cliente){
+            return this.mod_cat_clientes.existeCliente(cliente);
+        }
+        
+        public boolean produtoExiste(Produto produto){
+            return this.mod_cat_produtos.existeProduto(produto);
+        }
+        
+        
 }

@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import lei.li3.g50.modulos.dados.*;
@@ -29,53 +30,95 @@ public final class Leitura {
         "datasets/Compras1.txt", "Compras1.txt",
         "../datasets/Compras1.txt", "datasets/Compras3.txt",
         "Compras3.txt", "../datasets/Compras3.txt"};
+    
+    	public static void menuLeitura() {
+        Scanner input = new Scanner(System.in);
+        int escolha;
 
-    public static void le_ficheiros() {
-        ArrayList<File> ficheiros_clientes = new ArrayList<>(
-                fich_clientes_default.length);
-        ArrayList<File> ficheiros_produtos = new ArrayList<>(
-                fich_produtos_default.length);
-        ArrayList<File> ficheiros_compras = new ArrayList<>(
-                fich_compras_default.length);
+        System.out.print("=================================\n");
+        System.out.print(" GESTHIPER >> Leitura Ficheiros   \n");
+        System.out.print("=================================\n");
+        System.out.print("   1) Ler ficheiro objecto       \n");
+        System.out.print("   2) Ler ficheiros genericos    \n");
+        System.out.print("   3) Procura automatica ficheiro objecto \n");
+        System.out.print("   4) Procura automatica ficheiro generico \n");
+        System.out.print("=================================\n");
+        System.out.print("Escolha uma opção: ");
+        escolha = input.nextInt();
 
-        for (String file_path : fich_clientes_default) {
-            File ficheiro = new File(file_path);
-            if (ficheiro.exists()) {
-                ficheiros_clientes.add(ficheiro);
-            }
-        }
-        for (String file_path : fich_produtos_default) {
-            File ficheiro = new File(file_path);
-            if (ficheiro.exists()) {
-                ficheiros_produtos.add(ficheiro);
-            }
-        }
-        for (String file_path : fich_compras_default) {
-            File ficheiro = new File(file_path);
-            if (ficheiro.exists()) {
-                ficheiros_compras.add(ficheiro);
-            }
+        switch (escolha) {
+            case 1:
+                leFicheiroObjectoDado();
+                break;
+            case 2:
+                leFicheirosGenericosDados();
+                break;
+            case 3:
+                leFicheiroObjectoPAutomatica();
+                break;
+            case 4:
+                leFicheirosGenericosPAutomatica();
+                break;
+            default:
+                break;
         }
 
+    }
+    
+    
+    
+    public static void leFicheirosGenericosPAutomatica() {
+        int escolha;
+        File ficheiro_clientes, ficheiro_produtos, ficheiro_compras;
+        ArrayList<File> ficheiros_clientes = procura_ficheiros_clientes();
+        ArrayList<File> ficheiros_produtos = procura_ficheiros_produtos();
+        ArrayList<File> ficheiros_compras = procura_ficheiros_compras();
+        Scanner sc = new Scanner(System.in);
         try {
-
-            System.out.print("" + ficheiros_clientes.size()
-                    + " ficheiro(s) de clientes encontrado(s) \n");
-            System.out.print("A ler ficheiro de clientes: "
-                    + ficheiros_clientes.get(0).getPath()+"\n");
-            le_ficheiro_clientes(ficheiros_clientes.get(0).getPath());
-
-            System.out.print("" + ficheiros_produtos.size()
-                    + " ficheiro(s) de produtos encontrado(s) \n");
-            System.out.print("A ler ficheiro de produtos: "
-                    + ficheiros_produtos.get(0).getPath()+"\n");
-            le_ficheiro_produtos(ficheiros_produtos.get(0).getPath());
-
-            System.out.print("" + ficheiros_produtos.size()
-                    + " ficheiro(s) de compras encontrado(s) \n");
-            System.out.print("A ler ficheiro de compras: "
-                    + ficheiros_compras.get(0).getPath()+"\n");
-            le_ficheiro_compras(ficheiros_compras.get(0).getPath());
+            
+            
+            if (ficheiros_clientes.size() == 1) {
+                System.out.print("" + ficheiros_clientes.size() + " ficheiro(s) de clientes encontrado(s) \n");
+                ficheiro_clientes = ficheiros_clientes.get(0);
+                le_ficheiro_clientes(ficheiro_clientes.getPath());
+            }
+            if(ficheiros_clientes.size() > 1){
+                System.out.print("" + ficheiros_clientes.size() + " ficheiros de clientes encontrados \n");
+                mostraOpcoesFicheiros(ficheiros_clientes);
+                System.out.print("Insira nº do ficheiro: ");
+                escolha = sc.nextInt();
+                ficheiro_clientes = ficheiros_clientes.get(escolha-1);
+                le_ficheiro_clientes(ficheiro_clientes.getPath());
+            }
+            
+            if (ficheiros_produtos.size() == 1) {
+                System.out.print("" + ficheiros_produtos.size() + " ficheiro(s) de produtos encontrado(s) \n");
+                ficheiro_produtos = ficheiros_produtos.get(0);
+                le_ficheiro_produtos(ficheiro_produtos.getPath());
+            }
+            if(ficheiros_produtos.size() > 1){
+                System.out.print("" + ficheiros_produtos.size() + " ficheiros de produtos encontrados \n");
+                mostraOpcoesFicheiros(ficheiros_produtos);
+                System.out.print("Insira nº do ficheiro: ");
+                escolha = sc.nextInt();
+                ficheiro_produtos = ficheiros_produtos.get(escolha-1);
+                le_ficheiro_produtos(ficheiro_produtos.getPath());
+            }
+            
+            if (ficheiros_compras.size() == 1) {
+                System.out.print("" + ficheiros_compras.size() + " ficheiro(s) de compras encontrado(s) \n");
+                ficheiro_compras = ficheiros_compras.get(0);
+                le_ficheiro_produtos(ficheiro_compras.getPath());
+            }
+            if(ficheiros_compras.size() > 1){
+                System.out.print("" + ficheiros_compras.size() + " ficheiros de compras encontrados \n");
+                mostraOpcoesFicheiros(ficheiros_compras);
+                System.out.print("Insira nº do ficheiro: ");
+                escolha = sc.nextInt();
+                ficheiro_compras = ficheiros_compras.get(escolha-1);
+                le_ficheiro_produtos(ficheiro_compras.getPath());
+            }
+            
 
         } catch (FileNotFoundException ex) {
             System.out.printf("Um ou mais ficheiros não foram encontrados.\n");
@@ -102,6 +145,7 @@ public final class Leitura {
             throws FileNotFoundException, IOException {
         int i = 1;
         String linha;
+        Hipermercado hiper = Gesthiper.getHipermercado();
         StringTokenizer st;
         BufferedReader bin;
         File ficheiro = new File(str_ficheiro_produtos);
@@ -110,8 +154,7 @@ public final class Leitura {
         while (bin.ready()) {
             linha = bin.readLine();
             st = new StringTokenizer(linha, " \r\n");
-            Gesthiper.getHipermercado().regista_produto(
-                    new Produto(st.nextToken()));
+            hiper.regista_produto(new Produto(st.nextToken()));
         }
 
         bin.close();
@@ -121,6 +164,7 @@ public final class Leitura {
             throws FileNotFoundException, IOException {
         int i = 1;
         String linha;
+        Hipermercado hiper = Gesthiper.getHipermercado();
         StringTokenizer st;
         BufferedReader bin;
         File ficheiro = new File(str_ficheiro_clientes);
@@ -130,8 +174,7 @@ public final class Leitura {
         while (bin.ready()) {
             linha = bin.readLine();
             st = new StringTokenizer(linha, " \r\n");
-            Gesthiper.getHipermercado().regista_cliente(
-                    new Cliente(st.nextToken()));
+            hiper.regista_cliente(new Cliente(st.nextToken()));
         }
 
         bin.close();
@@ -140,7 +183,8 @@ public final class Leitura {
 
     public static void le_ficheiro_compras(String str_ficheiro_compras)
             throws FileNotFoundException, IOException {
-        int i = 1;
+        int compras_invalidas = 0;
+        Hipermercado hiper = Gesthiper.getHipermercado();
         String linha;
         StringTokenizer st;
         Compra compra;
@@ -163,16 +207,45 @@ public final class Leitura {
                     : TipoCompra.PROMOCAO);
             compra.setCliente(new Cliente(st.nextToken()));
             compra.setMes(Mes.numero_to_mes(Integer.parseInt(st.nextToken())));
-
+            /*
+            if(compraValida(compra)){
+                hiper.regista_compra(compra);
+            }else{
+                compras_invalidas++;
+            }
+            */
         }
-
+        //System.out.print(compras_invalidas);
         bin.close();
     }
+    
+        public static void leFicheirosGenericosDados() {
+        String nome_ficheiro_produtos;
+        String nome_ficheiro_clientes;
+        String nome_ficheiro_compras;
 
-    public static void le_ficheiro_objecto(String nome_ficheiro) {
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Indique o nome do ficheiro de produtos que quer ler: ");
+        nome_ficheiro_produtos = input.nextLine();
+
+        System.out.print("Indique o nome do ficheiro de clientes que quer ler: ");
+        nome_ficheiro_clientes = input.nextLine();
+        System.out.print("Indique o nome do ficheiro de compras que quer ler: ");
+        nome_ficheiro_compras = input.nextLine();
+
+        le_ficheiros(nome_ficheiro_produtos, nome_ficheiro_clientes, nome_ficheiro_compras);
+    }
+    
+    
+    public static void leFicheiroObjectoDado() {
+        String nome_ficheiro;
+        Scanner input = new Scanner(System.in);
+        System.out.print("Indique o nome do ficheiro objecto que quer ler (incluindo extensao):");
+        nome_ficheiro = input.nextLine();
+
         try {
-            ObjectInputStream fich_obj = new ObjectInputStream(
-                    new FileInputStream(nome_ficheiro));
+            ObjectInputStream fich_obj = new ObjectInputStream(new FileInputStream(nome_ficheiro));
             Gesthiper.setHipermercado((Hipermercado) fich_obj.readObject());
             fich_obj.close();
         } catch (IOException ex) {
@@ -182,7 +255,7 @@ public final class Leitura {
         }
     }
 
-    public static void le_ficheiro_objecto() {
+    public static void leFicheiroObjectoPAutomatica() {
         File directoria_actual = new File(".");
         File[] ficheiros_obj = directoria_actual
                 .listFiles(new FiltraFicheirosPorExtensao("obj"));
@@ -220,11 +293,65 @@ public final class Leitura {
                 System.out.print("" + ficheiro.getPath() + " encontrado.\n");
             }
         }
+        /*
+         System.out.print("Lista ficheiros na directoria: \n");
+         File directoria_corrente = new File(".");
+         for (File ficheiro : directoria_corrente.listFiles()) {
+         System.out.print("" + ficheiro.getPath() + "\n");
+         }
+         */
+    }
+    
+    public static ArrayList<File> procura_ficheiros_clientes() {
+        ArrayList<File> ficheiros_clientes = new ArrayList<>(fich_clientes_default.length);
 
-        System.out.print("Lista ficheiros na directoria: \n");
-        File directoria_corrente = new File(".");
-        for (File ficheiro : directoria_corrente.listFiles()) {
-            System.out.print("" + ficheiro.getPath() + "\n");
+        for (String file_path : fich_clientes_default) {
+            File ficheiro = new File(file_path);
+            if (ficheiro.exists()) {
+                ficheiros_clientes.add(ficheiro);
+            }
         }
+        return ficheiros_clientes;
+    }
+
+    public static ArrayList<File> procura_ficheiros_produtos() {
+        ArrayList<File> ficheiros_produtos = new ArrayList<>(fich_produtos_default.length);
+
+        for (String file_path : fich_produtos_default) {
+            File ficheiro = new File(file_path);
+            if (ficheiro.exists()) {
+                ficheiros_produtos.add(ficheiro);
+            }
+        }
+        return ficheiros_produtos;
+    }
+
+    public static ArrayList<File> procura_ficheiros_compras() {
+        ArrayList<File> ficheiros_compras = new ArrayList<>(fich_compras_default.length);
+        for (String file_path : fich_compras_default) {
+            File ficheiro = new File(file_path);
+            if (ficheiro.exists()) {
+                ficheiros_compras.add(ficheiro);
+            }
+        }
+        return ficheiros_compras;
+    }
+    
+    public static void mostraOpcoesFicheiros(ArrayList<File> lista){
+        int tamanho = lista.size();
+        System.out.print("Escolha que ficheiro quer ler: \n");
+        for(int i=0;i<tamanho;i++){
+            System.out.print("   " + (i+1) + ") " + lista.get(i).getPath() + "\n");
+        }
+    }
+    
+    
+    public static boolean compraValida(Compra compra){
+        Hipermercado hiper = Gesthiper.getHipermercado();
+        return hiper.clienteExiste(compra.getCliente())
+                && hiper.produtoExiste(compra.getProduto())
+                && compra.getPreco() >= 0
+                && compra.getQuantidade() >=0;
+        
     }
 }
