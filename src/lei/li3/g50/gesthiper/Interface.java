@@ -1,11 +1,24 @@
 package lei.li3.g50.gesthiper;
 
+import java.util.List;
 import java.util.Scanner;
 import static lei.li3.g50.gesthiper.Interface.MenuActual.*;
+import lei.li3.g50.modulos.catalogos.CatalogoClientes;
+import lei.li3.g50.modulos.catalogos.CatalogoProdutos;
+import lei.li3.g50.modulos.compras.Compras;
+import lei.li3.g50.modulos.contabilidade.Contabilidade;
+import lei.li3.g50.modulos.dados.Cliente;
+import lei.li3.g50.utilitarios.Paginador;
 
 public final class Interface {
 
+    public static CatalogoClientes catalogoClientes;
+    public static CatalogoProdutos catalogoProdutos;
+    public static Contabilidade moduloContabilidade;
+    public static Compras moduloCompras;
+
     public enum MenuActual {
+
         SAIR,
         MENU_QUERIES,
         QUERIE_01,
@@ -32,6 +45,11 @@ public final class Interface {
         int escolha;
         Scanner input = new Scanner(System.in);
         MenuActual estadoMenu = MENU_QUERIES;
+
+        catalogoClientes = Gesthiper.getHipermercado().getCatalogoClientes();
+        catalogoProdutos = Gesthiper.getHipermercado().getCatalogoProdutos();
+        moduloContabilidade = Gesthiper.getHipermercado().getContabilidade();
+        moduloCompras = Gesthiper.getHipermercado().getCompras();
 
         while (estadoMenu == MENU_QUERIES) {
             System.out.print("-----------------------------\n");
@@ -155,8 +173,85 @@ public final class Interface {
      Lista ordenada com os códigos dos clientes que nunca compraram e seu total;
      */
     public static MenuActual _04_clientesQueNuncaCompraram() {
-        System.out.print("Querie ainda nao implementada\n");
-        return MENU_QUERIES;
+        MenuActual estadoMenu = QUERIE_04;
+        Scanner input = new Scanner(System.in);
+        Cliente cliente;
+        int numero_pagina = 1, num_elems_pag_actual, inicio_pagina, fim_pagina;
+        int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
+
+        List<Cliente> listaClientesSemCompras = moduloCompras.getClientesSemCompras();
+        Paginador<List<Cliente>> paginador = new Paginador<>(listaClientesSemCompras, 10, 1);
+
+        numero_resultados = paginador.getNumElems();
+        total_paginas = paginador.getNumPaginas();
+
+        while (estadoMenu == QUERIE_04) {
+            paginador.gotoPagina(numero_pagina);
+            inicio_pagina = paginador.getPosInicialPagActual();
+            num_elems_pag_actual = paginador.getNumElemsPagActual();
+            fim_pagina = inicio_pagina + num_elems_pag_actual;
+
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 4            \n");
+            System.out.print("Clientes sem compras                 \n");
+            System.out.print("================================================= \n");
+
+            if (numero_resultados > 0) {
+                System.out.printf("Pagina %2d/%d \n", numero_pagina, total_paginas);
+                System.out.printf("--------------------\n");
+                System.out.printf("|   #   |  Codigo  |\n");
+                System.out.printf("--------------------\n");
+                for (int i = 0; i < num_elems_pag_actual; i++) {
+                    cliente = listaClientesSemCompras.get(inicio_pagina + 1);
+                    System.out.printf("| %5d | %8s |\n", inicio_pagina + i + 1, cliente.getCodigoCliente());
+                }
+                System.out.printf("--------------------\n");
+            } else {
+                System.out.print("Não há resultados a mostrar.\n");
+            }
+
+            System.out.print("==================================================== \n");
+            System.out.print("1 - Menu Principal | 0 - Sair    \n");
+            System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag...  \n");
+            System.out.print("==================================================== \n");
+            System.out.print("Insira nº da opcao > ");
+            escolha_opcao_menu = input.nextInt();
+            
+            switch (escolha_opcao_menu) {
+                case 0:
+                    estadoMenu = SAIR;
+                    break;
+                case 1:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+                case 2:
+                    System.out.printf("Indique a pag para que quer ir: ");
+                    escolha_pag = input.nextInt();
+                    if (escolha_pag > 0 && escolha_pag <= total_paginas) {
+                        numero_pagina = escolha_pag;
+                    }
+                    break;
+                case 4:
+                    numero_pagina = 1;
+                    break;
+                case 5:
+                    if (numero_pagina > 1) {
+                        numero_pagina--;
+                    }
+                    break;
+                case 6:
+                    if (numero_pagina < total_paginas) {
+                        numero_pagina++;
+                    }
+                    break;
+                case 7:
+                    numero_pagina = total_paginas;
+                    break;
+                default:
+                    estadoMenu = MENU_QUERIES;
+            }
+        }
+        return estadoMenu;
     }
 
     /*

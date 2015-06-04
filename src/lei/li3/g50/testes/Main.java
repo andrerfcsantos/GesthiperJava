@@ -1,7 +1,6 @@
 package lei.li3.g50.testes;
 
 import java.util.ArrayList;
-import lei.li3.g50.excepcoes.PaginaImpossivelException;
 import lei.li3.g50.utilitarios.Matriz_Int_12x2;
 import lei.li3.g50.utilitarios.Paginador;
 
@@ -38,24 +37,20 @@ public class Main {
         /*Pagina 3*/
         nomes.add("eee");
 
-        try {
-            /*Cria paginador sobre array de nomes, com 2 elementos por página,
-            a começar na pagina 1*/
-            Paginador<ArrayList<String>> pag = new Paginador(nomes, 2, 1);
-            /*Pede para ir para a pagina 3*/
-            pag.goto_pagina(3);
-            /*Pede a posicao do array que corresponde ao inicio da pagina actual 
-            (neste caso, pagina 3)*/
-            int pos_inicial = pag.getPosInicial();
-            
-            /*Mostra todos os elementos da pagina.*/
-            for (int i = 0; i < pag.getNumElemsPag(); i++) {
-                System.out.print((pos_inicial + i) + ": " + nomes.get(pos_inicial + i)+ "\n");
-            }
-            System.out.print(pag.toString());
-        } catch (PaginaImpossivelException ex) {
-            System.out.print("Pag Impossivel\n");
+        /*Cria paginador sobre array de nomes, com 2 elementos por página,
+         a começar na pagina 1*/
+        Paginador<ArrayList<String>> pag = new Paginador(nomes, 2, 1);
+        /*Pede para ir para a pagina 3*/
+        pag.gotoPagina(3);
+        /*Pede a posicao do array que corresponde ao inicio da pagina actual 
+         (neste caso, pagina 3)*/
+        int pos_inicial = pag.getPosInicialPagActual();
+
+        /*Mostra todos os elementos da pagina.*/
+        for (int i = 0; i < pag.getNumElemsPagActual(); i++) {
+            System.out.print((pos_inicial + i) + ": " + nomes.get(pos_inicial + i) + "\n");
         }
-        
+        System.out.print(pag.toString());
+
     }
 }

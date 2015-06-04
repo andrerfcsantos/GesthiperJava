@@ -7,55 +7,65 @@ import lei.li3.g50.modulos.dados.*;
 
 public class Hipermercado {
 
-	private CatalogoClientes mod_cat_clientes;
-	private CatalogoProdutos mod_cat_produtos;
-	private Contabilidade mod_contabilidade;
-	private Compras mod_compras;
+	private CatalogoClientes moduloCatalogoClientes;
+	private CatalogoProdutos moduloCatalogoProdutos;
+	private Contabilidade moduloContabilidade;
+	private Compras moduloCompras;
 
 	public Hipermercado() {
-		mod_cat_clientes = new CatalogoClientes();
-		mod_cat_produtos = new CatalogoProdutos();
-		mod_contabilidade = new Contabilidade();
-		mod_compras = new Compras();
+		moduloCatalogoClientes = new CatalogoClientes();
+		moduloCatalogoProdutos = new CatalogoProdutos();
+		moduloContabilidade = new Contabilidade();
+		moduloCompras = new Compras();
+	}
+        
+        /*
+        GET'S DOS MODULOS
+        */
+        
+	public CatalogoClientes getCatalogoClientes() {
+		return moduloCatalogoClientes;
 	}
 
-	public CatalogoClientes getMod_cat_clientes() {
-		return mod_cat_clientes;
+	public CatalogoProdutos getCatalogoProdutos() {
+		return moduloCatalogoProdutos;
 	}
 
-	public CatalogoProdutos getMod_cat_produtos() {
-		return mod_cat_produtos;
+	public Contabilidade getContabilidade() {
+		return moduloContabilidade;
 	}
 
-	public Contabilidade getMod_contabilidade() {
-		return mod_contabilidade;
+	public Compras getCompras() {
+		return moduloCompras;
 	}
-
-	public Compras getMod_compras() {
-		return mod_compras;
-	}
-
+        
+        
+        /*
+        OPERAÇÕES SOBRE HIPERMERCADO
+        */
 	public void regista_produto(Produto produto) {
-		mod_cat_produtos.insere_produto(produto);
-                mod_compras.registaProduto(produto);
+		moduloCatalogoProdutos.insere_produto(produto);
+                moduloCompras.registaProduto(produto);
 	}
 
 	public void regista_cliente(Cliente cliente) {
-                mod_cat_clientes.insere_cliente(cliente);
-                mod_compras.registaCliente(cliente);
+                moduloCatalogoClientes.insere_cliente(cliente);
+                moduloCompras.registaCliente(cliente);
 	}
 
 	public void regista_compra(Compra compra) {
-                mod_compras.registaCompra(compra);
+                moduloCompras.registaCompra(compra);
 	}
         
-        
+        /*
+        METODOS INTERROGADORES
+        */
         public boolean clienteExiste(Cliente cliente){
-            return this.mod_cat_clientes.existeCliente(cliente);
+            return this.moduloCatalogoClientes.existeCliente(cliente);
         }
         
         public boolean produtoExiste(Produto produto){
-            return this.mod_cat_produtos.existeProduto(produto);
+            return this.moduloCatalogoProdutos.existeProduto(produto);
         }
         
         

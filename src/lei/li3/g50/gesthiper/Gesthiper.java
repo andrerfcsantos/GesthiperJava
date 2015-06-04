@@ -24,9 +24,9 @@ public class Gesthiper {
 	}
 
 	public static void testes_aos_modulos() {
-		System.out.print(""+hipermercado.getMod_cat_clientes().toString()+"\n");
-		System.out.print(""+hipermercado.getMod_cat_produtos().toString()+"\n");
-		System.out.print(""+hipermercado.getMod_compras().toString()+"\n");
-                System.out.print(" Compras do cliente CW786: "+hipermercado.getMod_compras().getTotalComprasCliente(new Cliente("CW786"))+"\n");
+		System.out.print(""+hipermercado.getCatalogoClientes().toString()+"\n");
+		System.out.print(""+hipermercado.getCatalogoProdutos().toString()+"\n");
+		System.out.print(""+hipermercado.getCompras().toString()+"\n");
+                System.out.print(" Compras do cliente CW786: "+hipermercado.getCompras().getTotalComprasCliente(new Cliente("CW786"))+"\n");
 	}
 }
