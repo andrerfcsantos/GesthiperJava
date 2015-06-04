@@ -17,8 +17,7 @@ import lei.li3.g50.utilitarios.FiltraFicheirosPorExtensao;
 
 public final class Leitura {
 
-    private Leitura() {
-    }
+    private Leitura() {}
 
     private static final String fich_produtos_default[] = {
         "datasets/FichProdutos.txt", "FichProdutos.txt",
