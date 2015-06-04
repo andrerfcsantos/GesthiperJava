@@ -48,8 +48,13 @@ public class Compras {
             Mes mes = compra.getMes();
             FichaClienteCompras ficha_cliente = getFichaClienteNoClone(compra.getCliente());
             
-            if(ficha_cliente.getNumComprasMes(mes, TipoCompra.AMBOS) == 0)
+            if(ficha_cliente.getNumComprasMes(mes, TipoCompra.AMBOS) == 0){
                 numeroClientesDistintosPorMes[mes.getIndiceArray()]++;
+            }
+            
+            if(ficha_cliente.getTotalCompras()==0){
+                arvoreParesProdutoNClientes.get(compra.getProduto()).addNumeroTotalClientesDistintos(1);
+            }
             
             if(compra.getPreco()==0)
                 this.numeroComprasValorZero++;
@@ -68,7 +73,7 @@ public class Compras {
         return this.numeroClientesDistintosPorMes[mes.getIndiceArray()];
     }
     
-    public int getTotalClientes(){
+    public int getTotalClientesDistintos(){
         return this.arvoreClientes.size();
     }
     

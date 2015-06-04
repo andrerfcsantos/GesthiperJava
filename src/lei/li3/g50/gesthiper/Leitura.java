@@ -17,7 +17,11 @@ import lei.li3.g50.utilitarios.FiltraFicheirosPorExtensao;
 
 public final class Leitura {
 
-    private Leitura() {}
+    private Leitura() {
+    }
+
+    final static String ANSI_CLEARSCREEN = "\u001b[2J";
+    final static String ANSI_HOME = "\u001b[H";
 
     private static final String fich_produtos_default[] = {
         "datasets/FichProdutos.txt", "FichProdutos.txt",
@@ -27,14 +31,14 @@ public final class Leitura {
         "../datasets/FichClientes.txt"};
     private static final String fich_compras_default[] = {
         "datasets/Compras.txt", "Compras.txt", "../datasets/Compras.txt",
-        "datasets/Compras1.txt", "Compras1.txt","../datasets/Compras1.txt",
-        "datasets/Compras3.txt","Compras3.txt", "../datasets/Compras3.txt",
+        "datasets/Compras1.txt", "Compras1.txt", "../datasets/Compras1.txt",
+        "datasets/Compras3.txt", "Compras3.txt", "../datasets/Compras3.txt",
         "datasets/miniCompras.txt", "miniCompras.txt", "../datasets/miniCompras.txt"};
 
     public static void menuLeitura() {
         Scanner input = new Scanner(System.in);
         int escolha;
-
+        System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
         System.out.print("=================================\n");
         System.out.print(" GESTHIPER >> Leitura Ficheiros   \n");
         System.out.print("=================================\n");
@@ -70,9 +74,10 @@ public final class Leitura {
 
     public static void leFicheirosGenericosPAutomatica() {
         int escolha;
-        double tempo_leitura_produtos=-1;
-        double tempo_leitura_clientes=-1;
-        double tempo_leitura_compras=-1;
+        double tempo_leitura_produtos = -1;
+        double tempo_leitura_clientes = -1;
+        double tempo_leitura_compras = -1;
+        String input;
         File ficheiro_clientes, ficheiro_produtos, ficheiro_compras;
         ArrayList<File> ficheiros_clientes = procura_ficheiros_clientes();
         ArrayList<File> ficheiros_produtos = procura_ficheiros_produtos();
@@ -81,16 +86,16 @@ public final class Leitura {
         try {
 
             if (ficheiros_clientes.size() == 1) {
-                System.out.print("" + ficheiros_clientes.size() + " ficheiro(s) de clientes encontrado(s) \n");
+                System.out.print("" + ficheiros_clientes.size()
+                        + " ficheiro de clientes encontrado: " + ficheiros_clientes.get(0).getPath() + "\n");
                 ficheiro_clientes = ficheiros_clientes.get(0);
                 Crono.start();
                 le_ficheiro_clientes(ficheiro_clientes.getPath());
                 tempo_leitura_clientes = Crono.stop();
-            }
-            if (ficheiros_clientes.size() > 1) {
+            } else if (ficheiros_clientes.size() > 1) {
                 System.out.print("" + ficheiros_clientes.size() + " ficheiros de clientes encontrados \n");
                 mostraOpcoesFicheiros(ficheiros_clientes);
-                System.out.print("Insira nº do ficheiro: ");
+                System.out.print("Insira nº do ficheiro que quer ler: ");
                 escolha = sc.nextInt();
                 ficheiro_clientes = ficheiros_clientes.get(escolha - 1);
                 Crono.start();
@@ -99,14 +104,15 @@ public final class Leitura {
             }
 
             if (ficheiros_produtos.size() == 1) {
-                System.out.print("" + ficheiros_produtos.size() + " ficheiro(s) de produtos encontrado(s) \n");
+                System.out.print("" + ficheiros_produtos.size()
+                        + " ficheiro de produtos encontrado: " + ficheiros_produtos.get(0).getPath() + "\n");
                 ficheiro_produtos = ficheiros_produtos.get(0);
                 Crono.start();
                 le_ficheiro_produtos(ficheiro_produtos.getPath());
                 tempo_leitura_produtos = Crono.stop();
-            }
-            if (ficheiros_produtos.size() > 1) {
-                System.out.print("" + ficheiros_produtos.size() + " ficheiros de produtos encontrados \n");
+            } else if (ficheiros_produtos.size() > 1) {
+                System.out.print("" + ficheiros_produtos.size()
+                        + " ficheiros de produtos encontrados.\n");
                 mostraOpcoesFicheiros(ficheiros_produtos);
                 System.out.print("Insira nº do ficheiro: ");
                 escolha = sc.nextInt();
@@ -117,13 +123,13 @@ public final class Leitura {
             }
 
             if (ficheiros_compras.size() == 1) {
-                System.out.print("" + ficheiros_compras.size() + " ficheiro(s) de compras encontrado(s) \n");
+                System.out.print("" + ficheiros_compras.size()
+                        + " ficheiro de compras encontrado: " + ficheiros_compras.get(0).getPath() + "\n");
                 ficheiro_compras = ficheiros_compras.get(0);
                 Crono.start();
                 le_ficheiro_compras(ficheiro_compras.getPath());
                 tempo_leitura_compras = Crono.stop();
-            }
-            if (ficheiros_compras.size() > 1) {
+            } else if (ficheiros_compras.size() > 1) {
                 System.out.print("" + ficheiros_compras.size() + " ficheiros de compras encontrados \n");
                 mostraOpcoesFicheiros(ficheiros_compras);
                 System.out.print("Insira nº do ficheiro: ");
@@ -134,12 +140,19 @@ public final class Leitura {
                 tempo_leitura_compras = Crono.stop();
             }
             
-            System.out.print("Tempo de leitura Clientes: " + tempo_leitura_clientes +" segs.\n");
-            System.out.print("Tempo de leitura Produtos: " + tempo_leitura_produtos +" segs.\n");
-            System.out.print("Tempo de leitura Compras: " + tempo_leitura_compras +" segs.\n");
-            System.out.print("Tempo total leitura: " + 
-                    (tempo_leitura_clientes+ tempo_leitura_produtos+tempo_leitura_compras) +" segs.\n");
-
+            System.out.print("=========================================\n");
+            System.out.print("Tempo de leitura Clientes: " + tempo_leitura_clientes + " segs.\n");
+            System.out.print("Tempo de leitura Produtos: " + tempo_leitura_produtos + " segs.\n");
+            System.out.print("Tempo de leitura Compras: " + tempo_leitura_compras + " segs.\n");
+            System.out.print("Tempo total leitura: "
+                    + (tempo_leitura_clientes + tempo_leitura_produtos + tempo_leitura_compras) + " segs.\n");
+            System.out.print("=========================================\n");
+            
+            System.out.print("Pressione qualquer tecla para continuar: ");
+            input = sc.next();
+            
+            
+            
         } catch (FileNotFoundException ex) {
             System.out.printf("Um ou mais ficheiros não foram encontrados.\n");
         } catch (IOException ex) {
@@ -204,7 +217,7 @@ public final class Leitura {
     public static void le_ficheiro_compras(String str_ficheiro_compras)
             throws FileNotFoundException, IOException {
         int compras_invalidas = 0;
-        int i=0;
+        int i = 0;
         Hipermercado hiper = Gesthiper.getHipermercado();
         String linha;
         StringTokenizer st;
@@ -228,14 +241,13 @@ public final class Leitura {
                     : TipoCompra.PROMOCAO);
             compra.setCliente(new Cliente(st.nextToken()));
             compra.setMes(Mes.numero_to_mes(Integer.parseInt(st.nextToken())));
-            
-            
+
             if (compraValida(compra)) {
                 hiper.regista_compra(compra);
             } else {
                 compras_invalidas++;
             }
-            
+
         }
         //System.out.print(compras_invalidas);
         bin.close();
