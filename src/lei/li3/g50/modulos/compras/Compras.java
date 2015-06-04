@@ -11,20 +11,20 @@ import lei.li3.g50.modulos.dados.*;
 public class Compras {
 
     private int numeroComprasValorZero;
-    private int numeroClientesPorMes[];
+    private int numeroClientesDistintosPorMes[];
     private TreeMap<Cliente, FichaClienteCompras> arvoreClientes;
     private TreeMap<Produto, ParProdutoNClientes> arvoreParesProdutoNClientes;
 
     public Compras() {
         this.numeroComprasValorZero = 0;
-        numeroClientesPorMes = new int[12];
+        numeroClientesDistintosPorMes = new int[12];
         arvoreClientes = new TreeMap<>();
         arvoreParesProdutoNClientes = new TreeMap<>();
     }
 
     public Compras(Compras compras) {
         this.numeroComprasValorZero = compras.getNumeroComprasValorZero();
-        for(int i=0;i<12;i++) this.numeroClientesPorMes[i] = compras.numeroClientesPorMes[i];
+        for(int i=0;i<12;i++) this.numeroClientesDistintosPorMes[i] = compras.numeroClientesDistintosPorMes[i];
         
         for (Map.Entry<Cliente, FichaClienteCompras> entrada : compras.arvoreClientes.entrySet()) {
             this.arvoreClientes.put(entrada.getKey().clone(), entrada.getValue().clone());
@@ -49,7 +49,7 @@ public class Compras {
             FichaClienteCompras ficha_cliente = getFichaClienteNoClone(compra.getCliente());
             
             if(ficha_cliente.getNumComprasMes(mes, TipoCompra.AMBOS) == 0)
-                numeroClientesPorMes[mes.getIndiceArray()]++;
+                numeroClientesDistintosPorMes[mes.getIndiceArray()]++;
             
             if(compra.getPreco()==0)
                 this.numeroComprasValorZero++;
@@ -64,17 +64,12 @@ public class Compras {
         return numeroComprasValorZero;
     }
 
-    public int getNumeroClientesMes(Mes mes) {
-        return this.numeroClientesPorMes[mes.getIndiceArray()];
+    public int getNumeroClientesDistintosMes(Mes mes) {
+        return this.numeroClientesDistintosPorMes[mes.getIndiceArray()];
     }
     
     public int getTotalClientes(){
-        int soma=0;
-        
-        for(int i=0;i<this.numeroClientesPorMes.length;i++)
-            soma += this.numeroClientesPorMes[i];
-        
-        return soma;
+        return this.arvoreClientes.size();
     }
     
     public int getTotalComprasCliente(Cliente cliente){
@@ -98,7 +93,7 @@ public class Compras {
             }
         }
         
-        return lista_clientes;
+        return (List<Cliente>) lista_clientes;
     }
 
     /*
@@ -108,7 +103,7 @@ public class Compras {
     public int hashCode() {
         int hash = 3;
         hash = 11 * hash + this.numeroComprasValorZero;
-        hash = 11 * hash + Objects.hashCode(this.numeroClientesPorMes);
+        hash = 11 * hash + Objects.hashCode(this.numeroClientesDistintosPorMes);
         hash = 11 * hash + Objects.hashCode(this.arvoreClientes);
         hash = 11 * hash + Objects.hashCode(this.arvoreParesProdutoNClientes);
         return hash;
@@ -127,7 +122,7 @@ public class Compras {
         final Compras other = (Compras) obj;
         return this.arvoreClientes.size() == other.arvoreClientes.size()
                 && this.arvoreParesProdutoNClientes.size() == other.arvoreParesProdutoNClientes.size()
-                && Arrays.equals(this.numeroClientesPorMes, other.numeroClientesPorMes)
+                && Arrays.equals(this.numeroClientesDistintosPorMes, other.numeroClientesDistintosPorMes)
                 && this.numeroComprasValorZero == other.numeroComprasValorZero;
     }
 
@@ -136,7 +131,6 @@ public class Compras {
         StringBuilder sb = new StringBuilder();
         sb.append("Compras{");
         sb.append("Compras valor zero=").append(numeroComprasValorZero);
-        sb.append(" Nº Clientes=").append(this.getTotalClientes());
         sb.append(" Nº Clientes distintos=").append(arvoreClientes.size());
         sb.append('}');
         return sb.toString();

@@ -27,9 +27,9 @@ public final class Leitura {
         "../datasets/FichClientes.txt"};
     private static final String fich_compras_default[] = {
         "datasets/Compras.txt", "Compras.txt", "../datasets/Compras.txt",
-        "datasets/Compras1.txt", "Compras1.txt",
-        "../datasets/Compras1.txt", "datasets/Compras3.txt",
-        "Compras3.txt", "../datasets/Compras3.txt"};
+        "datasets/Compras1.txt", "Compras1.txt","../datasets/Compras1.txt",
+        "datasets/Compras3.txt","Compras3.txt", "../datasets/Compras3.txt",
+        "datasets/miniCompras.txt", "miniCompras.txt", "../datasets/miniCompras.txt"};
 
     public static void menuLeitura() {
         Scanner input = new Scanner(System.in);

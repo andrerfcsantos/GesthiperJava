@@ -8,10 +8,17 @@ import lei.li3.g50.modulos.catalogos.CatalogoProdutos;
 import lei.li3.g50.modulos.compras.Compras;
 import lei.li3.g50.modulos.contabilidade.Contabilidade;
 import lei.li3.g50.modulos.dados.Cliente;
+import lei.li3.g50.modulos.dados.Mes;
 import lei.li3.g50.utilitarios.Paginador;
 
-public final class Interface {
 
+
+
+public final class Interface {
+    
+    final static String ANSI_CLEARSCREEN = "\u001b[2J";
+    final static String ANSI_HOME = "\u001b[H";
+    
     public static CatalogoClientes catalogoClientes;
     public static CatalogoProdutos catalogoProdutos;
     public static Contabilidade moduloContabilidade;
@@ -182,7 +189,7 @@ public final class Interface {
         List<Cliente> listaClientesSemCompras = moduloCompras.getClientesSemCompras();
         Paginador<List<Cliente>> paginador = new Paginador<>(listaClientesSemCompras, 10, 1);
 
-        numero_resultados = paginador.getNumElems();
+        numero_resultados = listaClientesSemCompras.size();
         total_paginas = paginador.getNumPaginas();
 
         while (estadoMenu == QUERIE_04) {
@@ -190,7 +197,7 @@ public final class Interface {
             inicio_pagina = paginador.getPosInicialPagActual();
             num_elems_pag_actual = paginador.getNumElemsPagActual();
             fim_pagina = inicio_pagina + num_elems_pag_actual;
-
+            System.out.print(ANSI_CLEARSCREEN+ANSI_HOME);
             System.out.print("================================================= \n");
             System.out.print("GESTHIPER >> QUERIE 4            \n");
             System.out.print("Clientes sem compras                 \n");
@@ -202,7 +209,7 @@ public final class Interface {
                 System.out.printf("|   #   |  Codigo  |\n");
                 System.out.printf("--------------------\n");
                 for (int i = 0; i < num_elems_pag_actual; i++) {
-                    cliente = listaClientesSemCompras.get(inicio_pagina + 1);
+                    cliente = listaClientesSemCompras.get(inicio_pagina + i);
                     System.out.printf("| %5d | %8s |\n", inicio_pagina + i + 1, cliente.getCodigoCliente());
                 }
                 System.out.printf("--------------------\n");
@@ -259,8 +266,49 @@ public final class Interface {
      distintos que as realizaram;
      */
     public static MenuActual _05_comprasEClientesNumMes() {
-        System.out.print("Querie ainda nao implementada\n");
-        return MENU_QUERIES;
+        MenuActual estadoMenu = QUERIE_05;
+        int escolha_mes, escolha_opcao;
+        Mes mes_escolhido;
+        Scanner input = new Scanner(System.in);
+
+        while (estadoMenu == QUERIE_05) {
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 5            \n");
+            System.out.print("Nº de compras e Clientes num mês                \n");
+            System.out.print("================================================= \n");
+            System.out.print("Indique o nº do mês: ");
+            escolha_mes = input.nextInt();
+
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 5            \n");
+            System.out.print("Nº de compras e Clientes num mês                \n");
+            System.out.print("================================================= \n");
+
+            if (escolha_mes > 0 && escolha_mes <= 12) {
+                mes_escolhido = Mes.numero_to_mes(escolha_mes);
+
+                System.out.print("Mês: " + mes_escolhido.getMes_extenso());
+                System.out.print("Nº clientes distintos: " + moduloCompras.getNumeroClientesDistintosMes(mes_escolhido) + "\n");
+                System.out.print("Nº compras: [Contabilidade]\n");
+            }else{
+                System.out.print("Mês inserido é inválido\n");
+            }
+
+            System.out.print("================================================= \n");
+            System.out.print("1 - Menu Principal | 0 - Sair | 2 - Procurar outro mês    \n");
+            System.out.print("==================================================== \n");
+            System.out.print("Escolha opção: ");
+            escolha_opcao = input.nextInt();
+            switch(escolha_opcao){
+                case 0: estadoMenu=SAIR;break;
+                case 1: estadoMenu=MENU_QUERIES;break;
+                case 2: estadoMenu=QUERIE_05;break;
+                default: estadoMenu=MENU_QUERIES;break;
+            }
+        }
+        return estadoMenu;
     }
 
     /*
