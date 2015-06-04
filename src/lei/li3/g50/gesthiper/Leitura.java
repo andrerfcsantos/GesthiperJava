@@ -380,8 +380,8 @@ public final class Leitura {
 
     public static boolean compraValida(Compra compra) {
         Hipermercado hiper = Gesthiper.getHipermercado();
-        return hiper.clienteExiste(compra.getCliente())
-                && hiper.produtoExiste(compra.getProduto())
+        return hiper.getCatalogoClientes().existeCliente(compra.getCliente())
+                && hiper.getCatalogoProdutos().existeProduto(compra.getProduto())
                 && compra.getPreco() >= 0
                 && compra.getQuantidade() >= 0;
 

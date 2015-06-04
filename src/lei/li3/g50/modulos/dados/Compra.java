@@ -43,19 +43,19 @@ public class Compra {
 	 * GETTERS e SETTERS
 	 */
 	public Cliente getCliente() {
-		return cliente.clone();
+		return cliente;
 	}
 
 	public void setCliente(Cliente cliente) {
-		this.cliente = cliente.clone();
+		this.cliente = cliente;
 	}
 
 	public Produto getProduto() {
-		return produto.clone();
+		return produto;
 	}
 
 	public void setProduto(Produto produto) {
-		this.produto = produto.clone();
+		this.produto = produto;
 	}
 
 	public double getPreco() {

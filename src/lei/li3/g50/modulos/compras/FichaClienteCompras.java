@@ -1,12 +1,10 @@
 package lei.li3.g50.modulos.compras;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import lei.li3.g50.modulos.dados.*;
 import lei.li3.g50.utilitarios.Matriz_Double_12x2;
 import lei.li3.g50.utilitarios.Matriz_Int_12x2;
@@ -53,7 +51,7 @@ public class FichaClienteCompras {
 
         if (ficha_produto == null) {
             ficha_produto = new FichaProdutoDeClienteCompras();
-            this.produtosCliente.put(compra.getProduto(),ficha_produto);
+            this.produtosCliente.put(compra.getProduto().clone(),ficha_produto);
         }
         
         ficha_produto.addNumComprasProdutoClienteMes(mes, tipo_compra, 1);
@@ -68,10 +66,14 @@ public class FichaClienteCompras {
         return this.produtosCliente.get(produto).clone();
     }
 
-    public FichaProdutoDeClienteCompras getFichaProdutoNoClone(Produto produto) {
+    private FichaProdutoDeClienteCompras getFichaProdutoNoClone(Produto produto) {
         return this.produtosCliente.get(produto);
     }
-
+    
+    public boolean clienteComprouProduto(Produto produto){
+        return this.produtosCliente.containsKey(produto);
+    }
+    
     /* Nº UNIDADES */
     public Matriz_Int_12x2 getNumUnidadesCompradasClientePorMes() {
         return numUnidadesCompradasClientePorMes.clone();

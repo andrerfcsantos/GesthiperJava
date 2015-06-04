@@ -57,16 +57,5 @@ public class Hipermercado {
                 moduloCompras.registaCompra(compra);
 	}
         
-        /*
-        METODOS INTERROGADORES
-        */
-        public boolean clienteExiste(Cliente cliente){
-            return this.moduloCatalogoClientes.existeCliente(cliente);
-        }
-        
-        public boolean produtoExiste(Produto produto){
-            return this.moduloCatalogoProdutos.existeProduto(produto);
-        }
-        
         
 }
