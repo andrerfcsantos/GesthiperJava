@@ -12,6 +12,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import lei.li3.g50.modulos.dados.*;
+import lei.li3.g50.utilitarios.Crono;
 import lei.li3.g50.utilitarios.FiltraFicheirosPorExtensao;
 
 public final class Leitura {
@@ -70,6 +71,9 @@ public final class Leitura {
 
     public static void leFicheirosGenericosPAutomatica() {
         int escolha;
+        double tempo_leitura_produtos=-1;
+        double tempo_leitura_clientes=-1;
+        double tempo_leitura_compras=-1;
         File ficheiro_clientes, ficheiro_produtos, ficheiro_compras;
         ArrayList<File> ficheiros_clientes = procura_ficheiros_clientes();
         ArrayList<File> ficheiros_produtos = procura_ficheiros_produtos();
@@ -80,7 +84,9 @@ public final class Leitura {
             if (ficheiros_clientes.size() == 1) {
                 System.out.print("" + ficheiros_clientes.size() + " ficheiro(s) de clientes encontrado(s) \n");
                 ficheiro_clientes = ficheiros_clientes.get(0);
+                Crono.start();
                 le_ficheiro_clientes(ficheiro_clientes.getPath());
+                tempo_leitura_clientes = Crono.stop();
             }
             if (ficheiros_clientes.size() > 1) {
                 System.out.print("" + ficheiros_clientes.size() + " ficheiros de clientes encontrados \n");
@@ -88,13 +94,17 @@ public final class Leitura {
                 System.out.print("Insira nº do ficheiro: ");
                 escolha = sc.nextInt();
                 ficheiro_clientes = ficheiros_clientes.get(escolha - 1);
+                Crono.start();
                 le_ficheiro_clientes(ficheiro_clientes.getPath());
+                tempo_leitura_clientes = Crono.stop();
             }
 
             if (ficheiros_produtos.size() == 1) {
                 System.out.print("" + ficheiros_produtos.size() + " ficheiro(s) de produtos encontrado(s) \n");
                 ficheiro_produtos = ficheiros_produtos.get(0);
+                Crono.start();
                 le_ficheiro_produtos(ficheiro_produtos.getPath());
+                tempo_leitura_produtos = Crono.stop();
             }
             if (ficheiros_produtos.size() > 1) {
                 System.out.print("" + ficheiros_produtos.size() + " ficheiros de produtos encontrados \n");
@@ -102,13 +112,17 @@ public final class Leitura {
                 System.out.print("Insira nº do ficheiro: ");
                 escolha = sc.nextInt();
                 ficheiro_produtos = ficheiros_produtos.get(escolha - 1);
+                Crono.start();
                 le_ficheiro_produtos(ficheiro_produtos.getPath());
+                tempo_leitura_produtos = Crono.stop();
             }
 
             if (ficheiros_compras.size() == 1) {
                 System.out.print("" + ficheiros_compras.size() + " ficheiro(s) de compras encontrado(s) \n");
                 ficheiro_compras = ficheiros_compras.get(0);
+                Crono.start();
                 le_ficheiro_compras(ficheiro_compras.getPath());
+                tempo_leitura_compras = Crono.stop();
             }
             if (ficheiros_compras.size() > 1) {
                 System.out.print("" + ficheiros_compras.size() + " ficheiros de compras encontrados \n");
@@ -116,8 +130,16 @@ public final class Leitura {
                 System.out.print("Insira nº do ficheiro: ");
                 escolha = sc.nextInt();
                 ficheiro_compras = ficheiros_compras.get(escolha - 1);
+                Crono.start();
                 le_ficheiro_compras(ficheiro_compras.getPath());
+                tempo_leitura_compras = Crono.stop();
             }
+            
+            System.out.print("Tempo de leitura Clientes: " + tempo_leitura_clientes +" segs.\n");
+            System.out.print("Tempo de leitura Produtos: " + tempo_leitura_produtos +" segs.\n");
+            System.out.print("Tempo de leitura Compras: " + tempo_leitura_compras +" segs.\n");
+            System.out.print("Tempo total leitura: " + 
+                    (tempo_leitura_clientes+ tempo_leitura_produtos+tempo_leitura_compras) +" segs.\n");
 
         } catch (FileNotFoundException ex) {
             System.out.printf("Um ou mais ficheiros não foram encontrados.\n");
