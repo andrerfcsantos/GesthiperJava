@@ -18,7 +18,6 @@ public class FichaProdutoDeClienteCompras {
         numComprasProdutoClientePorMes = new Matriz_Int_12x2();
     }
 
-
     public FichaProdutoDeClienteCompras(FichaProdutoDeClienteCompras ficha) {
         numUnidadesCompradasProdutoClientePorMes = ficha.getNumUnidadesCompradasProdutoClientePorMes();
         numComprasProdutoClientePorMes = ficha.getNumComprasProdutoClientePorMes();
@@ -27,19 +26,15 @@ public class FichaProdutoDeClienteCompras {
     /*
      GET'S
      */
-
+    /* Nº UNIDADES COMPRADAS*/
     public Matriz_Int_12x2 getNumUnidadesCompradasProdutoClientePorMes() {
         return numUnidadesCompradasProdutoClientePorMes.clone();
-    }
-
-    public Matriz_Int_12x2 getNumComprasProdutoClientePorMes() {
-        return numComprasProdutoClientePorMes.clone();
     }
 
     public int getNumUnidadesCompradasProdutoCliente() {
         return numUnidadesCompradasProdutoClientePorMes.getSomaTotal();
     }
-    
+
     public int getNumUnidadesCompradasProdutoClienteMes(Mes mes) {
         return numUnidadesCompradasProdutoClientePorMes.getValorMesTipoCompra(mes, TipoCompra.AMBOS);
     }
@@ -50,6 +45,11 @@ public class FichaProdutoDeClienteCompras {
 
     public int getNumUnidadesCompradasProdutoClienteMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
         return numUnidadesCompradasProdutoClientePorMes.getValorEntreMeses(mes2, mes2, tipo_compra);
+    }
+
+    /*Nº COMPRAS*/
+    public Matriz_Int_12x2 getNumComprasProdutoClientePorMes() {
+        return numComprasProdutoClientePorMes.clone();
     }
 
     public int getNumComprasProdutoCliente() {
@@ -72,36 +72,36 @@ public class FichaProdutoDeClienteCompras {
     /*
      SET'S
      */
-
+    
+    /* Nº UNIDADES COMPRADAS*/
     public void setNumUnidadesCompradasProdutoClientePorMes(Matriz_Int_12x2 numUnidadesCompradasProdutoClientePorMes) {
         this.numUnidadesCompradasProdutoClientePorMes = numUnidadesCompradasProdutoClientePorMes.clone();
     }
 
-    public void setNumComprasProdutoClientePorMes(Matriz_Int_12x2 numComprasProdutoClientePorMes) {
-        this.numComprasProdutoClientePorMes = numComprasProdutoClientePorMes.clone();
-    }
-    
-    public void setNumComprasProdutoClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
-        this.numComprasProdutoClientePorMes.setValorMesTipoCompra(mes, tipo_compra, valor);
-    }
-    
-    public void addNumComprasProdutoClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
-        this.numComprasProdutoClientePorMes.addValorMesTipoCompra(mes, tipo_compra, valor);
-    }
-    
     public void setNumUnidadesCompradasProdutoClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
         this.numUnidadesCompradasProdutoClientePorMes.setValorMesTipoCompra(mes, tipo_compra, valor);
     }
-    
+
     public void addNumUnidadesCompradasProdutoClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
         this.numUnidadesCompradasProdutoClientePorMes.addValorMesTipoCompra(mes, tipo_compra, valor);
     }
-    
-    
-    /*
-    METODOS STANDARD
-    */
 
+    /*Nº COMPRAS*/
+    public void setNumComprasProdutoClientePorMes(Matriz_Int_12x2 numComprasProdutoClientePorMes) {
+        this.numComprasProdutoClientePorMes = numComprasProdutoClientePorMes.clone();
+    }
+
+    public void setNumComprasProdutoClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
+        this.numComprasProdutoClientePorMes.setValorMesTipoCompra(mes, tipo_compra, valor);
+    }
+
+    public void addNumComprasProdutoClienteMes(Mes mes, TipoCompra tipo_compra, int valor) {
+        this.numComprasProdutoClientePorMes.addValorMesTipoCompra(mes, tipo_compra, valor);
+    }
+
+    /*
+     METODOS STANDARD
+     */
     @Override
     public int hashCode() {
         int hash = 3;
@@ -109,8 +109,7 @@ public class FichaProdutoDeClienteCompras {
         hash = 59 * hash + Objects.hashCode(this.numComprasProdutoClientePorMes);
         return hash;
     }
-    
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -139,10 +138,9 @@ public class FichaProdutoDeClienteCompras {
 
         return sb.toString();
     }
-    
-    
+
     @Override
-    public FichaProdutoDeClienteCompras clone(){
+    public FichaProdutoDeClienteCompras clone() {
         return new FichaProdutoDeClienteCompras(this);
     }
 }

@@ -84,6 +84,10 @@ public class FichaClienteCompras {
     public int getNumUnidadesCompradasMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
         return this.numUnidadesCompradasClientePorMes.getValorEntreMeses(mes1, mes2, tipo_compra);
     }
+    
+    public int getTotalUnidadesCompradas(){
+        return this.numUnidadesCompradasClientePorMes.getSomaTotal();
+    }
 
     /* Nº COMPRAS */
     public Matriz_Int_12x2 getNumComprasClientePorMes() {
@@ -96,6 +100,10 @@ public class FichaClienteCompras {
 
     public int getNumComprasMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
         return this.numComprasClientePorMes.getValorEntreMeses(mes1, mes2, tipo_compra);
+    }
+    
+    public int getTotalCompras(){
+        return this.numComprasClientePorMes.getSomaTotal();
     }
 
     /* € GASTO */
@@ -110,7 +118,11 @@ public class FichaClienteCompras {
     public double getDinheiroGastoClienteMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
         return dinheiroGastoClientePorMes.getValorEntreMeses(mes1, mes2, tipo_compra);
     }
-
+    
+    public double getTotalDinheiroGasto(){
+        return this.dinheiroGastoClientePorMes.getSomaTotal();
+    }
+    
     public List<Produto> getProdutosCliente() {
         ArrayList<Produto> resultado = new ArrayList<>();
         for (Produto produto : this.produtosCliente.keySet()) {

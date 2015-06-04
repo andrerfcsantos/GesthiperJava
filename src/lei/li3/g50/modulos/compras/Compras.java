@@ -1,6 +1,8 @@
 package lei.li3.g50.modulos.compras;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
@@ -62,24 +64,41 @@ public class Compras {
         return numeroComprasValorZero;
     }
 
-    public int[] getNumeroClientesPorMes() {
-        int resultado[] = new int[12];
-        
-        for(int i=0;i<12;i++) resultado[i] = this.numeroClientesPorMes[i];
-        
-        return resultado;
-    }
-    public int getNumeroClientesPorMes(Mes mes) {
+    public int getNumeroClientesMes(Mes mes) {
         return this.numeroClientesPorMes[mes.getIndiceArray()];
     }
-
-
+    
+    public int getTotalClientes(){
+        int soma=0;
+        
+        for(int i=0;i<this.numeroClientesPorMes.length;i++)
+            soma += this.numeroClientesPorMes[i];
+        
+        return soma;
+    }
+    
+    public int getTotalComprasCliente(Cliente cliente){
+        return this.getFichaClienteNoClone(cliente).getTotalCompras();
+    }
 
     public FichaClienteCompras getFichaCliente(Cliente cliente) {
         return this.arvoreClientes.get(cliente).clone();
     }
+    
     private FichaClienteCompras getFichaClienteNoClone(Cliente cliente) {
         return this.arvoreClientes.get(cliente);
+    }
+    
+    public List<Cliente> getClientesSemCompras(){
+        ArrayList<Cliente> lista_clientes = new ArrayList<>(this.arvoreClientes.size()/10);
+        
+        for (Map.Entry<Cliente, FichaClienteCompras> entrada : this.arvoreClientes.entrySet()) {
+            if(entrada.getValue().getTotalCompras()==0){
+                lista_clientes.add(entrada.getKey().clone());
+            }
+        }
+        
+        return lista_clientes;
     }
 
     /*
@@ -116,9 +135,9 @@ public class Compras {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Compras{");
-        sb.append("numeroComprasValorZero=").append(numeroComprasValorZero);
-        sb.append(", numeroClientesPorMes=").append(numeroClientesPorMes);
-        sb.append(", Nº clientes=").append(arvoreClientes.size());
+        sb.append("Compras valor zero=").append(numeroComprasValorZero);
+        sb.append(" Nº Clientes=").append(this.getTotalClientes());
+        sb.append(" Nº Clientes distintos=").append(arvoreClientes.size());
         sb.append('}');
         return sb.toString();
     }
