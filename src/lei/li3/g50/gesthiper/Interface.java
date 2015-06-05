@@ -1,14 +1,17 @@
 package lei.li3.g50.gesthiper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import static lei.li3.g50.gesthiper.Interface.MenuActual.*;
 import lei.li3.g50.modulos.catalogos.CatalogoClientes;
 import lei.li3.g50.modulos.catalogos.CatalogoProdutos;
 import lei.li3.g50.modulos.compras.Compras;
+import lei.li3.g50.modulos.compras.FichaClienteCompras;
 import lei.li3.g50.modulos.contabilidade.Contabilidade;
 import lei.li3.g50.modulos.dados.Cliente;
 import lei.li3.g50.modulos.dados.Mes;
+import lei.li3.g50.modulos.dados.TipoCompra;
 import lei.li3.g50.utilitarios.Paginador;
 
 public final class Interface {
@@ -326,8 +329,95 @@ public final class Interface {
      anual facturado ao cliente;
      */
     public static MenuActual _06_comprasClienteMeses() {
-        System.out.print("Querie ainda nao implementada\n");
-        return MENU_QUERIES;
+        MenuActual estadoMenu = QUERIE_06;
+        String cliente_inserido;
+        Mes mes;
+        Cliente cliente;
+        int escolha_opcao;
+        int total_compras_mes, total_compras;
+        double total_gasto_mes, total_gasto;
+        Map<Mes,Integer> numeroProdsDistintosPorMes;
+        Scanner input = new Scanner(System.in);
+
+        while (estadoMenu == QUERIE_06) {
+            total_compras=0;
+            total_gasto =0;
+            
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 6            \n");
+            System.out.print("Compras de cliente            \n");
+            System.out.print("================================================= \n");
+            System.out.print("Indique cliente que quer procurar: ");
+            cliente_inserido = input.next();
+
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 6            \n");
+            System.out.print("Compras de cliente            \n");
+            System.out.print("================================================= \n");
+            
+            cliente = new Cliente(cliente_inserido);
+            if (catalogoClientes.existeCliente(cliente)) {
+                
+                numeroProdsDistintosPorMes = moduloCompras.getNumeroProdutosDisntintosPorMesCliente(cliente);
+                
+                System.out.print( "CLIENTE:" + cliente.getCodigoCliente()+ "\n");
+                System.out.print( "---------------------------------------\n");
+                System.out.print( "|     | Número  | Produtos  |         |\n");
+                System.out.print( "| Mes | Compras | Distintos | € Gasto |\n");
+                System.out.print( "---------------------------------------\n");
+                
+                for (int i = 0; i < 12; i++) {
+                    mes = Mes.numero_to_mes(i + 1);
+                    total_compras_mes = moduloCompras.getNumComprasClienteMes(cliente, mes);
+                    total_compras += total_compras_mes;
+
+                    total_gasto_mes = moduloCompras.getDinheiroGastoClienteMes(cliente, mes);
+                    total_gasto += total_gasto_mes;
+
+                    System.out.printf("| %3s | %7d | %9d | %7.2f |\n", mes.getMes_abreviado(),
+                                                                        total_compras_mes,
+                                                                        numeroProdsDistintosPorMes.get(mes),
+                                                                        total_gasto_mes);
+                }
+                
+                System.out.print( "---------------------------------------\n");
+                System.out.printf("| Tot | %7d | %9d | %7.2f |\n",
+                                                        total_compras, 
+                                                        moduloCompras.getNumeroProdutosDistintosCliente(cliente), 
+                                                        total_gasto);
+                System.out.print( "---------------------------------------\n");
+                
+                
+                
+            } else {
+                System.out.print("O cliente " + cliente_inserido + " não existe.\n");
+            }
+
+            System.out.print("============================================================ \n");
+            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Procurar outro cliente  \n");
+            System.out.print("============================================================ \n");
+            System.out.print("Escolha opção: ");
+            escolha_opcao = input.nextInt();
+            switch (escolha_opcao) {
+                case 0:
+                    estadoMenu = SAIR;
+                    break;
+                case 1:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+                case 2:
+                    estadoMenu = QUERIE_06;
+                    break;
+                default:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+            }
+        }
+        
+        
+        return estadoMenu;
     }
 
     /*
