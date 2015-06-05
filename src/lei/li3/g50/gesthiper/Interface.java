@@ -660,8 +660,6 @@ public final class Interface {
     public static MenuActual _11_clientesComMaisProdutosDiferentesComprados() {
         MenuActual estadoMenu = QUERIE_11;
         Scanner input = new Scanner(System.in);
-        Cliente cliente;
-        String cliente_lido;
         ParClienteProdutosDiferentes par;
         int topN;
         int numero_pagina = 1, num_elems_pag_actual, inicio_pagina, fim_pagina;

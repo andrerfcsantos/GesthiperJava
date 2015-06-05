@@ -59,6 +59,7 @@ public class FichaClienteCompras {
         
         ficha_produto.addNumComprasProdutoClienteMes(mes, tipo_compra, 1);
         ficha_produto.addNumUnidadesCompradasProdutoClienteMes(mes, tipo_compra, unidades_compradas);
+        ficha_produto.addTotalGastoClienteProduto(preco * (unidades_compradas + 0.0));
     }
     /*
      GETTERS
@@ -73,6 +74,13 @@ public class FichaClienteCompras {
         return this.produtosCliente.get(produto);
     }
     
+    public int getNumUnidadesCompradasProduto(Produto produto){
+        return this.produtosCliente.get(produto).getNumUnidadesCompradasProdutoCliente();
+    }
+    public double getDinheiroGastoProduto(Produto produto){
+        return this.produtosCliente.get(produto).getTotalGastoClienteProduto();
+    }
+    
     public boolean clienteComprouProduto(Produto produto){
         return this.produtosCliente.containsKey(produto);
     }
@@ -81,7 +89,7 @@ public class FichaClienteCompras {
         return this.produtosCliente.size();
     }
     
-    public List<ParProdutoQuantidadeComprada> getParesProdutoQuantidadeComprada(Cliente cliente) {
+    public List<ParProdutoQuantidadeComprada> getParesProdutoQuantidadeComprada() {
         TreeSet<ParProdutoQuantidadeComprada> pares = new TreeSet<>(new ComparatorParProdutoQuantidadeComprada());
         ArrayList<ParProdutoQuantidadeComprada> lista_pares = new ArrayList<>();
         ParProdutoQuantidadeComprada novo_par;
@@ -220,12 +228,6 @@ public class FichaClienteCompras {
     }
 
 
-    /*
-     METODOS INSTANCIA
-     */
-    public boolean produtoExiste(Produto produto) {
-        return this.produtosCliente.containsKey(produto);
-    }
     
     
     /*

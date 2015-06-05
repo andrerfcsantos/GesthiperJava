@@ -13,7 +13,7 @@ public class ComparatorParClienteProdutosDiferentes implements Comparator<ParCli
             return 1;
         }
 
-        if (p1.getProdutosDiferentes() < p2.getProdutosDiferentes()) {
+        if (p1.getProdutosDiferentes() > p2.getProdutosDiferentes()) {
             return -1;
         }
         /*

@@ -9,23 +9,32 @@ public class FichaProdutoDeClienteCompras {
 
     private Matriz_Int_12x2 numUnidadesCompradasProdutoClientePorMes;
     private Matriz_Int_12x2 numComprasProdutoClientePorMes;
-
+    private double totalGastoClienteProduto;
+    
     /*
      CONSTRUCTORES
      */
     public FichaProdutoDeClienteCompras() {
         numUnidadesCompradasProdutoClientePorMes = new Matriz_Int_12x2();
         numComprasProdutoClientePorMes = new Matriz_Int_12x2();
+        totalGastoClienteProduto=0;
     }
 
     public FichaProdutoDeClienteCompras(FichaProdutoDeClienteCompras ficha) {
         numUnidadesCompradasProdutoClientePorMes = ficha.getNumUnidadesCompradasProdutoClientePorMes();
         numComprasProdutoClientePorMes = ficha.getNumComprasProdutoClientePorMes();
+        totalGastoClienteProduto = ficha.getTotalGastoClienteProduto();
     }
 
     /*
      GET'S
      */
+
+    public double getTotalGastoClienteProduto() {
+        return totalGastoClienteProduto;
+    }
+    
+    
     /* Nº UNIDADES COMPRADAS*/
     public Matriz_Int_12x2 getNumUnidadesCompradasProdutoClientePorMes() {
         return numUnidadesCompradasProdutoClientePorMes.clone();
@@ -72,6 +81,16 @@ public class FichaProdutoDeClienteCompras {
     /*
      SET'S
      */
+
+    public void setTotalGastoClienteProduto(double totalGastoClienteProduto) {
+        this.totalGastoClienteProduto = totalGastoClienteProduto;
+    }
+    
+    public void addTotalGastoClienteProduto(double valor) {
+        this.totalGastoClienteProduto += valor;
+    }
+    
+    
     
     /* Nº UNIDADES COMPRADAS*/
     public void setNumUnidadesCompradasProdutoClientePorMes(Matriz_Int_12x2 numUnidadesCompradasProdutoClientePorMes) {
@@ -107,6 +126,7 @@ public class FichaProdutoDeClienteCompras {
         int hash = 3;
         hash = 59 * hash + Objects.hashCode(this.numUnidadesCompradasProdutoClientePorMes);
         hash = 59 * hash + Objects.hashCode(this.numComprasProdutoClientePorMes);
+        hash = 59 * hash + Objects.hashCode(this.totalGastoClienteProduto);
         return hash;
     }
 
@@ -124,7 +144,8 @@ public class FichaProdutoDeClienteCompras {
         }
         final FichaProdutoDeClienteCompras other = (FichaProdutoDeClienteCompras) obj;
         return this.numComprasProdutoClientePorMes.equals(other.numComprasProdutoClientePorMes)
-                && this.numUnidadesCompradasProdutoClientePorMes.equals(other.numUnidadesCompradasProdutoClientePorMes);
+                && this.numUnidadesCompradasProdutoClientePorMes.equals(other.numUnidadesCompradasProdutoClientePorMes)
+                && this.totalGastoClienteProduto == other.totalGastoClienteProduto;
     }
 
     @Override
@@ -134,6 +155,7 @@ public class FichaProdutoDeClienteCompras {
         sb.append("FichaProdutoDeClienteCompras{");
         sb.append(", Total unidade compradas=").append(this.numUnidadesCompradasProdutoClientePorMes.getSomaTotal());
         sb.append(", Total compras=").append(this.numComprasProdutoClientePorMes.getSomaTotal());
+        sb.append(", Total Gasto=").append(this.totalGastoClienteProduto);
         sb.append('}');
 
         return sb.toString();

@@ -178,10 +178,32 @@ public class Compras {
         return lista.subList(0, n);
 
     }
-
+    
+    public double getTotalGastoClienteProduto(Cliente cliente, Produto produto) {
+        double resultado;
+        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
+        if (ficha_cliente.clienteComprouProduto(produto)) {
+            resultado = ficha_cliente.getDinheiroGastoProduto(produto);
+        } else {
+            resultado = 0;
+        }
+        return resultado;
+    }
+    
+    public int getTotalUnidadesCompradasClienteProduto(Cliente cliente, Produto produto) {
+        int resultado;
+        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
+        if (ficha_cliente.clienteComprouProduto(produto)) {
+            resultado = ficha_cliente.getTotalUnidadesCompradas();
+        } else {
+            resultado = 0;
+        }
+        return resultado;
+    }
+    
     public List<ParProdutoQuantidadeComprada> getParesProdutoNumComprasCliente(Cliente cliente) {
         FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
-        return ficha_cliente.getParesProdutoQuantidadeComprada(cliente);
+        return ficha_cliente.getParesProdutoQuantidadeComprada();
     }
 
     public List<Cliente> getClientesSemCompras() {
