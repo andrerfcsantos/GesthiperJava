@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import lei.li3.g50.modulos.dados.*;
+import lei.li3.g50.utilitarios.ParProdutoQuantidadeComprada;
 
 public class Compras {
 
@@ -81,7 +83,6 @@ public class Compras {
             par_prod_nclis.addNumeroTotalClientesDistintos(1);
         }
 
-
         if (compra.getPreco() == 0) {
             this.numeroComprasValorZero++;
         }
@@ -103,12 +104,12 @@ public class Compras {
     public int getTotalClientesDistintos() {
         return this.numeroTotalClientesDistintos;
     }
-    
-    public int getNumeroProdutosDistintosCliente(Cliente cliente){
+
+    public int getNumeroProdutosDistintosCliente(Cliente cliente) {
         FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
         return ficha_cliente.getNumeroProdutosDistintos();
     }
-    
+
     public double getDinheiroGastoClienteMes(Cliente cliente, Mes mes) {
         FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
         return ficha_cliente.getDinheiroGastoClientePorMes(mes, TipoCompra.AMBOS);
@@ -118,16 +119,11 @@ public class Compras {
         FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
         return ficha_cliente.getNumComprasMes(mes, TipoCompra.AMBOS);
     }
-    
+
     public int getTotalComprasCliente(Cliente cliente) {
         return this.getFichaClienteNoClone(cliente).getTotalCompras();
     }
-    
-    public Map<Mes,Integer> getNumeroProdutosDisntintosPorMesCliente(Cliente cliente){
-        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
-        return ficha_cliente.getNumeroProdutosDistintosPorMes();
-    }
-    
+
     public FichaClienteCompras getFichaCliente(Cliente cliente) {
         return this.arvoreClientes.get(cliente).clone();
     }
@@ -142,6 +138,26 @@ public class Compras {
 
     public ParProdutoNClientes getParProdutoNClientesNoClone(Produto produto) {
         return this.arvoreParesProdutoNClientes.get(produto);
+    }
+
+    public int getTotalClientesDistintosProduto(Produto produto) {
+        ParProdutoNClientes par = this.getParProdutoNClientesNoClone(produto);
+        return par.getNumeroTotalClientesDisntintos();
+    }
+
+    public int getTotalClientesDistintosProdutoMes(Produto produto, Mes mes) {
+        ParProdutoNClientes par = this.getParProdutoNClientesNoClone(produto);
+        return par.getNumeroClientesDisntintosMes(mes);
+    }
+
+    public Map<Mes, Integer> getNumeroProdutosDisntintosPorMesCliente(Cliente cliente) {
+        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
+        return ficha_cliente.getNumeroProdutosDistintosPorMes();
+    }
+
+    public List<ParProdutoQuantidadeComprada> getParesProdutoNumComprasCliente(Cliente cliente) {
+        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
+        return ficha_cliente.getParesProdutoQuantidadeComprada(cliente);
     }
 
     public List<Cliente> getClientesSemCompras() {

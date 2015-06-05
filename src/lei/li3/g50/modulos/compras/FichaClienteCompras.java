@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import lei.li3.g50.modulos.dados.*;
 import lei.li3.g50.utilitarios.Matriz_Double_12x2;
 import lei.li3.g50.utilitarios.Matriz_Int_12x2;
+import lei.li3.g50.utilitarios.ParProdutoQuantidadeComprada;
 
 public class FichaClienteCompras {
 
@@ -76,6 +78,24 @@ public class FichaClienteCompras {
     
     public int getNumeroProdutosDistintos(){
         return this.produtosCliente.size();
+    }
+    
+    public List<ParProdutoQuantidadeComprada> getParesProdutoQuantidadeComprada(Cliente cliente) {
+        TreeSet<ParProdutoQuantidadeComprada> pares = new TreeSet<>();
+        ArrayList<ParProdutoQuantidadeComprada> lista_pares = new ArrayList<>();
+        ParProdutoQuantidadeComprada novo_par;
+
+        for (Map.Entry<Produto, FichaProdutoDeClienteCompras> entrada : this.produtosCliente.entrySet()) {
+            novo_par = new ParProdutoQuantidadeComprada(entrada.getKey(),
+                                                        entrada.getValue().getNumUnidadesCompradasProdutoCliente());
+            pares.add(novo_par);
+        }
+
+        for (ParProdutoQuantidadeComprada par : pares) {
+            lista_pares.add(par);
+        }
+
+        return (List<ParProdutoQuantidadeComprada>) lista_pares;
     }
     
     public Map<Mes,Integer> getNumeroProdutosDistintosPorMes(){
