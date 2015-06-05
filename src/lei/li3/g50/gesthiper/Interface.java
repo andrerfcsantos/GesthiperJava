@@ -14,6 +14,7 @@ import lei.li3.g50.modulos.dados.Mes;
 import lei.li3.g50.modulos.dados.Produto;
 import lei.li3.g50.modulos.dados.TipoCompra;
 import lei.li3.g50.utilitarios.Paginador;
+import lei.li3.g50.utilitarios.ParClienteProdutosDiferentes;
 import lei.li3.g50.utilitarios.ParProdutoQuantidadeComprada;
 
 public final class Interface {
@@ -212,11 +213,12 @@ public final class Interface {
             if (numero_resultados > 0) {
                 System.out.printf("Pagina %2d/%d \n", numero_pagina, total_paginas);
                 System.out.printf("--------------------\n");
-                System.out.printf("|   #   |  Codigo  |\n");
+                System.out.printf("|       |  Codigo   |\n");
+                System.out.printf("|   #   |  Cliente  |\n");
                 System.out.printf("--------------------\n");
                 for (int i = 0; i < num_elems_pag_actual; i++) {
                     cliente = listaClientesSemCompras.get(inicio_pagina + i);
-                    System.out.printf("| %5d | %8s |\n", inicio_pagina + i + 1, cliente.getCodigoCliente());
+                    System.out.printf("| %5d | %9s |\n", inicio_pagina + i + 1, cliente.getCodigoCliente());
                 }
                 System.out.printf("--------------------\n");
             } else {
@@ -364,7 +366,7 @@ public final class Interface {
 
                 numeroProdsDistintosPorMes = moduloCompras.getNumeroProdutosDisntintosPorMesCliente(cliente);
 
-                System.out.print("CLIENTE:" + cliente.getCodigoCliente() + "\n");
+                System.out.print("Código Cliente: " + cliente.getCodigoCliente() + "\n");
                 System.out.print("---------------------------------------\n");
                 System.out.print("|     | Número  | Produtos  |         |\n");
                 System.out.print("| Mes | Compras | Distintos | € Gasto |\n");
@@ -525,7 +527,7 @@ public final class Interface {
         ParProdutoQuantidadeComprada par;
         int numero_pagina = 1, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
-        
+
         System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
         System.out.print("================================================= \n");
         System.out.print("GESTHIPER >> QUERIE 9            \n");
@@ -542,14 +544,14 @@ public final class Interface {
             System.out.print("GESTHIPER >> QUERIE 9            \n");
             System.out.print("Produtos mais comprados cliente                 \n");
             System.out.print("================================================= \n");
-            
+
             if (catalogoClientes.existeCliente(cliente)) {
                 List<ParProdutoQuantidadeComprada> lista_pares = moduloCompras.getParesProdutoNumComprasCliente(cliente);
                 Paginador<List<ParProdutoQuantidadeComprada>> paginador = new Paginador<>(lista_pares, 10, 1);
 
                 numero_resultados = lista_pares.size();
                 total_paginas = paginador.getNumPaginas();
-                
+
                 paginador.gotoPagina(numero_pagina);
                 inicio_pagina = paginador.getPosInicialPagActual();
                 num_elems_pag_actual = paginador.getNumElemsPagActual();
@@ -558,11 +560,12 @@ public final class Interface {
                 if (numero_resultados > 0) {
                     System.out.printf("Pagina %2d/%d \n", numero_pagina, total_paginas);
                     System.out.printf("---------------------------------\n");
-                    System.out.printf("|   #   |  Codigo  | Quantidade |\n");
+                    System.out.printf("|       |  Codigo   |            |\n");
+                    System.out.printf("|   #   |  Produto  | Quantidade |\n");
                     System.out.printf("---------------------------------\n");
                     for (int i = 0; i < num_elems_pag_actual; i++) {
                         par = lista_pares.get(inicio_pagina + i);
-                        System.out.printf("| %5d | %8s | %10d |\n", 
+                        System.out.printf("| %5d | %9s | %10d |\n",
                                 inicio_pagina + i + 1, par.getProduto().getCodigoProduto(), par.getQuantidadeComprada());
                     }
                     System.out.printf("---------------------------------\n");
@@ -613,7 +616,7 @@ public final class Interface {
                     default:
                         estadoMenu = MENU_QUERIES;
                 }
-            }else{
+            } else {
                 System.out.print("O cliente " + cliente_lido + " não existe.\n");
                 System.out.print("==================================================== \n");
                 System.out.print("0 - Sair | 1 - Menu Principal  | 2 - Procurar outro cliente \n");
@@ -655,8 +658,127 @@ public final class Interface {
      indicando quantos, sendo o critério de ordenação igual a 7;
      */
     public static MenuActual _11_clientesComMaisProdutosDiferentesComprados() {
-        System.out.print("Querie ainda nao implementada\n");
-        return MENU_QUERIES;
+        MenuActual estadoMenu = QUERIE_11;
+        Scanner input = new Scanner(System.in);
+        Cliente cliente;
+        String cliente_lido;
+        ParClienteProdutosDiferentes par;
+        int topN;
+        int numero_pagina = 1, num_elems_pag_actual, inicio_pagina, fim_pagina;
+        int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
+
+        System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+        System.out.print("================================================= \n");
+        System.out.print("GESTHIPER >> QUERIE 11            \n");
+        System.out.print("N Clientes com mais produtos diferentes comprados   \n");
+        System.out.print("================================================= \n");
+        System.out.print("Qual o top de clientes que deseja ver (N)?: ");
+        topN = input.nextInt();
+
+
+        while (estadoMenu == QUERIE_11) {
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 11            \n");
+            System.out.print("N Clientes com mais produtos diferentes comprados   \n");
+            System.out.print("================================================= \n");
+
+            if (topN > 0) {
+                List<ParClienteProdutosDiferentes> lista_pares = moduloCompras.getParesClienteProdutosDiferentes(topN);
+                Paginador<List<ParClienteProdutosDiferentes>> paginador = new Paginador<>(lista_pares, 10, 1);
+
+                numero_resultados = lista_pares.size();
+                total_paginas = paginador.getNumPaginas();
+
+                paginador.gotoPagina(numero_pagina);
+                inicio_pagina = paginador.getPosInicialPagActual();
+                num_elems_pag_actual = paginador.getNumElemsPagActual();
+                fim_pagina = inicio_pagina + num_elems_pag_actual;
+
+                if (numero_resultados > 0) {
+                    System.out.printf("Pagina %2d/%d \n", numero_pagina, total_paginas);
+                    System.out.printf("---------------------------------\n");
+                    System.out.printf("|       |  Codigo   | Produtos  |\n");
+                    System.out.printf("|   #   |  Cliente  | Distintos |\n");
+                    System.out.printf("---------------------------------\n");
+                    for (int i = 0; i < num_elems_pag_actual; i++) {
+                        par = lista_pares.get(inicio_pagina + i);
+                        System.out.printf("| %5d | %9s | %9d |\n",
+                                inicio_pagina + i + 1, par.getCliente().getCodigoCliente(), par.getProdutosDiferentes());
+                    }
+                    System.out.printf("---------------------------------\n");
+                } else {
+                    System.out.print("Não há resultados a mostrar.\n");
+                }
+
+                System.out.print("==================================================== \n");
+                System.out.print("0 - Sair | 1 - Menu Principal  | 3 - Procurar outro cliente \n");
+                System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag...  \n");
+                System.out.print("==================================================== \n");
+                System.out.print("Insira nº da opcao > ");
+                escolha_opcao_menu = input.nextInt();
+
+                switch (escolha_opcao_menu) {
+                    case 0:
+                        estadoMenu = SAIR;
+                        break;
+                    case 1:
+                        estadoMenu = MENU_QUERIES;
+                        break;
+                    case 2:
+                        System.out.printf("Indique a pag para que quer ir: ");
+                        escolha_pag = input.nextInt();
+                        if (escolha_pag > 0 && escolha_pag <= total_paginas) {
+                            numero_pagina = escolha_pag;
+                        }
+                        break;
+                    case 3:
+                        estadoMenu = QUERIE_11;
+                        break;
+                    case 4:
+                        numero_pagina = 1;
+                        break;
+                    case 5:
+                        if (numero_pagina > 1) {
+                            numero_pagina--;
+                        }
+                        break;
+                    case 6:
+                        if (numero_pagina < total_paginas) {
+                            numero_pagina++;
+                        }
+                        break;
+                    case 7:
+                        numero_pagina = total_paginas;
+                        break;
+                    default:
+                        estadoMenu = MENU_QUERIES;
+                }
+            } else {
+                System.out.print("Não foi possível ler o número inserido correctamente.\n");
+                System.out.print("==================================================== \n");
+                System.out.print("0 - Sair | 1 - Menu Principal  | 2 - Procurar outro cliente \n");
+                System.out.print("==================================================== \n");
+                System.out.print("Insira nº da opcao > ");
+                escolha_opcao_menu = input.nextInt();
+
+                switch (escolha_opcao_menu) {
+                    case 0:
+                        estadoMenu = SAIR;
+                        break;
+                    case 1:
+                        estadoMenu = MENU_QUERIES;
+                        break;
+                    case 2:
+                        estadoMenu = QUERIE_11;
+                        break;
+                    default:
+                        estadoMenu = MENU_QUERIES;
+                }
+            }
+
+        }
+        return estadoMenu;
     }
 
     /*
