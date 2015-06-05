@@ -182,8 +182,86 @@ public final class Interface {
      Lista ordenada com os códigos dos produtos nunca comprados e respectivo total;
      */
     public static MenuActual _03_produtosNuncaComprados() {
-        System.out.print("Querie ainda nao implementada\n");
-        return MENU_QUERIES;
+        MenuActual estadoMenu = QUERIE_03;
+        Scanner input = new Scanner(System.in);
+        Produto produto;
+        int numero_pagina = 1, num_elems_pag_actual, inicio_pagina, fim_pagina;
+        int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
+
+        List<Produto> listaProdutosSemCompras = moduloCompras.getProdutosNaoComprados();
+        Paginador<List<Produto>> paginador = new Paginador<>(listaProdutosSemCompras, 10, 1);
+
+        numero_resultados = listaProdutosSemCompras.size();
+        total_paginas = paginador.getNumPaginas();
+
+        while (estadoMenu == QUERIE_03) {
+            paginador.gotoPagina(numero_pagina);
+            inicio_pagina = paginador.getPosInicialPagActual();
+            num_elems_pag_actual = paginador.getNumElemsPagActual();
+            fim_pagina = inicio_pagina + num_elems_pag_actual;
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 3            \n");
+            System.out.print("Produtos não comprados                 \n");
+            System.out.print("================================================= \n");
+
+            if (numero_resultados > 0) {
+                System.out.printf("Pagina %2d/%d \n", numero_pagina, total_paginas);
+                System.out.printf("--------------------\n");
+                System.out.printf("|       |  Codigo   |\n");
+                System.out.printf("|   #   |  Produto  |\n");
+                System.out.printf("--------------------\n");
+                for (int i = 0; i < num_elems_pag_actual; i++) {
+                    produto = listaProdutosSemCompras.get(inicio_pagina + i);
+                    System.out.printf("| %5d | %9s |\n", inicio_pagina + i + 1, produto.getCodigoProduto());
+                }
+                System.out.printf("--------------------\n");
+            } else {
+                System.out.print("Não há resultados a mostrar.\n");
+            }
+
+            System.out.print("==================================================== \n");
+            System.out.print("0 - Sair | 1 - Menu Principal   \n");
+            System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag...  \n");
+            System.out.print("==================================================== \n");
+            System.out.print("Insira nº da opcao > ");
+            escolha_opcao_menu = input.nextInt();
+
+            switch (escolha_opcao_menu) {
+                case 0:
+                    estadoMenu = SAIR;
+                    break;
+                case 1:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+                case 2:
+                    System.out.printf("Indique a pag para que quer ir: ");
+                    escolha_pag = input.nextInt();
+                    if (escolha_pag > 0 && escolha_pag <= total_paginas) {
+                        numero_pagina = escolha_pag;
+                    }
+                    break;
+                case 4:
+                    numero_pagina = 1;
+                    break;
+                case 5:
+                    if (numero_pagina > 1) {
+                        numero_pagina--;
+                    }
+                    break;
+                case 6:
+                    if (numero_pagina < total_paginas) {
+                        numero_pagina++;
+                    }
+                    break;
+                case 7:
+                    numero_pagina = total_paginas;
+                    break;
+                default:
+                    estadoMenu = MENU_QUERIES;
+            }
+        }
+        return estadoMenu;
     }
 
     /*

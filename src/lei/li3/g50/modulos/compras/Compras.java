@@ -144,6 +144,17 @@ public class Compras {
         return this.arvoreParesProdutoNClientes.get(produto);
     }
 
+    public List<Produto> getProdutosNaoComprados() {
+        ArrayList<Produto> lista_produtos = new ArrayList<>();
+
+        for (Map.Entry<Produto, ParProdutoNClientes> entrada : this.arvoreParesProdutoNClientes.entrySet()) {
+            if(entrada.getValue().getNumeroTotalClientesDisntintos()==0){
+                lista_produtos.add(entrada.getKey().clone());
+            }
+        }
+        return lista_produtos;
+    }
+    
     public int getTotalClientesDistintosProduto(Produto produto) {
         ParProdutoNClientes par = this.getParProdutoNClientesNoClone(produto);
         return par.getNumeroTotalClientesDisntintos();
