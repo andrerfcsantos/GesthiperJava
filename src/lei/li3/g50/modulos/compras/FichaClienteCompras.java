@@ -7,10 +7,8 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import lei.li3.g50.modulos.dados.*;
-import lei.li3.g50.utilitarios.ComparatorParProdutoQuantidadeComprada;
 import lei.li3.g50.utilitarios.Matriz_Double_12x2;
 import lei.li3.g50.utilitarios.Matriz_Int_12x2;
-import lei.li3.g50.utilitarios.ParClienteProdutosDiferentes;
 import lei.li3.g50.utilitarios.ParProdutoQuantidadeComprada;
 
 public class FichaClienteCompras {
@@ -82,10 +80,8 @@ public class FichaClienteCompras {
         return this.produtosCliente.size();
     }
     
-
-    
     public List<ParProdutoQuantidadeComprada> getParesProdutoQuantidadeComprada(Cliente cliente) {
-        TreeSet<ParProdutoQuantidadeComprada> pares = new TreeSet<>(new ComparatorParProdutoQuantidadeComprada());
+        TreeSet<ParProdutoQuantidadeComprada> pares = new TreeSet<>();
         ArrayList<ParProdutoQuantidadeComprada> lista_pares = new ArrayList<>();
         ParProdutoQuantidadeComprada novo_par;
 
