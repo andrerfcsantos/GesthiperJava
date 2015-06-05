@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import lei.li3.g50.modulos.dados.*;
+import lei.li3.g50.utilitarios.ComparatorParClienteProdutosDiferentes;
+import lei.li3.g50.utilitarios.ParClienteProdutosDiferentes;
 import lei.li3.g50.utilitarios.ParProdutoQuantidadeComprada;
 
 public class Compras {
@@ -153,6 +155,28 @@ public class Compras {
     public Map<Mes, Integer> getNumeroProdutosDisntintosPorMesCliente(Cliente cliente) {
         FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
         return ficha_cliente.getNumeroProdutosDistintosPorMes();
+    }
+
+    public List<ParClienteProdutosDiferentes> getParesClienteProdutosDiferentes(int n) {
+        TreeSet<ParClienteProdutosDiferentes> pares = new TreeSet<>(new ComparatorParClienteProdutosDiferentes());
+        ArrayList<ParClienteProdutosDiferentes> lista = new ArrayList<>();
+        ParClienteProdutosDiferentes novo_par;
+
+        for (Map.Entry<Cliente, FichaClienteCompras> entrada : this.arvoreClientes.entrySet()) {
+            novo_par = new ParClienteProdutosDiferentes(entrada.getKey(), entrada.getValue().getNumeroProdutosDistintos());
+            pares.add(novo_par);
+        }
+
+        for (ParClienteProdutosDiferentes par : pares) {
+            lista.add(par);
+        }
+
+        if (n > arvoreClientes.size()) {
+            n = arvoreClientes.size();
+        }
+
+        return lista.subList(0, n);
+
     }
 
     public List<ParProdutoQuantidadeComprada> getParesProdutoNumComprasCliente(Cliente cliente) {
