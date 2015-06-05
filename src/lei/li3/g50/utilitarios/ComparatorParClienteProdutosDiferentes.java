@@ -7,7 +7,6 @@ public class ComparatorParClienteProdutosDiferentes implements Comparator<ParCli
 
     @Override
     public int compare(ParClienteProdutosDiferentes p1, ParClienteProdutosDiferentes p2) {
-        int r;
 
         if (p1.getProdutosDiferentes() < p2.getProdutosDiferentes()) {
             return 1;

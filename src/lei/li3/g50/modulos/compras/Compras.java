@@ -9,8 +9,10 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import lei.li3.g50.modulos.dados.*;
 import lei.li3.g50.utilitarios.ComparatorParClienteProdutosDiferentes;
+import lei.li3.g50.utilitarios.ComparatorTriploClienteQtdCompradaDinheiro;
 import lei.li3.g50.utilitarios.ParClienteProdutosDiferentes;
 import lei.li3.g50.utilitarios.ParProdutoQuantidadeComprada;
+import lei.li3.g50.utilitarios.TriploClienteQtdCompradaDinheiro;
 
 public class Compras {
 
@@ -156,7 +158,32 @@ public class Compras {
         FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
         return ficha_cliente.getNumeroProdutosDistintosPorMes();
     }
-
+    
+    public List<TriploClienteQtdCompradaDinheiro> getTriplosClienteQtdCompradaDinheiro(Produto produto, int topN){
+        
+        TreeSet<TriploClienteQtdCompradaDinheiro> triplos = new TreeSet<>(new ComparatorTriploClienteQtdCompradaDinheiro());
+        ArrayList<TriploClienteQtdCompradaDinheiro> lista_triplos = new ArrayList<>();
+        TriploClienteQtdCompradaDinheiro novo_triplo;
+        
+        for(Map.Entry<Cliente, FichaClienteCompras> entrada : this.arvoreClientes.entrySet()){
+            novo_triplo = new TriploClienteQtdCompradaDinheiro(entrada.getKey(), 
+                                                                entrada.getValue().getTotalUnidadesCompradas(),
+                                                                entrada.getValue().getTotalDinheiroGasto());
+            
+            triplos.add(novo_triplo);
+        }
+        
+        for(TriploClienteQtdCompradaDinheiro triplo : triplos){
+            lista_triplos.add(triplo);
+        }
+        
+        if(topN > lista_triplos.size())
+            topN = lista_triplos.size();
+        
+        return lista_triplos.subList(0, topN);
+        
+    }
+    
     public List<ParClienteProdutosDiferentes> getParesClienteProdutosDiferentes(int n) {
         TreeSet<ParClienteProdutosDiferentes> pares = new TreeSet<>(new ComparatorParClienteProdutosDiferentes());
         ArrayList<ParClienteProdutosDiferentes> lista = new ArrayList<>();

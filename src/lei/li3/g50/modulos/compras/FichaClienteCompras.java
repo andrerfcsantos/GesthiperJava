@@ -74,11 +74,24 @@ public class FichaClienteCompras {
         return this.produtosCliente.get(produto);
     }
     
-    public int getNumUnidadesCompradasProduto(Produto produto){
-        return this.produtosCliente.get(produto).getNumUnidadesCompradasProdutoCliente();
+    public int getNumUnidadesCompradasProduto(Produto produto) {
+        int resultado;
+        if (this.clienteComprouProduto(produto)) {
+            resultado = this.produtosCliente.get(produto).getNumUnidadesCompradasProdutoCliente();
+        }else{
+            resultado =0;
+        }
+        return resultado;
     }
-    public double getDinheiroGastoProduto(Produto produto){
-        return this.produtosCliente.get(produto).getTotalGastoClienteProduto();
+    
+    public double getDinheiroGastoProduto(Produto produto) {
+        double resultado;
+        if (this.clienteComprouProduto(produto)) {
+            resultado = this.produtosCliente.get(produto).getTotalGastoClienteProduto();
+        } else {
+            resultado = 0;
+        }
+        return resultado;
     }
     
     public boolean clienteComprouProduto(Produto produto){
