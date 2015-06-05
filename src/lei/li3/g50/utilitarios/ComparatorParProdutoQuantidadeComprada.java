@@ -1,12 +1,12 @@
 package lei.li3.g50.utilitarios;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class ComparatorParProdutoQuantidadeComprada implements Comparator<ParProdutoQuantidadeComprada> {
+public class ComparatorParProdutoQuantidadeComprada implements Comparator<ParProdutoQuantidadeComprada>, Serializable{
 
     @Override
     public int compare(ParProdutoQuantidadeComprada p1, ParProdutoQuantidadeComprada p2) {
-                int r;
         
         if (p1.getQuantidadeComprada() < p2.getQuantidadeComprada()) {
             return 1;

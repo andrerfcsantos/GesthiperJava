@@ -1,7 +1,9 @@
 package lei.li3.g50.modulos.dados;
 
+import java.io.Serializable;
 
-public class Compra {
+
+public class Compra implements Serializable {
 	public static final int COMPRA_INVALIDA = -1;
 
 	private Cliente cliente;

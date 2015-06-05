@@ -1,11 +1,12 @@
 package lei.li3.g50.modulos.compras;
 
+import java.io.Serializable;
 import java.util.Objects;
 import lei.li3.g50.modulos.dados.Mes;
 import lei.li3.g50.modulos.dados.TipoCompra;
 import lei.li3.g50.utilitarios.Matriz_Int_12x2;
 
-public class FichaProdutoDeClienteCompras {
+public class FichaProdutoDeClienteCompras implements Serializable {
 
     private Matriz_Int_12x2 numUnidadesCompradasProdutoClientePorMes;
     private Matriz_Int_12x2 numComprasProdutoClientePorMes;

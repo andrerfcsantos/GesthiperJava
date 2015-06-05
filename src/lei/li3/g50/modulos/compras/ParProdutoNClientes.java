@@ -1,10 +1,11 @@
 package lei.li3.g50.modulos.compras;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import lei.li3.g50.excepcoes.ArrayNaoTem12Comprimento;
 import lei.li3.g50.modulos.dados.Mes;
 
-public class ParProdutoNClientes {
+public class ParProdutoNClientes implements Serializable  {
 
     private int[] numeroClientesDistintosPorMes;
     private int numeroTotalClientesDistintos;

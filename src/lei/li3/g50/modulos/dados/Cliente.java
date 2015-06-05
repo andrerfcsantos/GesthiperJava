@@ -1,6 +1,8 @@
 package lei.li3.g50.modulos.dados;
 
-public class Cliente implements Comparable<Cliente> {
+import java.io.Serializable;
+
+public class Cliente implements Comparable<Cliente>, Serializable {
 
     private String codigo_cliente;
 

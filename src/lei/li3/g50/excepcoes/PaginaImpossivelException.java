@@ -1,6 +1,8 @@
 package lei.li3.g50.excepcoes;
 
-public class PaginaImpossivelException extends Exception {
+import java.io.Serializable;
+
+public class PaginaImpossivelException extends Exception implements Serializable  {
 
     public PaginaImpossivelException() {
     }

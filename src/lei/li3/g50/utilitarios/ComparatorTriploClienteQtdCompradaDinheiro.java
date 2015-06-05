@@ -1,8 +1,9 @@
 package lei.li3.g50.utilitarios;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class ComparatorTriploClienteQtdCompradaDinheiro implements Comparator<TriploClienteQtdCompradaDinheiro> {
+public class ComparatorTriploClienteQtdCompradaDinheiro implements Comparator<TriploClienteQtdCompradaDinheiro>, Serializable{
 
     @Override
     public int compare(TriploClienteQtdCompradaDinheiro p1, TriploClienteQtdCompradaDinheiro p2) {

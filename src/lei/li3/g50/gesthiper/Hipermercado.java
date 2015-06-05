@@ -1,11 +1,12 @@
 package lei.li3.g50.gesthiper;
 
+import java.io.Serializable;
 import lei.li3.g50.modulos.catalogos.*;
 import lei.li3.g50.modulos.compras.*;
 import lei.li3.g50.modulos.contabilidade.*;
 import lei.li3.g50.modulos.dados.*;
 
-public class Hipermercado {
+public class Hipermercado implements Serializable  {
 
 	private CatalogoClientes moduloCatalogoClientes;
 	private CatalogoProdutos moduloCatalogoProdutos;

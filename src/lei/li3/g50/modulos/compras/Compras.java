@@ -1,5 +1,6 @@
 package lei.li3.g50.modulos.compras;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +15,7 @@ import lei.li3.g50.utilitarios.ParClienteProdutosDiferentes;
 import lei.li3.g50.utilitarios.ParProdutoQuantidadeComprada;
 import lei.li3.g50.utilitarios.TriploClienteQtdCompradaDinheiro;
 
-public class Compras {
+public class Compras implements Serializable {
 
     private int numeroComprasValorZero;
     private int numeroClientesDistintosPorMes[];

@@ -1,6 +1,8 @@
 package lei.li3.g50.excepcoes;
 
-public class MatrizNao12x2 extends Exception {
+import java.io.Serializable;
+
+public class MatrizNao12x2 extends Exception implements Serializable  {
 
     public MatrizNao12x2() {
     }

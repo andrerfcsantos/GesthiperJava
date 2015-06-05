@@ -1,6 +1,8 @@
 package lei.li3.g50.excepcoes;
 
-public class ArrayNaoTem12Comprimento extends Exception {
+import java.io.Serializable;
+
+public class ArrayNaoTem12Comprimento extends Exception implements Serializable {
 
     public ArrayNaoTem12Comprimento() {
     }

@@ -1,9 +1,10 @@
 package lei.li3.g50.utilitarios;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 
-public class ComparatorParClienteProdutosDiferentes implements Comparator<ParClienteProdutosDiferentes>{
+public class ComparatorParClienteProdutosDiferentes implements Comparator<ParClienteProdutosDiferentes>, Serializable{
 
     @Override
     public int compare(ParClienteProdutosDiferentes p1, ParClienteProdutosDiferentes p2) {

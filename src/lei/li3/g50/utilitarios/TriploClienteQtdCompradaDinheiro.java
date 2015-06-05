@@ -1,9 +1,10 @@
 package lei.li3.g50.utilitarios;
 
+import java.io.Serializable;
 import java.util.Objects;
 import lei.li3.g50.modulos.dados.Cliente;
 
-public class TriploClienteQtdCompradaDinheiro {
+public class TriploClienteQtdCompradaDinheiro implements Serializable{
     private Cliente cliente;
     private int quantidadeComprada;
     private double totalDinheirGasto;

@@ -1,5 +1,6 @@
 package lei.li3.g50.modulos.catalogos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.TreeSet;
 import lei.li3.g50.modulos.dados.Cliente;
 import lei.li3.g50.utilitarios.ComparatorClientePorCodigo;
 
-public class CatalogoClientes {
+public class CatalogoClientes implements Serializable {
 
     private ArrayList<TreeSet<Cliente>> catalogo;
 

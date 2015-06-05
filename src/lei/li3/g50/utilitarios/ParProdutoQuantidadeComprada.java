@@ -1,9 +1,10 @@
 package lei.li3.g50.utilitarios;
 
+import java.io.Serializable;
 import java.util.Objects;
 import lei.li3.g50.modulos.dados.Produto;
 
-public class ParProdutoQuantidadeComprada {
+public class ParProdutoQuantidadeComprada implements Serializable {
 
     private Produto produto;
     private int quantidade;
