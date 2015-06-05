@@ -74,6 +74,28 @@ public class FichaClienteCompras {
         return this.produtosCliente.containsKey(produto);
     }
     
+    public int getNumeroProdutosDistintos(){
+        return this.produtosCliente.size();
+    }
+    
+    public Map<Mes,Integer> getNumeroProdutosDistintosPorMes(){
+        int numeroProdsDistintosPorMes[] = new int[12];
+        TreeMap<Mes,Integer> resultado = new TreeMap<>();
+        
+        for(FichaProdutoDeClienteCompras ficha_produto : this.produtosCliente.values()){
+            for(int i=0;i<12;i++){
+                if(ficha_produto.getNumUnidadesCompradasProdutoClienteMes(Mes.numero_to_mes(i+1))>0)
+                    numeroProdsDistintosPorMes[i]++;
+            }
+        }
+        
+        for(int i=0;i<12;i++){
+            resultado.put(Mes.numero_to_mes(i+1), numeroProdsDistintosPorMes[i]);
+        }
+        
+        return resultado;
+    }
+    
     /* Nº UNIDADES */
     public Matriz_Int_12x2 getNumUnidadesCompradasClientePorMes() {
         return numUnidadesCompradasClientePorMes.clone();

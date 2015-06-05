@@ -103,11 +103,31 @@ public class Compras {
     public int getTotalClientesDistintos() {
         return this.numeroTotalClientesDistintos;
     }
+    
+    public int getNumeroProdutosDistintosCliente(Cliente cliente){
+        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
+        return ficha_cliente.getNumeroProdutosDistintos();
+    }
+    
+    public double getDinheiroGastoClienteMes(Cliente cliente, Mes mes) {
+        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
+        return ficha_cliente.getDinheiroGastoClientePorMes(mes, TipoCompra.AMBOS);
+    }
 
+    public int getNumComprasClienteMes(Cliente cliente, Mes mes) {
+        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
+        return ficha_cliente.getNumComprasMes(mes, TipoCompra.AMBOS);
+    }
+    
     public int getTotalComprasCliente(Cliente cliente) {
         return this.getFichaClienteNoClone(cliente).getTotalCompras();
     }
-
+    
+    public Map<Mes,Integer> getNumeroProdutosDisntintosPorMesCliente(Cliente cliente){
+        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
+        return ficha_cliente.getNumeroProdutosDistintosPorMes();
+    }
+    
     public FichaClienteCompras getFichaCliente(Cliente cliente) {
         return this.arvoreClientes.get(cliente).clone();
     }
