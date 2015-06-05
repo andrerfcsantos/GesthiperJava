@@ -3,7 +3,7 @@ package lei.li3.g50.utilitarios;
 import java.util.Objects;
 import lei.li3.g50.modulos.dados.Produto;
 
-public class ParProdutoQuantidadeComprada implements Comparable<ParProdutoQuantidadeComprada>{
+public class ParProdutoQuantidadeComprada {
 
     private Produto produto;
     private int quantidade;
@@ -94,26 +94,6 @@ public class ParProdutoQuantidadeComprada implements Comparable<ParProdutoQuanti
         return new ParProdutoQuantidadeComprada(this);
     }
 
-    @Override
-    public int compareTo(ParProdutoQuantidadeComprada p) {
-        int r;
-        
-        if (this.quantidade < p.quantidade) {
-            return 1;
-        }
-        
-        if (this.quantidade > p.quantidade) {
-            return -1;
-        }
-         /*
-        Neste ponto o número de compras é o mesmo, ordenar por produto.
-        */
-        if ((r = this.produto.compareTo(produto)) != 0) {
-            return r;
-        }else{
-            return 0;
-        }
 
-    }
 
 }
