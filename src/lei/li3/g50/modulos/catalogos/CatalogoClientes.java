@@ -95,7 +95,7 @@ public class CatalogoClientes implements Serializable {
     /*
      METODOS INSTANCIA
      */
-    public void insere_cliente(Cliente cliente) {
+    public void insereCliente(Cliente cliente) {
         int indice = calcula_indice(cliente.getCodigoCliente().charAt(0));
         catalogo.get(indice).add(cliente.clone());
     }

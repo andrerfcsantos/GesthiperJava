@@ -182,6 +182,9 @@ public final class Leitura {
         StringTokenizer st;
         BufferedReader bin;
         File ficheiro = new File(str_ficheiro_produtos);
+        
+        if(ficheiro.exists()) hiper.setFicheiro_produtos(ficheiro);
+        
         bin = new BufferedReader(new FileReader(ficheiro));
 
         while (bin.ready()) {
@@ -201,7 +204,9 @@ public final class Leitura {
         StringTokenizer st;
         BufferedReader bin;
         File ficheiro = new File(str_ficheiro_clientes);
-
+        
+        if (ficheiro.exists()) hiper.setFicheiro_clientes(ficheiro);
+        
         bin = new BufferedReader(new FileReader(ficheiro));
 
         while (bin.ready()) {
@@ -224,7 +229,9 @@ public final class Leitura {
         Compra compra;
         BufferedReader bin;
         File ficheiro = new File(str_ficheiro_compras);
-
+        
+        if (ficheiro.exists()) hiper.setFicheiro_compras(ficheiro);
+        
         bin = new BufferedReader(new FileReader(ficheiro));
 
         while (bin.ready()) {

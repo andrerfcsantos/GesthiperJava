@@ -93,7 +93,7 @@ public class CatalogoProdutos implements Serializable {
     /*
      METODOS INSTANCIA
      */
-    public void insere_produto(Produto produto) {
+    public void insereProduto(Produto produto) {
         int indice = calcula_indice(produto.getCodigoProduto().charAt(0));
         catalogo.get(indice).add(produto.clone());
     }

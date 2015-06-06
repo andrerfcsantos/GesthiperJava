@@ -155,6 +155,15 @@ public class Compras implements Serializable {
         }
         return lista_produtos;
     }
+    public int getTotalProdutosNaoComprados() {
+        int resultado=0;
+        for (Map.Entry<Produto, ParProdutoNClientes> entrada : this.arvoreParesProdutoNClientes.entrySet()) {
+            if(entrada.getValue().getNumeroTotalClientesDisntintos()==0){
+                resultado++;
+            }
+        }
+        return resultado;
+    }
     
     public int getTotalClientesDistintosProduto(Produto produto) {
         ParProdutoNClientes par = this.getParProdutoNClientesNoClone(produto);
@@ -255,6 +264,17 @@ public class Compras implements Serializable {
         }
 
         return (List<Cliente>) lista_clientes;
+    }
+    public int getTotalClientesSemCompras() {
+        int resultado=0;
+
+        for (Map.Entry<Cliente, FichaClienteCompras> entrada : this.arvoreClientes.entrySet()) {
+            if (entrada.getValue().getTotalCompras() == 0) {
+                resultado++;
+            }
+        }
+
+        return resultado;
     }
 
     public List<Produto> getProdutosSemCompras() {

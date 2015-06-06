@@ -7,7 +7,6 @@ import static lei.li3.g50.gesthiper.Interface.MenuActual.*;
 import lei.li3.g50.modulos.catalogos.CatalogoClientes;
 import lei.li3.g50.modulos.catalogos.CatalogoProdutos;
 import lei.li3.g50.modulos.compras.Compras;
-import lei.li3.g50.modulos.compras.FichaClienteCompras;
 import lei.li3.g50.modulos.contabilidade.Contabilidade;
 import lei.li3.g50.modulos.dados.Cliente;
 import lei.li3.g50.modulos.dados.Mes;
@@ -158,8 +157,53 @@ public final class Interface {
      valor total igual a 0 e facturação total.
      */
     public static MenuActual _01_estatisticasUltimoFicheiro() {
-        System.out.print("Querie ainda nao implementada\n");
-        return MENU_QUERIES;
+        MenuActual estadoMenu = QUERIE_01;
+        
+        int escolha_mes, escolha_opcao;
+        Mes mes_escolhido;
+        Scanner input = new Scanner(System.in);
+        Hipermercado hiper = Gesthiper.getHipermercado();
+        
+        while (estadoMenu == QUERIE_01) {
+            int produtosNaoComprados = moduloCompras.getTotalProdutosNaoComprados();
+            int clientesSemCompras = moduloCompras.getTotalClientesSemCompras();
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 1            \n");
+            System.out.print("Etsatísticas últimos ficheiros lidos                \n");
+            System.out.print("================================================= \n");
+
+            System.out.print("Ficheiro Produtos: " + hiper.getFicheiro_produtos().getPath() + "\n");
+            System.out.print("Ficheiro Clientes: " + hiper.getFicheiro_clientes().getPath() + "\n");
+            System.out.print("Ficheiro Compras: " + hiper.getFicheiro_compras().getPath() + "\n");
+            System.out.print("Total Produtos: " + catalogoProdutos.getNumeroProdutosTotal() + "\n");
+            System.out.print("Total Produtos Nao Comprados: " + produtosNaoComprados + "\n");
+            System.out.print("Total Produtos Comprados: " + (catalogoProdutos.getNumeroProdutosTotal() - produtosNaoComprados) + "\n");
+            System.out.print("Total Clientes: " + catalogoClientes.getNumeroClientesTotal()+ "\n");
+            System.out.print("Total Clientes Sem Compras: " + clientesSemCompras + "\n");
+            System.out.print("Total Produtos Comprados: " + (catalogoClientes.getNumeroClientesTotal() - clientesSemCompras) + "\n");
+            System.out.print("Compras de valor zero: " + moduloCompras.getNumeroComprasValorZero() + "\n");
+            System.out.print("Facturação total: " + "[Contabilidade]" + "\n");
+         
+
+            System.out.print("================================================= \n");
+            System.out.print(" 0 - Sair | 1 - Menu Principal   \n");
+            System.out.print("==================================================== \n");
+            System.out.print("Escolha opção: ");
+            escolha_opcao = input.nextInt();
+            switch (escolha_opcao) {
+                case 0:
+                    estadoMenu = SAIR;
+                    break;
+                case 1:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+                default:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+            }
+        }
+        return estadoMenu;
     }
 
     /*
