@@ -1,8 +1,12 @@
 package lei.li3.g50.gesthiper;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static lei.li3.g50.gesthiper.Interface.MenuActual.*;
 import lei.li3.g50.modulos.catalogos.CatalogoClientes;
 import lei.li3.g50.modulos.catalogos.CatalogoProdutos;
@@ -158,12 +162,10 @@ public final class Interface {
      */
     public static MenuActual _01_estatisticasUltimoFicheiro() {
         MenuActual estadoMenu = QUERIE_01;
-        
-        int escolha_mes, escolha_opcao;
-        Mes mes_escolhido;
+        int escolha_opcao;
         Scanner input = new Scanner(System.in);
         Hipermercado hiper = Gesthiper.getHipermercado();
-        
+
         while (estadoMenu == QUERIE_01) {
             int produtosNaoComprados = moduloCompras.getTotalProdutosNaoComprados();
             int clientesSemCompras = moduloCompras.getTotalClientesSemCompras();
@@ -179,12 +181,11 @@ public final class Interface {
             System.out.print("Total Produtos: " + catalogoProdutos.getNumeroProdutosTotal() + "\n");
             System.out.print("Total Produtos Nao Comprados: " + produtosNaoComprados + "\n");
             System.out.print("Total Produtos Comprados: " + (catalogoProdutos.getNumeroProdutosTotal() - produtosNaoComprados) + "\n");
-            System.out.print("Total Clientes: " + catalogoClientes.getNumeroClientesTotal()+ "\n");
+            System.out.print("Total Clientes: " + catalogoClientes.getNumeroClientesTotal() + "\n");
             System.out.print("Total Clientes Sem Compras: " + clientesSemCompras + "\n");
             System.out.print("Total Produtos Comprados: " + (catalogoClientes.getNumeroClientesTotal() - clientesSemCompras) + "\n");
             System.out.print("Compras de valor zero: " + moduloCompras.getNumeroComprasValorZero() + "\n");
             System.out.print("Facturação total: " + "[Contabilidade]" + "\n");
-         
 
             System.out.print("================================================= \n");
             System.out.print(" 0 - Sair | 1 - Menu Principal   \n");
@@ -218,8 +219,65 @@ public final class Interface {
      deverão ser também guardados em ficheiro de texto dado pelo utilizador).
      */
     public static MenuActual _02_dadosGerais() {
-        System.out.print("Querie ainda nao implementada\n");
-        return MENU_QUERIES;
+        MenuActual estadoMenu = QUERIE_02;
+        int escolha_opcao;
+        Mes mes;
+        String ficheiro;
+        Scanner input = new Scanner(System.in);
+        Hipermercado hiper = Gesthiper.getHipermercado();
+
+        while (estadoMenu == QUERIE_02) {
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 2            \n");
+            System.out.print("Dados globais                \n");
+            System.out.print("================================================= \n");
+
+            System.out.print("-----------------------------------------\n");
+            System.out.print("|     | Número  |            | Clientes  |\n");
+            System.out.print("| Mes | Compras | Facturacao | Distintos |\n");
+            System.out.print("-----------------------------------------\n");
+
+            for (int i = 0; i < 12; i++) {
+                mes = Mes.numero_to_mes(i + 1);
+
+                System.out.printf("| %3s | %7d | %7.2f | %9d |\n", mes.getMes_abreviado(),
+                        -1,
+                        -1.0,
+                        moduloCompras.getNumeroClientesDistintosMes(mes));
+            }
+            System.out.print("-----------------------------------------\n");
+            System.out.print("Número compras inválidas: " + hiper.getNumeroComprasInvalidas()+"\n");
+            System.out.print("================================================= \n");
+            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar compras inválidas   \n");
+            System.out.print("==================================================== \n");
+            System.out.print("Escolha opção: ");
+            escolha_opcao = input.nextInt();
+            switch (escolha_opcao) {
+                case 0:
+                    estadoMenu = SAIR;
+                    break;
+                case 1:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+                case 2:
+                    System.out.print("Indique o nome do ficheiro onde guardar: ");
+                    ficheiro = input.next();
+                     {
+                        try {
+                            hiper.guardaComprasInvalidas(ficheiro);
+                        } catch (FileNotFoundException ex) {
+                            System.out.print("O ficheiro não pôde ser guardado.\n");
+                        }
+                    }
+                    System.out.print("O ficheiro foi guardado com sucesso.\n");
+                    break;
+                default:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+            }
+        }
+        return estadoMenu;
     }
 
     /*
@@ -1062,8 +1120,55 @@ public final class Interface {
      por omissão o ficheiro hipermercado.obj ou um outro se indicado pelo utilizador.
      */
     public static MenuActual _13_guardarEmFicheiroObjecto() {
-        System.out.print("Querie ainda nao implementada\n");
-        return MENU_QUERIES;
+        MenuActual estadoMenu = QUERIE_13;
+        int escolha_opcao;
+        Mes mes;
+        String ficheiro;
+        Scanner input = new Scanner(System.in);
+        Hipermercado hiper = Gesthiper.getHipermercado();
+
+        while (estadoMenu == QUERIE_13) {
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 13            \n");
+            System.out.print("Guardar hipermercado em ficheiro objecto               \n");
+            System.out.print("================================================= \n");
+            System.out.print("Indique o nome do ficheiro onde guardar: ");
+            ficheiro = input.next();
+
+            try {
+                Leitura.guarda_ficheiro_objecto(ficheiro);
+            } catch (IOException ex) {
+                System.out.println("Erro ao guardar ficheiro");
+            }
+            
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 13            \n");
+            System.out.print("Guardar hipermercado em ficheiro objecto               \n");
+            System.out.print("================================================= \n");
+            System.out.print("Ficheiro guardado com sucesso.\n");
+            System.out.print("================================================= \n");
+            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
+            System.out.print("==================================================== \n");
+            System.out.print("Escolha opção: ");
+            escolha_opcao = input.nextInt();
+            switch (escolha_opcao) {
+                case 0:
+                    estadoMenu = SAIR;
+                    break;
+                case 1:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+                case 2:
+                    estadoMenu= QUERIE_13;
+                    break;
+                default:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+            }
+        }
+        return estadoMenu;
     }
 
     /*
@@ -1072,8 +1177,56 @@ public final class Interface {
      de dados até então existente em memória.
      */
     public static MenuActual _14_carregarFicheiroObjecto() {
-        System.out.print("Querie ainda nao implementada\n");
-        return MENU_QUERIES;
+                MenuActual estadoMenu = QUERIE_14;
+        int escolha_opcao;
+        Mes mes;
+        String ficheiro;
+        Scanner input = new Scanner(System.in);
+
+        while (estadoMenu == QUERIE_14) {
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 14            \n");
+            System.out.print("Carregar hipermercado de ficheiro objecto               \n");
+            System.out.print("================================================= \n");
+            System.out.print("Indique o nome do ficheiro: ");
+            ficheiro = input.next();
+
+            try {
+                Leitura.le_ficheiro_objecto(ficheiro);
+            } catch (IOException ex) {
+                System.out.println("Erro ao carregar ficheiro.\n");
+            } catch (ClassNotFoundException ex) {
+                System.out.println("Classe não conhecida.\n");
+            }
+
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 14            \n");
+            System.out.print("Carregar hipermercado de ficheiro objecto               \n");
+            System.out.print("================================================= \n");
+            System.out.print("Ficheiro carregado com sucesso.\n");
+            System.out.print("================================================= \n");
+            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
+            System.out.print("==================================================== \n");
+            System.out.print("Escolha opção: ");
+            escolha_opcao = input.nextInt();
+            switch (escolha_opcao) {
+                case 0:
+                    estadoMenu = SAIR;
+                    break;
+                case 1:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+                case 2:
+                    estadoMenu= QUERIE_14;
+                    break;
+                default:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+            }
+        }
+        return estadoMenu;
     }
 
     /*
@@ -1082,8 +1235,57 @@ public final class Interface {
      Compras3.txt).
      */
     public static MenuActual _15_mudarFicheiroCompras() {
-        System.out.print("Querie ainda nao implementada\n");
-        return MENU_QUERIES;
+                       MenuActual estadoMenu = QUERIE_15;
+        int escolha_opcao;
+        Mes mes;
+        String ficheiro;
+        Hipermercado hiper = Gesthiper.getHipermercado();
+        Scanner input = new Scanner(System.in);
+
+        while (estadoMenu == QUERIE_15) {
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 15            \n");
+            System.out.print("Carregar hipermercado de ficheiro objecto               \n");
+            System.out.print("================================================= \n");
+            System.out.print("Indique o nome do ficheiro: ");
+            ficheiro = input.next();
+            
+                           try {
+                               hiper.mudaFicheiroCompras(ficheiro);
+                           } catch (IOException ex) {
+                               System.out.print("Erro ao mudar ficheiro compras.\n");
+                           }
+            
+            
+
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 15            \n");
+            System.out.print("Carregar hipermercado de ficheiro objecto               \n");
+            System.out.print("================================================= \n");
+            System.out.print("Ficheiro guadado com sucesso.\n");
+            System.out.print("================================================= \n");
+            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
+            System.out.print("================================================= \n");
+            System.out.print("Escolha opção: ");
+            escolha_opcao = input.nextInt();
+            switch (escolha_opcao) {
+                case 0:
+                    estadoMenu = SAIR;
+                    break;
+                case 1:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+                case 2:
+                    estadoMenu= QUERIE_15;
+                    break;
+                default:
+                    estadoMenu = MENU_QUERIES;
+                    break;
+            }
+        }
+        return estadoMenu;
     }
 
 }

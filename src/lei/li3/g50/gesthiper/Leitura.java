@@ -4,9 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -302,7 +304,6 @@ public final class Leitura {
                     : TipoCompra.PROMOCAO);
             compra.setCliente(new Cliente(st.nextToken()));
             compra.setMes(Mes.numero_to_mes(Integer.parseInt(st.nextToken())));
-            System.out.print(linha+"\n");
             if (compraValida(compra)) {
                 hiper.regista_compra(compra);
             } else {
@@ -313,16 +314,16 @@ public final class Leitura {
         bin.close();
     }
 
-    public static void le_ficheiro_objecto(String str_ficheiro_objecto){
-        try {
+    public static void le_ficheiro_objecto(String str_ficheiro_objecto) throws IOException, ClassNotFoundException{
             ObjectInputStream fich_obj = new ObjectInputStream(new FileInputStream(str_ficheiro_objecto));
             Gesthiper.setHipermercado((Hipermercado) fich_obj.readObject());
             fich_obj.close();
-        } catch (IOException ex) {
-            System.out.print("Erro ao ler de ficheiro objecto.\n");
-        } catch (ClassNotFoundException ex) {
-            System.out.print("Classe nao encontrada.\n");
-        }
+    }
+    public static void guarda_ficheiro_objecto(String ficheiro) throws FileNotFoundException, IOException {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(ficheiro));
+            out.writeObject(Gesthiper.getHipermercado());
+            out.flush();
+            out.close();
     }
 
     public static void mostra_ficheiros() {

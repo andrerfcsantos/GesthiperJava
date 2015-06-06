@@ -1,7 +1,9 @@
 package lei.li3.g50.gesthiper;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -101,14 +103,19 @@ public class Hipermercado implements Serializable {
         this.comprasInvalidas.add(linhaInvalida);
     }
     
-    public void mudaFicheiroCompras(String pathNovoFicheiro){
+    public void mudaFicheiroCompras(String pathNovoFicheiro) throws IOException{
         this.moduloCompras = new Compras();
         this.moduloContabilidade = new Contabilidade();
-        try {
             le_ficheiro_compras(pathNovoFicheiro);
-        } catch (IOException ex) {
-            Logger.getLogger(Hipermercado.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    }
+    
+    public void guardaComprasInvalidas(String ficheiro) throws FileNotFoundException{
+        PrintWriter pw = new PrintWriter(ficheiro);
+        for(String linha : this.comprasInvalidas)
+            pw.print(linha+"\n");
+        
+        pw.flush();
+        pw.close();
     }
     
     /*

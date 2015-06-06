@@ -19,7 +19,6 @@
 
 build/
 nbproject/
-build/
 build.xml
 manifest.mf
 
@@ -28,3 +27,4 @@ hs_err_pid*
 /build/
 /dist/
 Docs Auxiliares/~$queries_modulos_andre.xlsx
+*.obj
