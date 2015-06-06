@@ -3,6 +3,7 @@ package lei.li3.g50.gesthiper;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static lei.li3.g50.gesthiper.Leitura.le_ficheiro_compras;
@@ -12,7 +13,8 @@ import lei.li3.g50.modulos.contabilidade.*;
 import lei.li3.g50.modulos.dados.*;
 
 public class Hipermercado implements Serializable {
-
+    
+    ArrayList<String> comprasInvalidas;
     private File ficheiro_clientes;
     private File ficheiro_produtos;
     private File ficheiro_compras;
@@ -22,6 +24,7 @@ public class Hipermercado implements Serializable {
     private Compras moduloCompras;
 
     public Hipermercado() {
+        comprasInvalidas = new ArrayList<>();
         moduloCatalogoClientes = new CatalogoClientes();
         moduloCatalogoProdutos = new CatalogoProdutos();
         moduloContabilidade = new Contabilidade();
@@ -58,6 +61,10 @@ public class Hipermercado implements Serializable {
     public File getFicheiro_compras() {
         return ficheiro_compras;
     }
+    
+    public int getNumeroComprasInvalidas(){
+        return this.comprasInvalidas.size();
+    }
 
     /*
      SETTERS
@@ -89,7 +96,10 @@ public class Hipermercado implements Serializable {
     public void setModuloCompras(Compras moduloCompras) {
         this.moduloCompras = moduloCompras;
     }
-
+    
+    public void addCompraInvalida(String linhaInvalida){
+        this.comprasInvalidas.add(linhaInvalida);
+    }
     
     public void mudaFicheiroCompras(String pathNovoFicheiro){
         this.moduloCompras = new Compras();

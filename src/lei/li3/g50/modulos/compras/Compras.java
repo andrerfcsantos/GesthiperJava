@@ -265,6 +265,7 @@ public class Compras implements Serializable {
 
         return (List<Cliente>) lista_clientes;
     }
+    
     public int getTotalClientesSemCompras() {
         int resultado=0;
 

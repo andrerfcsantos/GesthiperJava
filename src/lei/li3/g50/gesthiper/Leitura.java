@@ -53,16 +53,16 @@ public final class Leitura {
 
         switch (escolha) {
             case 1:
-                leFicheiroObjectoDado();
+                interfaceLeitura_FicheiroObjectoDado();
                 break;
             case 2:
-                leFicheirosGenericosDados();
+                interfaceLeitura_FicheirosGenericosDados();
                 break;
             case 3:
-                leFicheiroObjectoPAutomatica();
+                interfaceLeitura_FicheiroObjectoPAutomatica();
                 break;
             case 4:
-                leFicheirosGenericosPAutomatica();
+                interfaceLeitura_FicheirosGenericosPAutomatica();
                 break;
             case 5:
                 System.exit(0);
@@ -72,7 +72,7 @@ public final class Leitura {
 
     }
 
-    public static void leFicheirosGenericosPAutomatica() {
+    public static void interfaceLeitura_FicheirosGenericosPAutomatica() {
         int escolha;
         double tempo_leitura_produtos = -1;
         double tempo_leitura_clientes = -1;
@@ -139,7 +139,7 @@ public final class Leitura {
                 le_ficheiro_compras(ficheiro_compras.getPath());
                 tempo_leitura_compras = Crono.stop();
             }
-            
+
             System.out.print("=========================================\n");
             System.out.print("Tempo de leitura Clientes: " + tempo_leitura_clientes + " segs.\n");
             System.out.print("Tempo de leitura Produtos: " + tempo_leitura_produtos + " segs.\n");
@@ -147,12 +147,10 @@ public final class Leitura {
             System.out.print("Tempo total leitura: "
                     + (tempo_leitura_clientes + tempo_leitura_produtos + tempo_leitura_compras) + " segs.\n");
             System.out.print("=========================================\n");
-            
+
             System.out.print("Pressione qualquer tecla para continuar: ");
             input = sc.next();
-            
-            
-            
+
         } catch (FileNotFoundException ex) {
             System.out.printf("Um ou mais ficheiros não foram encontrados.\n");
         } catch (IOException ex) {
@@ -161,16 +159,66 @@ public final class Leitura {
 
     }
 
-    public static void le_ficheiros(String str_fich_produtos,
-            String str_fich_clientes, String str_fich_compras) {
+    public static void interfaceLeitura_FicheirosGenericosDados() {
+        String nome_ficheiro_produtos;
+        String nome_ficheiro_clientes;
+        String nome_ficheiro_compras;
+
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Indique o nome do ficheiro de produtos que quer ler: ");
+        nome_ficheiro_produtos = input.nextLine();
+
+        System.out.print("Indique o nome do ficheiro de clientes que quer ler: ");
+        nome_ficheiro_clientes = input.nextLine();
+
+        System.out.print("Indique o nome do ficheiro de compras que quer ler: ");
+        nome_ficheiro_compras = input.nextLine();
+
         try {
-            le_ficheiro_produtos(str_fich_produtos);
-            le_ficheiro_clientes(str_fich_clientes);
-            le_ficheiro_compras(str_fich_compras);
+            le_ficheiro_produtos(nome_ficheiro_produtos);
+            le_ficheiro_clientes(nome_ficheiro_clientes);
+            le_ficheiro_compras(nome_ficheiro_compras);
         } catch (FileNotFoundException ex) {
             System.out.printf("Um ou mais ficheiros não foram encontrados.\n");
         } catch (IOException ex) {
             System.out.printf("Erro de IO ao abrir um dos ficheiros.\n");
+        }
+    }
+
+    public static void interfaceLeitura_FicheiroObjectoDado() {
+        String nome_ficheiro;
+        Scanner input = new Scanner(System.in);
+        System.out.print("Indique o nome do ficheiro objecto que quer ler (incluindo extensao):");
+        nome_ficheiro = input.nextLine();
+
+        try {
+            ObjectInputStream fich_obj = new ObjectInputStream(new FileInputStream(nome_ficheiro));
+            Gesthiper.setHipermercado((Hipermercado) fich_obj.readObject());
+            fich_obj.close();
+        } catch (IOException ex) {
+            System.out.print("Erro ao ler de ficheiro objecto.\n");
+        } catch (ClassNotFoundException ex) {
+            System.out.print("Classe nao encontrada.\n");
+        }
+    }
+
+    public static void interfaceLeitura_FicheiroObjectoPAutomatica() {
+        File directoria_actual = new File(".");
+        File[] ficheiros_obj = directoria_actual
+                .listFiles(new FiltraFicheirosPorExtensao("obj"));
+        try {
+            if (ficheiros_obj.length == 0) {
+                throw new IOException();
+            }
+            ObjectInputStream fich_obj = new ObjectInputStream(
+                    new FileInputStream(ficheiros_obj[0]));
+            Gesthiper.setHipermercado((Hipermercado) fich_obj.readObject());
+            fich_obj.close();
+        } catch (IOException ex) {
+            System.out.print("Erro ao ler de ficheiro objecto.\n");
+        } catch (ClassNotFoundException ex) {
+            System.out.print("Classe nao encontrada.\n");
         }
     }
 
@@ -182,9 +230,11 @@ public final class Leitura {
         StringTokenizer st;
         BufferedReader bin;
         File ficheiro = new File(str_ficheiro_produtos);
-        
-        if(ficheiro.exists()) hiper.setFicheiro_produtos(ficheiro);
-        
+
+        if (ficheiro.exists()) {
+            hiper.setFicheiro_produtos(ficheiro);
+        }
+
         bin = new BufferedReader(new FileReader(ficheiro));
 
         while (bin.ready()) {
@@ -204,9 +254,11 @@ public final class Leitura {
         StringTokenizer st;
         BufferedReader bin;
         File ficheiro = new File(str_ficheiro_clientes);
-        
-        if (ficheiro.exists()) hiper.setFicheiro_clientes(ficheiro);
-        
+
+        if (ficheiro.exists()) {
+            hiper.setFicheiro_clientes(ficheiro);
+        }
+
         bin = new BufferedReader(new FileReader(ficheiro));
 
         while (bin.ready()) {
@@ -229,9 +281,11 @@ public final class Leitura {
         Compra compra;
         BufferedReader bin;
         File ficheiro = new File(str_ficheiro_compras);
-        
-        if (ficheiro.exists()) hiper.setFicheiro_compras(ficheiro);
-        
+
+        if (ficheiro.exists()) {
+            hiper.setFicheiro_compras(ficheiro);
+        }
+
         bin = new BufferedReader(new FileReader(ficheiro));
 
         while (bin.ready()) {
@@ -248,63 +302,20 @@ public final class Leitura {
                     : TipoCompra.PROMOCAO);
             compra.setCliente(new Cliente(st.nextToken()));
             compra.setMes(Mes.numero_to_mes(Integer.parseInt(st.nextToken())));
-
+            System.out.print(linha+"\n");
             if (compraValida(compra)) {
                 hiper.regista_compra(compra);
             } else {
-                compras_invalidas++;
+                hiper.addCompraInvalida(linha);
             }
 
         }
-        //System.out.print(compras_invalidas);
         bin.close();
     }
 
-    public static void leFicheirosGenericosDados() {
-        String nome_ficheiro_produtos;
-        String nome_ficheiro_clientes;
-        String nome_ficheiro_compras;
-
-        Scanner input = new Scanner(System.in);
-
-        System.out.print("Indique o nome do ficheiro de produtos que quer ler: ");
-        nome_ficheiro_produtos = input.nextLine();
-
-        System.out.print("Indique o nome do ficheiro de clientes que quer ler: ");
-        nome_ficheiro_clientes = input.nextLine();
-        System.out.print("Indique o nome do ficheiro de compras que quer ler: ");
-        nome_ficheiro_compras = input.nextLine();
-
-        le_ficheiros(nome_ficheiro_produtos, nome_ficheiro_clientes, nome_ficheiro_compras);
-    }
-
-    public static void leFicheiroObjectoDado() {
-        String nome_ficheiro;
-        Scanner input = new Scanner(System.in);
-        System.out.print("Indique o nome do ficheiro objecto que quer ler (incluindo extensao):");
-        nome_ficheiro = input.nextLine();
-
+    public static void le_ficheiro_objecto(String str_ficheiro_objecto){
         try {
-            ObjectInputStream fich_obj = new ObjectInputStream(new FileInputStream(nome_ficheiro));
-            Gesthiper.setHipermercado((Hipermercado) fich_obj.readObject());
-            fich_obj.close();
-        } catch (IOException ex) {
-            System.out.print("Erro ao ler de ficheiro objecto.\n");
-        } catch (ClassNotFoundException ex) {
-            System.out.print("Classe nao encontrada.\n");
-        }
-    }
-
-    public static void leFicheiroObjectoPAutomatica() {
-        File directoria_actual = new File(".");
-        File[] ficheiros_obj = directoria_actual
-                .listFiles(new FiltraFicheirosPorExtensao("obj"));
-        try {
-            if (ficheiros_obj.length == 0) {
-                throw new IOException();
-            }
-            ObjectInputStream fich_obj = new ObjectInputStream(
-                    new FileInputStream(ficheiros_obj[0]));
+            ObjectInputStream fich_obj = new ObjectInputStream(new FileInputStream(str_ficheiro_objecto));
             Gesthiper.setHipermercado((Hipermercado) fich_obj.readObject());
             fich_obj.close();
         } catch (IOException ex) {
