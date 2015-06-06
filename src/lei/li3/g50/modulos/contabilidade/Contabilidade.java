@@ -1,5 +1,7 @@
 package lei.li3.g50.modulos.contabilidade;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 import lei.li3.g50.modulos.dados.Compra;
 import lei.li3.g50.modulos.dados.Produto;
@@ -20,5 +22,12 @@ public class Contabilidade {
     public void registaProduto(Produto produto){}
     
     public void registaCompra(Compra compra){}
-
+    
+    
+    public List<Produto> produtosMaisVendidos(int topN){
+        ArrayList<Produto> lista_produtos = new ArrayList<>();
+        lista_produtos.add(new Produto("FOO"));
+        lista_produtos.add(new Produto("BAR"));
+        return lista_produtos;
+    }
 }
