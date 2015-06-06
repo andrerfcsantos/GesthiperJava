@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static lei.li3.g50.gesthiper.Interface.MenuActual.*;
+import static lei.li3.g50.gesthiper.MenuQueries.MenuActual.*;
 import lei.li3.g50.modulos.catalogos.CatalogoClientes;
 import lei.li3.g50.modulos.catalogos.CatalogoProdutos;
 import lei.li3.g50.modulos.compras.Compras;
@@ -15,13 +13,12 @@ import lei.li3.g50.modulos.contabilidade.Contabilidade;
 import lei.li3.g50.modulos.dados.Cliente;
 import lei.li3.g50.modulos.dados.Mes;
 import lei.li3.g50.modulos.dados.Produto;
-import lei.li3.g50.modulos.dados.TipoCompra;
 import lei.li3.g50.utilitarios.Paginador;
 import lei.li3.g50.utilitarios.ParClienteProdutosDiferentes;
 import lei.li3.g50.utilitarios.ParProdutoQuantidadeComprada;
 import lei.li3.g50.utilitarios.TriploClienteQtdCompradaDinheiro;
 
-public final class Interface {
+public final class MenuQueries {
 
     final static String ANSI_CLEARSCREEN = "\u001b[2J";
     final static String ANSI_HOME = "\u001b[H";
@@ -54,10 +51,10 @@ public final class Interface {
         QUERIE_15;
     }
 
-    private Interface() {
+    private MenuQueries() {
     }
 
-    public static void menuQueries() {
+    public static void menuPrincipal() {
         int escolha;
         Scanner input = new Scanner(System.in);
         MenuActual estadoMenu = MENU_QUERIES;
@@ -247,7 +244,7 @@ public final class Interface {
                         moduloCompras.getNumeroClientesDistintosMes(mes));
             }
             System.out.print("-----------------------------------------\n");
-            System.out.print("Número compras inválidas: " + hiper.getNumeroComprasInvalidas()+"\n");
+            System.out.print("Número compras inválidas: " + hiper.getNumeroComprasInvalidas() + "\n");
             System.out.print("================================================= \n");
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar compras inválidas   \n");
             System.out.print("==================================================== \n");
@@ -266,11 +263,12 @@ public final class Interface {
                      {
                         try {
                             hiper.guardaComprasInvalidas(ficheiro);
+                            System.out.print("O ficheiro foi guardado com sucesso.\n");
                         } catch (FileNotFoundException ex) {
-                            System.out.print("O ficheiro não pôde ser guardado.\n");
+                            System.out.print("O ficheiro não pôde ser guardado.Excepcao FileNotFound.\n");
                         }
                     }
-                    System.out.print("O ficheiro foi guardado com sucesso.\n");
+                    
                     break;
                 default:
                     estadoMenu = MENU_QUERIES;
@@ -1137,11 +1135,11 @@ public final class Interface {
             ficheiro = input.next();
 
             try {
-                Leitura.guarda_ficheiro_objecto(ficheiro);
+                LeituraFicheiros.guarda_ficheiro_objecto(ficheiro);
             } catch (IOException ex) {
                 System.out.println("Erro ao guardar ficheiro");
             }
-            
+
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");
             System.out.print("GESTHIPER >> QUERIE 13            \n");
@@ -1161,7 +1159,7 @@ public final class Interface {
                     estadoMenu = MENU_QUERIES;
                     break;
                 case 2:
-                    estadoMenu= QUERIE_13;
+                    estadoMenu = QUERIE_13;
                     break;
                 default:
                     estadoMenu = MENU_QUERIES;
@@ -1177,7 +1175,7 @@ public final class Interface {
      de dados até então existente em memória.
      */
     public static MenuActual _14_carregarFicheiroObjecto() {
-                MenuActual estadoMenu = QUERIE_14;
+        MenuActual estadoMenu = QUERIE_14;
         int escolha_opcao;
         Mes mes;
         String ficheiro;
@@ -1193,7 +1191,7 @@ public final class Interface {
             ficheiro = input.next();
 
             try {
-                Leitura.le_ficheiro_objecto(ficheiro);
+                LeituraFicheiros.le_ficheiro_objecto(ficheiro);
             } catch (IOException ex) {
                 System.out.println("Erro ao carregar ficheiro.\n");
             } catch (ClassNotFoundException ex) {
@@ -1219,7 +1217,7 @@ public final class Interface {
                     estadoMenu = MENU_QUERIES;
                     break;
                 case 2:
-                    estadoMenu= QUERIE_14;
+                    estadoMenu = QUERIE_14;
                     break;
                 default:
                     estadoMenu = MENU_QUERIES;
@@ -1235,7 +1233,7 @@ public final class Interface {
      Compras3.txt).
      */
     public static MenuActual _15_mudarFicheiroCompras() {
-                       MenuActual estadoMenu = QUERIE_15;
+        MenuActual estadoMenu = QUERIE_15;
         int escolha_opcao;
         Mes mes;
         String ficheiro;
@@ -1250,14 +1248,12 @@ public final class Interface {
             System.out.print("================================================= \n");
             System.out.print("Indique o nome do ficheiro: ");
             ficheiro = input.next();
-            
-                           try {
-                               hiper.mudaFicheiroCompras(ficheiro);
-                           } catch (IOException ex) {
-                               System.out.print("Erro ao mudar ficheiro compras.\n");
-                           }
-            
-            
+
+            try {
+                hiper.mudaFicheiroCompras(ficheiro);
+            } catch (IOException ex) {
+                System.out.print("Erro ao mudar ficheiro compras.\n");
+            }
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");
@@ -1278,7 +1274,7 @@ public final class Interface {
                     estadoMenu = MENU_QUERIES;
                     break;
                 case 2:
-                    estadoMenu= QUERIE_15;
+                    estadoMenu = QUERIE_15;
                     break;
                 default:
                     estadoMenu = MENU_QUERIES;

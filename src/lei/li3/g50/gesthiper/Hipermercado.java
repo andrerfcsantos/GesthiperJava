@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static lei.li3.g50.gesthiper.Leitura.le_ficheiro_compras;
 import lei.li3.g50.modulos.catalogos.*;
 import lei.li3.g50.modulos.compras.*;
 import lei.li3.g50.modulos.contabilidade.*;
@@ -34,7 +31,7 @@ public class Hipermercado implements Serializable {
     }
 
     /*
-     GET'S DOS MODULOS
+     GETTERS
      */
     public CatalogoClientes getCatalogoClientes() {
         return moduloCatalogoClientes;
@@ -103,10 +100,19 @@ public class Hipermercado implements Serializable {
         this.comprasInvalidas.add(linhaInvalida);
     }
     
-    public void mudaFicheiroCompras(String pathNovoFicheiro) throws IOException{
+    public void mudaFicheiroCompras(String pathNovoFicheiro) throws IOException {
+        Compras backup_compras = this.moduloCompras;
+        Contabilidade backup_contabilidade = this.moduloContabilidade;
         this.moduloCompras = new Compras();
         this.moduloContabilidade = new Contabilidade();
-            le_ficheiro_compras(pathNovoFicheiro);
+
+        try {
+            LeituraFicheiros.le_ficheiro_compras(pathNovoFicheiro);
+        } catch (IOException e) {
+            this.moduloCompras = backup_compras;
+            this.moduloContabilidade = backup_contabilidade;
+            throw e;
+        }
     }
     
     public void guardaComprasInvalidas(String ficheiro) throws FileNotFoundException{
