@@ -1,6 +1,8 @@
 package lei.li3.g50.excepcoes;
 
-public class ClienteNaoExisteException extends Exception {
+import java.io.Serializable;
+
+public class ClienteNaoExisteException extends Exception implements Serializable {
 
     public ClienteNaoExisteException() {
     }

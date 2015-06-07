@@ -1,6 +1,8 @@
 package lei.li3.g50.excepcoes;
 
-public class ClienteNaoComprouProdutoException extends Exception {
+import java.io.Serializable;
+
+public class ClienteNaoComprouProdutoException extends Exception implements Serializable{
 
     public ClienteNaoComprouProdutoException() {
     }

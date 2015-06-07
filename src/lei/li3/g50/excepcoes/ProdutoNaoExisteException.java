@@ -1,6 +1,8 @@
 package lei.li3.g50.excepcoes;
 
-public class ProdutoNaoExisteException extends Exception {
+import java.io.Serializable;
+
+public class ProdutoNaoExisteException extends Exception implements Serializable{
 
     public ProdutoNaoExisteException() {
     }
