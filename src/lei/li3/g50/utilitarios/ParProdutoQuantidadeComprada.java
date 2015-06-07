@@ -6,7 +6,11 @@ import lei.li3.g50.modulos.dados.Produto;
 
 public class ParProdutoQuantidadeComprada implements Serializable {
 
-    private Produto produto;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7078413263130812242L;
+	private Produto produto;
     private int quantidade;
 
     private ParProdutoQuantidadeComprada() {}

@@ -8,7 +8,11 @@ import lei.li3.g50.modulos.dados.TipoCompra;
 
 public class Matriz_Double_12x2 implements Serializable{
 
-    public static int MAX_ROW = 12;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4760886507751390217L;
+	public static int MAX_ROW = 12;
     public static int MAX_COL = 2;
 
     private double[][] matriz = new double[MAX_ROW][MAX_COL];

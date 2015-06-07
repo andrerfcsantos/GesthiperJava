@@ -6,7 +6,11 @@ import lei.li3.g50.modulos.dados.Cliente;
 
 public class ParClienteProdutosDiferentes implements Serializable {
 
-    private Cliente cliente;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3903263451938015355L;
+	private Cliente cliente;
     private int produtos_diferentes;
 
     private ParClienteProdutosDiferentes() {

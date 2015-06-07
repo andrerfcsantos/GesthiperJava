@@ -12,7 +12,11 @@ import lei.li3.g50.utilitarios.Matriz_Int_12x2;
 
 public class Contabilidade implements Serializable {
     
-    private Matriz_Int_12x2 totalComprasPorMes;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6294510456940432396L;
+	private Matriz_Int_12x2 totalComprasPorMes;
     private Matriz_Int_12x2 totalUnidadesVendidasPorMes;
     private Matriz_Double_12x2 totalFacturadoPorMes;
     TreeMap<Produto, FichaProdutoContabilidade> arvoreProdutos;

@@ -9,7 +9,11 @@ import lei.li3.g50.modulos.dados.Mes;
 
 public class ParProdutoNClientes implements Serializable  {
 
-    private int[] numeroClientesDistintosPorMes;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3271844417478630684L;
+	private int[] numeroClientesDistintosPorMes;
     private int numeroTotalClientesDistintos;
 
     /*

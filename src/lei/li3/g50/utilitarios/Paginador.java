@@ -6,7 +6,11 @@ import java.util.Objects;
 
 public final class Paginador<E extends List<?>> implements Serializable {
 
-    public static final int ELEMENTOS_POR_PAG_DEFAULT = 10;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5051604213886807288L;
+	public static final int ELEMENTOS_POR_PAG_DEFAULT = 10;
     public static final int PAGINA_IMPOSSIVEL = -1;
 
     private E lista;

@@ -8,12 +8,15 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import lei.li3.g50.excepcoes.ClienteNaoComprouProdutoException;
 import lei.li3.g50.excepcoes.ClienteNaoExisteException;
 import lei.li3.g50.excepcoes.ProdutoNaoExisteException;
-import lei.li3.g50.modulos.dados.*;
+import lei.li3.g50.modulos.dados.Cliente;
+import lei.li3.g50.modulos.dados.Compra;
+import lei.li3.g50.modulos.dados.Mes;
+import lei.li3.g50.modulos.dados.Produto;
+import lei.li3.g50.modulos.dados.TipoCompra;
 import lei.li3.g50.utilitarios.ComparatorParClienteProdutosDiferentes;
 import lei.li3.g50.utilitarios.ComparatorTriploClienteQtdCompradaDinheiro;
 import lei.li3.g50.utilitarios.Matriz_Double_12x2;
@@ -24,7 +27,11 @@ import lei.li3.g50.utilitarios.TriploClienteQtdCompradaDinheiro;
 
 public class Compras implements Serializable {
 
-    private int numeroComprasValorZero;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7175792608614138915L;
+	private int numeroComprasValorZero;
     private int numeroClientesDistintosPorMes[];
     private int numeroTotalClientesDistintos;
     private TreeMap<Cliente, FichaClienteCompras> arvoreClientes;
@@ -398,9 +405,10 @@ public class Compras implements Serializable {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
-            if (obj == null) {
-                return false;
-            }
+          return true;
+        }
+        if (obj == null) {
+            return false;
         }
         if (getClass() != obj.getClass()) {
             return false;

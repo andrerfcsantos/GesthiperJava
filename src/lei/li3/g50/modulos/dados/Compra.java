@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 
 public class Compra implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4178196471556261741L;
+
 	public static final int COMPRA_INVALIDA = -1;
 
 	private Cliente cliente;

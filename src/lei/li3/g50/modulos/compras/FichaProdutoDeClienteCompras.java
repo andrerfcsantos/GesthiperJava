@@ -8,7 +8,11 @@ import lei.li3.g50.utilitarios.Matriz_Int_12x2;
 
 public class FichaProdutoDeClienteCompras implements Serializable {
 
-    private Matriz_Int_12x2 numUnidadesCompradasProdutoClientePorMes;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8460055101460936902L;
+	private Matriz_Int_12x2 numUnidadesCompradasProdutoClientePorMes;
     private Matriz_Int_12x2 numComprasProdutoClientePorMes;
     private double totalGastoClienteProduto;
     

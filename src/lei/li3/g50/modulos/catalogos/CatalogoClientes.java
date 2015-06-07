@@ -12,7 +12,11 @@ import lei.li3.g50.utilitarios.ComparatorClientePorCodigo;
 
 public class CatalogoClientes implements Serializable {
 
-    private ArrayList<TreeSet<Cliente>> catalogo;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2179945166363982211L;
+	private ArrayList<TreeSet<Cliente>> catalogo;
 
     /*
      CONSTRUCTORES
@@ -30,6 +34,7 @@ public class CatalogoClientes implements Serializable {
 
     public CatalogoClientes(Collection<Cliente> coleccao) {
         this();
+        //FIXME va não usada
         int i, indice;
         for (Cliente cliente : coleccao) {
             indice = calcula_indice(cliente.getCodigoCliente().charAt(0));

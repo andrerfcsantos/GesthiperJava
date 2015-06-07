@@ -4,7 +4,11 @@ import java.io.Serializable;
 
 public class Cliente implements Comparable<Cliente>, Serializable {
 
-    private String codigo_cliente;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5553661613461345181L;
+	private String codigo_cliente;
 
     /*
      CONSTRUCTORES

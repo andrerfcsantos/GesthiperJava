@@ -7,8 +7,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
 import lei.li3.g50.excepcoes.ClienteNaoComprouProdutoException;
-import lei.li3.g50.modulos.dados.*;
+import lei.li3.g50.modulos.dados.Compra;
+import lei.li3.g50.modulos.dados.Mes;
+import lei.li3.g50.modulos.dados.Produto;
+import lei.li3.g50.modulos.dados.TipoCompra;
 import lei.li3.g50.utilitarios.ComparatorParProdutoQuantidadeComprada;
 import lei.li3.g50.utilitarios.Matriz_Double_12x2;
 import lei.li3.g50.utilitarios.Matriz_Int_12x2;
@@ -16,7 +20,11 @@ import lei.li3.g50.utilitarios.ParProdutoQuantidadeComprada;
 
 public class FichaClienteCompras implements Serializable {
 
-    private Matriz_Int_12x2 numUnidadesCompradasClientePorMes;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8760467704570262649L;
+	private Matriz_Int_12x2 numUnidadesCompradasClientePorMes;
     private Matriz_Int_12x2 numComprasClientePorMes;
     private Matriz_Double_12x2 dinheiroGastoClientePorMes;
     private TreeMap<Produto, FichaProdutoDeClienteCompras> produtosCliente;

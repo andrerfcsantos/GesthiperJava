@@ -5,7 +5,12 @@ import java.util.Comparator;
 
 public class ComparatorParProdutoQuantidadeComprada implements Comparator<ParProdutoQuantidadeComprada>, Serializable{
 
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2610068152791665204L;
+
+	@Override
     public int compare(ParProdutoQuantidadeComprada p1, ParProdutoQuantidadeComprada p2) {
         
         if (p1.getQuantidadeComprada() < p2.getQuantidadeComprada()) {

@@ -5,7 +5,11 @@ import java.io.Serializable;
 
 public class Produto implements Comparable<Produto>, Serializable{
     
-    private String codigo_produto;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -700854503228887841L;
+	private String codigo_produto;
     
     /*
     CONSTRUCTORES

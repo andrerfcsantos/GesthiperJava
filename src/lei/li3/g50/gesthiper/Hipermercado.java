@@ -13,7 +13,11 @@ import lei.li3.g50.modulos.dados.*;
 
 public class Hipermercado implements Serializable {
     
-    ArrayList<String> comprasInvalidas;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9073031387966524796L;
+	ArrayList<String> comprasInvalidas;
     private File ficheiro_clientes;
     private File ficheiro_produtos;
     private File ficheiro_compras;
