@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import lei.li3.g50.excepcoes.ClienteNaoComprouProdutoException;
 import lei.li3.g50.modulos.dados.*;
 import lei.li3.g50.utilitarios.ComparatorParProdutoQuantidadeComprada;
 import lei.li3.g50.utilitarios.Matriz_Double_12x2;
@@ -50,95 +51,23 @@ public class FichaClienteCompras implements Serializable {
         this.numUnidadesCompradasClientePorMes.addValorMesTipoCompra(mes, tipo_compra, unidades_compradas);
         this.numComprasClientePorMes.addValorMesTipoCompra(mes, tipo_compra, 1);
         this.dinheiroGastoClientePorMes.addValorMesTipoCompra(mes, tipo_compra, preco * (unidades_compradas + 0.0));
-
-        ficha_produto = this.getFichaProdutoNoClone(compra.getProduto());
-
-        if (ficha_produto == null) {
-            ficha_produto = new FichaProdutoDeClienteCompras();
-            this.produtosCliente.put(compra.getProduto().clone(),ficha_produto);
-        }
         
+        
+        try{
+            ficha_produto = this.getFichaProdutoNoClone(compra.getProduto());
+        }catch(ClienteNaoComprouProdutoException ex){
+            ficha_produto = new FichaProdutoDeClienteCompras();
+            this.produtosCliente.put(compra.getProduto().clone(), ficha_produto);
+        }
+
         ficha_produto.addNumComprasProdutoClienteMes(mes, tipo_compra, 1);
         ficha_produto.addNumUnidadesCompradasProdutoClienteMes(mes, tipo_compra, unidades_compradas);
         ficha_produto.addTotalGastoClienteProduto(preco * (unidades_compradas + 0.0));
     }
+
     /*
-     GETTERS
+     GETTERS ESPECIFICOS CLASSE
      */
-
-
-    public FichaProdutoDeClienteCompras getFichaProduto(Produto produto) {
-        return this.produtosCliente.get(produto).clone();
-    }
-
-    private FichaProdutoDeClienteCompras getFichaProdutoNoClone(Produto produto) {
-        return this.produtosCliente.get(produto);
-    }
-    
-    public int getNumUnidadesCompradasProduto(Produto produto) {
-        int resultado;
-        if (this.clienteComprouProduto(produto)) {
-            resultado = this.produtosCliente.get(produto).getNumUnidadesCompradasProdutoCliente();
-        }else{
-            resultado =0;
-        }
-        return resultado;
-    }
-    
-    public double getDinheiroGastoProduto(Produto produto) {
-        double resultado;
-        if (this.clienteComprouProduto(produto)) {
-            resultado = this.produtosCliente.get(produto).getTotalGastoClienteProduto();
-        } else {
-            resultado = 0;
-        }
-        return resultado;
-    }
-    
-    public boolean clienteComprouProduto(Produto produto){
-        return this.produtosCliente.containsKey(produto);
-    }
-    
-    public int getNumeroProdutosDistintos(){
-        return this.produtosCliente.size();
-    }
-    
-    public List<ParProdutoQuantidadeComprada> getParesProdutoQuantidadeComprada() {
-        TreeSet<ParProdutoQuantidadeComprada> pares = new TreeSet<>(new ComparatorParProdutoQuantidadeComprada());
-        ArrayList<ParProdutoQuantidadeComprada> lista_pares = new ArrayList<>();
-        ParProdutoQuantidadeComprada novo_par;
-
-        for (Map.Entry<Produto, FichaProdutoDeClienteCompras> entrada : this.produtosCliente.entrySet()) {
-            novo_par = new ParProdutoQuantidadeComprada(entrada.getKey(),
-                                                        entrada.getValue().getNumUnidadesCompradasProdutoCliente());
-            pares.add(novo_par);
-        }
-
-        for (ParProdutoQuantidadeComprada par : pares) {
-            lista_pares.add(par);
-        }
-
-        return (List<ParProdutoQuantidadeComprada>) lista_pares;
-    }
-    
-    public Map<Mes,Integer> getNumeroProdutosDistintosPorMes(){
-        int numeroProdsDistintosPorMes[] = new int[12];
-        TreeMap<Mes,Integer> resultado = new TreeMap<>();
-        
-        for(FichaProdutoDeClienteCompras ficha_produto : this.produtosCliente.values()){
-            for(int i=0;i<12;i++){
-                if(ficha_produto.getNumUnidadesCompradasProdutoClienteMes(Mes.numero_to_mes(i+1))>0)
-                    numeroProdsDistintosPorMes[i]++;
-            }
-        }
-        
-        for(int i=0;i<12;i++){
-            resultado.put(Mes.numero_to_mes(i+1), numeroProdsDistintosPorMes[i]);
-        }
-        
-        return resultado;
-    }
-    
     /* Nº UNIDADES */
     public Matriz_Int_12x2 getNumUnidadesCompradasClientePorMes() {
         return numUnidadesCompradasClientePorMes.clone();
@@ -151,8 +80,8 @@ public class FichaClienteCompras implements Serializable {
     public int getNumUnidadesCompradasMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
         return this.numUnidadesCompradasClientePorMes.getValorEntreMeses(mes1, mes2, tipo_compra);
     }
-    
-    public int getTotalUnidadesCompradas(){
+
+    public int getTotalUnidadesCompradas() {
         return this.numUnidadesCompradasClientePorMes.getSomaTotal();
     }
 
@@ -168,8 +97,8 @@ public class FichaClienteCompras implements Serializable {
     public int getNumComprasMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
         return this.numComprasClientePorMes.getValorEntreMeses(mes1, mes2, tipo_compra);
     }
-    
-    public int getTotalCompras(){
+
+    public int getTotalCompras() {
         return this.numComprasClientePorMes.getSomaTotal();
     }
 
@@ -185,11 +114,131 @@ public class FichaClienteCompras implements Serializable {
     public double getDinheiroGastoClienteMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
         return dinheiroGastoClientePorMes.getValorEntreMeses(mes1, mes2, tipo_compra);
     }
-    
-    public double getTotalDinheiroGasto(){
+
+    public double getTotalDinheiroGasto() {
         return this.dinheiroGastoClientePorMes.getSomaTotal();
     }
+
+    /*OUTROS*/
+    public boolean clienteComprouProduto(Produto produto) {
+        return this.produtosCliente.containsKey(produto);
+    }
+
+    /*GETTERS CLASSES INFERIORES*/
+    private FichaProdutoDeClienteCompras getFichaProdutoNoClone(Produto produto) throws ClienteNaoComprouProdutoException {
+        FichaProdutoDeClienteCompras resultado;
+        
+        if(this.produtosCliente.containsKey(produto)){
+            resultado = this.produtosCliente.get(produto);
+        }else{
+            throw new ClienteNaoComprouProdutoException();
+        }
+        
+        return resultado;
+    }
+
+    public Matriz_Int_12x2 getNumComprasProdutoMeses(Produto produto) throws ClienteNaoComprouProdutoException {
+        Matriz_Int_12x2 resultado;
+
+        try {
+            resultado = this.produtosCliente.get(produto).getNumComprasProdutoClientePorMes();
+        } catch (NullPointerException e) {
+            throw new ClienteNaoComprouProdutoException();
+        }
+
+        return resultado;
+    }
+
+    public Matriz_Int_12x2 getNumUnidadesCompradasProdutoMeses(Produto produto) throws ClienteNaoComprouProdutoException {
+        Matriz_Int_12x2 resultado;
+
+        try {
+            resultado = this.produtosCliente.get(produto).getNumUnidadesCompradasProdutoClientePorMes();
+        } catch (NullPointerException e) {
+            throw new ClienteNaoComprouProdutoException();
+        }
+
+        return resultado;
+    }
+
+    public int getNumTotalUnidadesCompradasProduto(Produto produto) throws ClienteNaoComprouProdutoException {
+        int resultado;
+
+        try {
+            resultado = this.produtosCliente.get(produto).getNumUnidadesCompradasProdutoCliente();
+        } catch (NullPointerException e) {
+            throw new ClienteNaoComprouProdutoException();
+        }
+        return resultado;
+    }
+
+    public int getNumTotaComprasProduto(Produto produto) throws ClienteNaoComprouProdutoException {
+        int resultado;
+
+        try {
+            resultado = this.produtosCliente.get(produto).getNumComprasProdutoCliente();
+        } catch (NullPointerException e) {
+            throw new ClienteNaoComprouProdutoException();
+        }
+        return resultado;
+    }
+
+    public double getDinheiroGastoProduto(Produto produto) throws ClienteNaoComprouProdutoException {
+        double resultado;
+
+        try {
+            resultado = this.produtosCliente.get(produto).getTotalGastoClienteProduto();
+        } catch (NullPointerException e) {
+            throw new ClienteNaoComprouProdutoException();
+        }
+
+        return resultado;
+    }
+
     
+    /*RESULTADOS PARA QUERIES*/
+    
+    public int getNumeroProdutosDistintos() {
+        return this.produtosCliente.size();
+    }
+    
+    public List<ParProdutoQuantidadeComprada> getParesProdutoQuantidadeComprada() {
+        TreeSet<ParProdutoQuantidadeComprada> pares = new TreeSet<>(new ComparatorParProdutoQuantidadeComprada());
+        ArrayList<ParProdutoQuantidadeComprada> lista_pares = new ArrayList<>();
+        ParProdutoQuantidadeComprada novo_par;
+
+        for (Map.Entry<Produto, FichaProdutoDeClienteCompras> entrada : this.produtosCliente.entrySet()) {
+            novo_par = new ParProdutoQuantidadeComprada(entrada.getKey(),
+                    entrada.getValue().getNumUnidadesCompradasProdutoCliente());
+            pares.add(novo_par);
+        }
+
+        for (ParProdutoQuantidadeComprada par : pares) {
+            lista_pares.add(par);
+        }
+
+        return (List<ParProdutoQuantidadeComprada>) lista_pares;
+    }
+
+    public Map<Mes,Integer> getNumeroProdutosDistintosPorMes() {
+        int numeroProdsDistintosPorMes[] = new int[12];
+        TreeMap<Mes, Integer> resultado = new TreeMap<>();
+
+        for (FichaProdutoDeClienteCompras ficha_produto : this.produtosCliente.values()) {
+            for (int i = 0; i < 12; i++) {
+                if (ficha_produto.getNumUnidadesCompradasProdutoClienteMes(Mes.numero_to_mes(i + 1)) > 0) {
+                    numeroProdsDistintosPorMes[i]++;
+                }
+            }
+        }
+
+        for (int i = 0; i < 12; i++) {
+            resultado.put(Mes.numero_to_mes(i + 1), numeroProdsDistintosPorMes[i]);
+        }
+
+        return resultado;
+    }
+
     public List<Produto> getProdutosCliente() {
         ArrayList<Produto> resultado = new ArrayList<>();
         for (Produto produto : this.produtosCliente.keySet()) {
@@ -201,7 +250,6 @@ public class FichaClienteCompras implements Serializable {
     /*
      SETTERS
      */
-    
     /* Nº UNIDADES */
     public void setNumUnidadesCompradasClientePorMes(Matriz_Int_12x2 numUnidadesCompradasClientePorMes) {
         this.numUnidadesCompradasClientePorMes = numUnidadesCompradasClientePorMes.clone();
@@ -241,9 +289,6 @@ public class FichaClienteCompras implements Serializable {
         this.dinheiroGastoClientePorMes.addValorMesTipoCompra(mes, tipo_compra, valor);
     }
 
-
-    
-    
     /*
      METODOS STANDARD
      */

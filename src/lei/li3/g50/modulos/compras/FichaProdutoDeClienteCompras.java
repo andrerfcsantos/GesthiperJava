@@ -20,6 +20,12 @@ public class FichaProdutoDeClienteCompras implements Serializable {
         numComprasProdutoClientePorMes = new Matriz_Int_12x2();
         totalGastoClienteProduto=0;
     }
+    
+    public FichaProdutoDeClienteCompras(Matriz_Int_12x2 unidades, Matriz_Int_12x2 compras, double total_gasto) {
+        numUnidadesCompradasProdutoClientePorMes = unidades.clone();
+        numComprasProdutoClientePorMes = compras.clone();
+        totalGastoClienteProduto=total_gasto;
+    }
 
     public FichaProdutoDeClienteCompras(FichaProdutoDeClienteCompras ficha) {
         numUnidadesCompradasProdutoClientePorMes = ficha.getNumUnidadesCompradasProdutoClientePorMes();
@@ -54,7 +60,7 @@ public class FichaProdutoDeClienteCompras implements Serializable {
     }
 
     public int getNumUnidadesCompradasProdutoClienteMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
-        return numUnidadesCompradasProdutoClientePorMes.getValorEntreMeses(mes2, mes2, tipo_compra);
+        return numUnidadesCompradasProdutoClientePorMes.getValorEntreMeses(mes1, mes2, tipo_compra);
     }
 
     /*Nº COMPRAS*/
@@ -75,7 +81,7 @@ public class FichaProdutoDeClienteCompras implements Serializable {
     }
 
     public int getNumComprasProdutoClienteMeses(Mes mes1, Mes mes2, TipoCompra tipo_compra) {
-        return numComprasProdutoClientePorMes.getValorEntreMeses(mes2, mes2, tipo_compra);
+        return numComprasProdutoClientePorMes.getValorEntreMeses(mes1, mes2, tipo_compra);
     }
 
 

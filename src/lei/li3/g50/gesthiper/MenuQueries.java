@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import lei.li3.g50.excepcoes.ClienteNaoExisteException;
+import lei.li3.g50.excepcoes.ProdutoNaoExisteException;
 import static lei.li3.g50.gesthiper.MenuQueries.MenuActual.*;
 import lei.li3.g50.modulos.catalogos.CatalogoClientes;
 import lei.li3.g50.modulos.catalogos.CatalogoProdutos;
@@ -13,6 +15,9 @@ import lei.li3.g50.modulos.contabilidade.Contabilidade;
 import lei.li3.g50.modulos.dados.Cliente;
 import lei.li3.g50.modulos.dados.Mes;
 import lei.li3.g50.modulos.dados.Produto;
+import lei.li3.g50.modulos.dados.TipoCompra;
+import lei.li3.g50.utilitarios.Matriz_Double_12x2;
+import lei.li3.g50.utilitarios.Matriz_Int_12x2;
 import lei.li3.g50.utilitarios.Paginador;
 import lei.li3.g50.utilitarios.ParClienteProdutosDiferentes;
 import lei.li3.g50.utilitarios.ParProdutoQuantidadeComprada;
@@ -269,7 +274,7 @@ public final class MenuQueries {
                             System.out.print("O ficheiro não pôde ser guardado.Excepcao FileNotFound.\n");
                         }
                     }
-                    
+
                     break;
                 default:
                     estadoMenu = MENU_QUERIES;
@@ -520,14 +525,12 @@ public final class MenuQueries {
         Mes mes;
         Cliente cliente;
         int escolha_opcao;
-        int total_compras_mes, total_compras;
-        double total_gasto_mes, total_gasto;
+        Matriz_Int_12x2 numeroCompras;
+        Matriz_Double_12x2 dinheiroGasto;
         Map<Mes, Integer> numeroProdsDistintosPorMes;
         Scanner input = new Scanner(System.in);
 
         while (estadoMenu == QUERIE_06) {
-            total_compras = 0;
-            total_gasto = 0;
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");
@@ -544,8 +547,10 @@ public final class MenuQueries {
             System.out.print("================================================= \n");
 
             cliente = new Cliente(cliente_inserido);
-            if (catalogoClientes.existeCliente(cliente)) {
 
+            try {
+                numeroCompras = moduloCompras.getNumeroComprasClienteMeses(cliente);
+                dinheiroGasto = moduloCompras.getDinheirGastoClienteMeses(cliente);
                 numeroProdsDistintosPorMes = moduloCompras.getNumeroProdutosDisntintosPorMesCliente(cliente);
 
                 System.out.print("Código Cliente: " + cliente.getCodigoCliente() + "\n");
@@ -556,26 +561,21 @@ public final class MenuQueries {
 
                 for (int i = 0; i < 12; i++) {
                     mes = Mes.numero_to_mes(i + 1);
-                    total_compras_mes = moduloCompras.getNumComprasClienteMes(cliente, mes);
-                    total_compras += total_compras_mes;
-
-                    total_gasto_mes = moduloCompras.getDinheiroGastoClienteMes(cliente, mes);
-                    total_gasto += total_gasto_mes;
 
                     System.out.printf("| %3s | %7d | %9d | %7.2f |\n", mes.getMes_abreviado(),
-                            total_compras_mes,
+                            numeroCompras.getValorMesTipoCompra(mes, TipoCompra.AMBOS),
                             numeroProdsDistintosPorMes.get(mes),
-                            total_gasto_mes);
+                            dinheiroGasto.getValorMesTipoCompra(mes, TipoCompra.AMBOS));
                 }
 
                 System.out.print("---------------------------------------\n");
                 System.out.printf("| Tot | %7d | %9d | %7.2f |\n",
-                        total_compras,
+                        numeroCompras.getSomaTotal(),
                         moduloCompras.getNumeroProdutosDistintosCliente(cliente),
-                        total_gasto);
+                        dinheiroGasto.getSomaTotal());
                 System.out.print("---------------------------------------\n");
 
-            } else {
+            } catch (ClienteNaoExisteException ex) {
                 System.out.print("O cliente " + cliente_inserido + " não existe.\n");
             }
 
@@ -610,16 +610,13 @@ public final class MenuQueries {
     public static MenuActual _07_comprasProdutoTodosMeses() {
         MenuActual estadoMenu = QUERIE_07;
         String produto_inserido;
-        int total_compras_mes, total_compras;
-        double total_gasto_mes, total_gasto;
         Mes mes;
         Produto produto;
+        Map<Mes, Integer> clientesDistintosProduto;
         int escolha_opcao;
         Scanner input = new Scanner(System.in);
 
         while (estadoMenu == QUERIE_07) {
-            total_compras = 0;
-            total_gasto = 0;
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");
             System.out.print("GESTHIPER >> QUERIE 7            \n");
@@ -635,7 +632,9 @@ public final class MenuQueries {
             System.out.print("================================================= \n");
 
             produto = new Produto(produto_inserido);
-            if (catalogoProdutos.existeProduto(produto)) {
+
+            try {
+                clientesDistintosProduto = moduloCompras.getClientesDistintosProdutoMeses(produto);
 
                 System.out.print("PRODUTO:" + produto.getCodigoProduto() + "\n");
                 System.out.print("-------------------------------------------\n");
@@ -648,7 +647,7 @@ public final class MenuQueries {
 
                     System.out.printf("| %3s | %7d | %9d | %7.2f |\n", mes.getMes_abreviado(),
                             -1,
-                            moduloCompras.getTotalClientesDistintosProdutoMes(produto, mes),
+                            clientesDistintosProduto.get(mes),
                             -1.0);
                 }
 
@@ -659,7 +658,7 @@ public final class MenuQueries {
                         -1.0);
                 System.out.print("---------------------------------------\n");
 
-            } else {
+            } catch (ProdutoNaoExisteException ex) {
                 System.out.print("O produto " + produto_inserido + " não existe.\n");
             }
 
@@ -731,15 +730,15 @@ public final class MenuQueries {
                     mes = Mes.numero_to_mes(i + 1);
 
                     System.out.printf("| %3s | %6d | %6d | %6d | %7.2f | %7.2f | %8.2f ||\n", mes.getMes_abreviado(),
-                                                -1,-1,-1,
-                                                -1.0, -1.0, -1.0,
-                                                -1.0);
+                            -1, -1, -1,
+                            -1.0, -1.0, -1.0,
+                            -1.0);
                 }
 
                 System.out.print("------------------------------------------------------------------------ \n");
                 System.out.printf("| Tot | %6d | %6d | %6d | %7.2f | %7.2f | %8.2f ||\n",
-                                            -1, -1, -1,
-                                            -1.0, -1.0, -1.0);
+                        -1, -1, -1,
+                        -1.0, -1.0, -1.0);
                 System.out.print("------------------------------------------------------------------------ \n");
 
             } else {
@@ -794,18 +793,19 @@ public final class MenuQueries {
 
         cliente = new Cliente(cliente_lido);
 
-        if (catalogoClientes.existeCliente(cliente)) {
+        try {
             List<ParProdutoQuantidadeComprada> lista_pares = moduloCompras.getParesProdutoNumComprasCliente(cliente);
             Paginador<List<ParProdutoQuantidadeComprada>> paginador = new Paginador<>(lista_pares, 10, 1);
 
             numero_resultados = lista_pares.size();
             total_paginas = paginador.getNumPaginas();
 
-            paginador.gotoPagina(numero_pagina);
-            inicio_pagina = paginador.getPosInicialPagActual();
-            num_elems_pag_actual = paginador.getNumElemsPagActual();
-            fim_pagina = inicio_pagina + num_elems_pag_actual;
             while (estadoMenu == QUERIE_09) {
+                paginador.gotoPagina(numero_pagina);
+                inicio_pagina = paginador.getPosInicialPagActual();
+                num_elems_pag_actual = paginador.getNumElemsPagActual();
+                fim_pagina = inicio_pagina + num_elems_pag_actual;
+
                 System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
                 System.out.print("================================================= \n");
                 System.out.print("GESTHIPER >> QUERIE 9            \n");
@@ -813,6 +813,7 @@ public final class MenuQueries {
                 System.out.print("================================================= \n");
 
                 if (numero_resultados > 0) {
+                    System.out.print("CLIENTE: " + cliente.getCodigoCliente() + "\n");
                     System.out.printf("Pagina %2d/%d \n", numero_pagina, total_paginas);
                     System.out.printf("---------------------------------\n");
                     System.out.printf("|       |  Codigo   |            |\n");
@@ -872,7 +873,7 @@ public final class MenuQueries {
                         estadoMenu = MENU_QUERIES;
                 }
             }
-        } else {
+        } catch (ClienteNaoExisteException ex) {
             System.out.print("O cliente " + cliente_lido + " não existe.\n");
             System.out.print("==================================================== \n");
             System.out.print("0 - Sair | 1 - Menu Principal  | 2 - Procurar outro cliente \n");

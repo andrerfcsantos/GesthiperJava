@@ -8,9 +8,16 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import lei.li3.g50.excepcoes.ClienteNaoComprouProdutoException;
+import lei.li3.g50.excepcoes.ClienteNaoExisteException;
+import lei.li3.g50.excepcoes.ProdutoNaoExisteException;
 import lei.li3.g50.modulos.dados.*;
 import lei.li3.g50.utilitarios.ComparatorParClienteProdutosDiferentes;
 import lei.li3.g50.utilitarios.ComparatorTriploClienteQtdCompradaDinheiro;
+import lei.li3.g50.utilitarios.Matriz_Double_12x2;
+import lei.li3.g50.utilitarios.Matriz_Int_12x2;
 import lei.li3.g50.utilitarios.ParClienteProdutosDiferentes;
 import lei.li3.g50.utilitarios.ParProdutoQuantidadeComprada;
 import lei.li3.g50.utilitarios.TriploClienteQtdCompradaDinheiro;
@@ -23,6 +30,9 @@ public class Compras implements Serializable {
     private TreeMap<Cliente, FichaClienteCompras> arvoreClientes;
     private TreeMap<Produto, ParProdutoNClientes> arvoreParesProdutoNClientes;
 
+    /*
+     CONSTRUCTORES
+     */
     public Compras() {
         this.numeroComprasValorZero = 0;
         numeroTotalClientesDistintos = 0;
@@ -48,6 +58,9 @@ public class Compras implements Serializable {
 
     }
 
+    /*
+     REGISTOS
+     */
     public void registaCliente(Cliente cliente) {
         this.arvoreClientes.put(cliente.clone(), new FichaClienteCompras());
     }
@@ -59,7 +72,14 @@ public class Compras implements Serializable {
     public void registaCompra(Compra compra) {
         Mes mes = compra.getMes();
         Produto produto = compra.getProduto();
-        FichaClienteCompras ficha_cliente = getFichaClienteNoClone(compra.getCliente());
+        FichaClienteCompras ficha_cliente;
+
+        try {
+            ficha_cliente = getFichaClienteNoClone(compra.getCliente());
+        } catch (ClienteNaoExisteException ex) {
+            ficha_cliente = new FichaClienteCompras();
+            this.arvoreClientes.put(compra.getCliente().clone(), ficha_cliente);
+        }
 
         if (ficha_cliente.getNumComprasMes(mes, TipoCompra.AMBOS) == 0) {
             numeroClientesDistintosPorMes[mes.getIndiceArray()]++;
@@ -69,21 +89,27 @@ public class Compras implements Serializable {
             numeroTotalClientesDistintos++;
         }
 
-        ParProdutoNClientes par_prod_nclis = this.getParProdutoNClientesNoClone(produto);
+        ParProdutoNClientes par_prod_nclis;
 
-        if (ficha_cliente.clienteComprouProduto(produto)) {
+        try {
+            par_prod_nclis = this.getParProdutoNClientesNoClone(produto);
+        } catch (ProdutoNaoExisteException ex) {
+            par_prod_nclis = new ParProdutoNClientes();
+            this.arvoreParesProdutoNClientes.put(compra.getProduto().clone(), par_prod_nclis);
+        }
 
-            FichaProdutoDeClienteCompras ficha_produto = ficha_cliente.getFichaProduto(produto);
+        try {
+            Matriz_Int_12x2 comprasMeses = ficha_cliente.getNumComprasProdutoMeses(produto);
 
-            if (ficha_produto.getNumComprasProdutoClienteMes(mes) == 0) {
+            if (comprasMeses.getValorMesTipoCompra(mes, TipoCompra.AMBOS) == 0) {
                 par_prod_nclis.addNumeroClientesMes(mes, 1);
             }
 
-            if (ficha_produto.getNumComprasProdutoCliente() == 0) {
+            if (comprasMeses.getSomaTotal() == 0) {
                 par_prod_nclis.addNumeroTotalClientesDistintos(1);
             }
 
-        } else {
+        } catch (ClienteNaoComprouProdutoException ex) {
             par_prod_nclis.addNumeroClientesMes(mes, 1);
             par_prod_nclis.addNumeroTotalClientesDistintos(1);
         }
@@ -96,115 +122,216 @@ public class Compras implements Serializable {
     }
 
     /*
-     GETTERS
+     GETTERS ESPECIFICOS CLASSE
      */
+    /*COMPRAS*/
     public int getNumeroComprasValorZero() {
         return numeroComprasValorZero;
+    }
+
+    /*CLIENTES DISTINTOS*/
+    public int getTotalClientesDistintos() {
+        return this.numeroTotalClientesDistintos;
     }
 
     public int getNumeroClientesDistintosMes(Mes mes) {
         return this.numeroClientesDistintosPorMes[mes.getIndiceArray()];
     }
 
-    public int getTotalClientesDistintos() {
-        return this.numeroTotalClientesDistintos;
+    public int[] getNumeroClientesDistintosMesesAsArray() {
+        int resultado[] = new int[12];
+
+        for (int i = 0; i < 12; i++) {
+            resultado[i] = this.numeroClientesDistintosPorMes[i];
+        }
+
+        return resultado;
     }
 
-    public int getNumeroProdutosDistintosCliente(Cliente cliente) {
-        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
-        return ficha_cliente.getNumeroProdutosDistintos();
+    public Map<Mes, Integer> getNumeroClientesDistintosMeses() {
+        Mes mes;
+        TreeMap<Mes, Integer> resultado = new TreeMap<>();
+
+        for (int i = 0; i < 12; i++) {
+            mes = Mes.numero_to_mes(i + 1);
+            resultado.put(mes, this.numeroClientesDistintosPorMes[i]);
+        }
+
+        return resultado;
     }
 
-    public double getDinheiroGastoClienteMes(Cliente cliente, Mes mes) {
-        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
-        return ficha_cliente.getDinheiroGastoClientePorMes(mes, TipoCompra.AMBOS);
+    /*GETTERS CLASSES INFERIORES*/
+    /*CLASSE FICHA CLIENTE*/
+    private FichaClienteCompras getFichaClienteNoClone(Cliente cliente) throws ClienteNaoExisteException {
+        FichaClienteCompras ficha;
+        
+        if(this.arvoreClientes.containsKey(cliente)){
+            ficha = this.arvoreClientes.get(cliente);
+        }else{
+            throw new ClienteNaoExisteException();
+        }
+        
+        return ficha;
     }
 
-    public int getNumComprasClienteMes(Cliente cliente, Mes mes) {
-        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
-        return ficha_cliente.getNumComprasMes(mes, TipoCompra.AMBOS);
+    public int getNumeroProdutosDistintosCliente(Cliente cliente) throws ClienteNaoExisteException {
+        return this.getFichaClienteNoClone(cliente).getNumeroProdutosDistintos();
     }
 
-    public int getTotalComprasCliente(Cliente cliente) {
+    public Matriz_Int_12x2 getNumeroUnidadesCompradasClienteMeses(Cliente cliente) throws ClienteNaoExisteException {
+        return this.getFichaClienteNoClone(cliente).getNumUnidadesCompradasClientePorMes();
+    }
+
+    public Matriz_Int_12x2 getNumeroComprasClienteMeses(Cliente cliente) throws ClienteNaoExisteException {
+        return this.getFichaClienteNoClone(cliente).getNumComprasClientePorMes();
+    }
+
+    public Matriz_Double_12x2 getDinheirGastoClienteMeses(Cliente cliente) throws ClienteNaoExisteException {
+        return this.getFichaClienteNoClone(cliente).getDinheiroGastoClientePorMes();
+    }
+
+    public int getNumeroUnidadesCompradasClienteMes(Cliente cliente, Mes mes) throws ClienteNaoExisteException {
+        return this.getFichaClienteNoClone(cliente).getNumUnidadesCompradasMes(mes, TipoCompra.AMBOS);
+    }
+
+    public int getNumeroComprasClienteMes(Cliente cliente, Mes mes) throws ClienteNaoExisteException {
+        return this.getFichaClienteNoClone(cliente).getNumComprasMes(mes, TipoCompra.AMBOS);
+    }
+
+    public double getDinheirGastoClienteMes(Cliente cliente, Mes mes) throws ClienteNaoExisteException {
+        return this.getFichaClienteNoClone(cliente).getDinheiroGastoClientePorMes(mes, TipoCompra.AMBOS);
+    }
+
+    public int getTotalUnidadesCompradasCliente(Cliente cliente) throws ClienteNaoExisteException {
+        return this.getFichaClienteNoClone(cliente).getTotalUnidadesCompradas();
+    }
+
+    public int getTotalComprasCliente(Cliente cliente) throws ClienteNaoExisteException {
         return this.getFichaClienteNoClone(cliente).getTotalCompras();
     }
 
-    public FichaClienteCompras getFichaCliente(Cliente cliente) {
-        return this.arvoreClientes.get(cliente).clone();
+    public double getTotalDinheiroGasto(Cliente cliente) throws ClienteNaoExisteException {
+        return this.getFichaClienteNoClone(cliente).getTotalDinheiroGasto();
     }
 
-    private FichaClienteCompras getFichaClienteNoClone(Cliente cliente) {
-        return this.arvoreClientes.get(cliente);
+    /*CLASSE ParProdutoNClientes*/
+    private ParProdutoNClientes getParProdutoNClientesNoClone(Produto produto) throws ProdutoNaoExisteException {
+        ParProdutoNClientes resultado;
+        
+        if(this.arvoreParesProdutoNClientes.containsKey(produto)){
+            resultado = this.arvoreParesProdutoNClientes.get(produto);
+        }else{
+            throw new ProdutoNaoExisteException();
+        }
+        
+        return resultado;
     }
 
-    public ParProdutoNClientes getParProdutoNClientes(Produto produto) {
-        return this.arvoreParesProdutoNClientes.get(produto).clone();
+    public int getTotalClientesDistintosProduto(Produto produto) throws ProdutoNaoExisteException {
+        return this.getParProdutoNClientesNoClone(produto).getNumeroTotalClientesDisntintos();
     }
 
-    public ParProdutoNClientes getParProdutoNClientesNoClone(Produto produto) {
-        return this.arvoreParesProdutoNClientes.get(produto);
+    public Map<Mes, Integer> getClientesDistintosProdutoMeses(Produto produto) throws ProdutoNaoExisteException {
+        return this.getParProdutoNClientesNoClone(produto).getNumeroClientesDistintosPorMes();
+    }
+
+    public int getClientesDistintosProdutoMes(Produto produto, Mes mes) throws ProdutoNaoExisteException {
+        return this.getParProdutoNClientesNoClone(produto).getNumeroClientesDisntintosMes(mes);
+    }
+
+    /*CLASSE FichaProdutoDeClienteCompras (ASSOCIACAO PRODUTO-CLIENTE)*/
+    public Matriz_Int_12x2 getComprasProdutoClienteMeses(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException {
+        return this.getFichaClienteNoClone(cliente).getNumComprasProdutoMeses(produto);
+    }
+
+    public Matriz_Int_12x2 getUnidadesCompradasProdutoClienteMeses(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException {
+        return this.getFichaClienteNoClone(cliente).getNumUnidadesCompradasProdutoMeses(produto);
+    }
+    
+    public int getTotalComprasProdutoCliente(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException{
+        return this.getFichaClienteNoClone(cliente).getNumTotalUnidadesCompradasProduto(produto);
+    }
+    public int getTotalUnidadesCompradasProdutoCliente(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException{
+        return this.getFichaClienteNoClone(cliente).getNumTotalUnidadesCompradasProduto(produto);
+    }
+    
+    public double getTotalDinheiroGastoProdutoCliente(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException {
+        return this.getFichaClienteNoClone(cliente).getDinheiroGastoProduto(produto);
+    }
+
+    /*RESULTADOS QUERIES*/
+    public int getTotalClientesSemCompras() {
+        int resultado = 0;
+
+        for (Map.Entry<Cliente, FichaClienteCompras> entrada : this.arvoreClientes.entrySet()) {
+            if (entrada.getValue().getTotalCompras() == 0) {
+                resultado++;
+            }
+        }
+
+        return resultado;
+    }
+
+    public int getTotalProdutosNaoComprados() {
+        int resultado = 0;
+        for (Map.Entry<Produto, ParProdutoNClientes> entrada : this.arvoreParesProdutoNClientes.entrySet()) {
+            if (entrada.getValue().getNumeroTotalClientesDisntintos() == 0) {
+                resultado++;
+            }
+        }
+        return resultado;
+    }
+
+    public Map<Mes, Integer> getNumeroProdutosDisntintosPorMesCliente(Cliente cliente) throws ClienteNaoExisteException {
+        return this.getFichaClienteNoClone(cliente).getNumeroProdutosDistintosPorMes();
     }
 
     public List<Produto> getProdutosNaoComprados() {
         ArrayList<Produto> lista_produtos = new ArrayList<>();
 
         for (Map.Entry<Produto, ParProdutoNClientes> entrada : this.arvoreParesProdutoNClientes.entrySet()) {
-            if(entrada.getValue().getNumeroTotalClientesDisntintos()==0){
+            if (entrada.getValue().getNumeroTotalClientesDisntintos() == 0) {
                 lista_produtos.add(entrada.getKey().clone());
             }
         }
         return lista_produtos;
     }
-    public int getTotalProdutosNaoComprados() {
-        int resultado=0;
-        for (Map.Entry<Produto, ParProdutoNClientes> entrada : this.arvoreParesProdutoNClientes.entrySet()) {
-            if(entrada.getValue().getNumeroTotalClientesDisntintos()==0){
-                resultado++;
-            }
-        }
-        return resultado;
-    }
-    
-    public int getTotalClientesDistintosProduto(Produto produto) {
-        ParProdutoNClientes par = this.getParProdutoNClientesNoClone(produto);
-        return par.getNumeroTotalClientesDisntintos();
-    }
 
-    public int getTotalClientesDistintosProdutoMes(Produto produto, Mes mes) {
-        ParProdutoNClientes par = this.getParProdutoNClientesNoClone(produto);
-        return par.getNumeroClientesDisntintosMes(mes);
-    }
-
-    public Map<Mes, Integer> getNumeroProdutosDisntintosPorMesCliente(Cliente cliente) {
-        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
-        return ficha_cliente.getNumeroProdutosDistintosPorMes();
-    }
-    
-    public List<TriploClienteQtdCompradaDinheiro> getTriplosClienteQtdCompradaDinheiro(Produto produto, int topN){
-        
+    public List<TriploClienteQtdCompradaDinheiro> getTriplosClienteQtdCompradaDinheiro(Produto produto, int topN) {
+        int unidadesCompradas;
+        double dinheiroGasto;
         TreeSet<TriploClienteQtdCompradaDinheiro> triplos = new TreeSet<>(new ComparatorTriploClienteQtdCompradaDinheiro());
         ArrayList<TriploClienteQtdCompradaDinheiro> lista_triplos = new ArrayList<>();
         TriploClienteQtdCompradaDinheiro novo_triplo;
-        
-        for(Map.Entry<Cliente, FichaClienteCompras> entrada : this.arvoreClientes.entrySet()){
-            novo_triplo = new TriploClienteQtdCompradaDinheiro(entrada.getKey(), 
-                                                                entrada.getValue().getTotalUnidadesCompradas(),
-                                                                entrada.getValue().getTotalDinheiroGasto());
+
+        for (Map.Entry<Cliente, FichaClienteCompras> entrada : this.arvoreClientes.entrySet()) {
+            try {
+                unidadesCompradas = this.getTotalComprasProdutoCliente(produto, entrada.getKey());
+            } catch (ClienteNaoComprouProdutoException | ClienteNaoExisteException ex) {
+                unidadesCompradas = 0;
+            }
             
+            try {
+                dinheiroGasto = this.getTotalDinheiroGastoProdutoCliente(produto, entrada.getKey());
+            } catch (ClienteNaoComprouProdutoException | ClienteNaoExisteException ex) {
+                dinheiroGasto = 0;
+            }
+            
+            novo_triplo = new TriploClienteQtdCompradaDinheiro(entrada.getKey().clone(),
+                                                                unidadesCompradas,
+                                                                dinheiroGasto);
+
             triplos.add(novo_triplo);
         }
-        
-        for(TriploClienteQtdCompradaDinheiro triplo : triplos){
+
+        for (TriploClienteQtdCompradaDinheiro triplo : triplos) {
             lista_triplos.add(triplo);
         }
-        
-        if(topN > lista_triplos.size())
-            topN = lista_triplos.size();
-        
-        return lista_triplos.subList(0, topN);
-        
+
+        return lista_triplos.subList(0, (topN > lista_triplos.size()) ? lista_triplos.size() :topN);
+
     }
-    
+
     public List<ParClienteProdutosDiferentes> getParesClienteProdutosDiferentes(int n) {
         TreeSet<ParClienteProdutosDiferentes> pares = new TreeSet<>(new ComparatorParClienteProdutosDiferentes());
         ArrayList<ParClienteProdutosDiferentes> lista = new ArrayList<>();
@@ -226,32 +353,9 @@ public class Compras implements Serializable {
         return lista.subList(0, n);
 
     }
-    
-    public double getTotalGastoClienteProduto(Cliente cliente, Produto produto) {
-        double resultado;
-        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
-        if (ficha_cliente.clienteComprouProduto(produto)) {
-            resultado = ficha_cliente.getDinheiroGastoProduto(produto);
-        } else {
-            resultado = 0;
-        }
-        return resultado;
-    }
-    
-    public int getTotalUnidadesCompradasClienteProduto(Cliente cliente, Produto produto) {
-        int resultado;
-        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
-        if (ficha_cliente.clienteComprouProduto(produto)) {
-            resultado = ficha_cliente.getTotalUnidadesCompradas();
-        } else {
-            resultado = 0;
-        }
-        return resultado;
-    }
-    
-    public List<ParProdutoQuantidadeComprada> getParesProdutoNumComprasCliente(Cliente cliente) {
-        FichaClienteCompras ficha_cliente = this.arvoreClientes.get(cliente);
-        return ficha_cliente.getParesProdutoQuantidadeComprada();
+
+    public List<ParProdutoQuantidadeComprada> getParesProdutoNumComprasCliente(Cliente cliente) throws ClienteNaoExisteException {
+        return this.getFichaClienteNoClone(cliente).getParesProdutoQuantidadeComprada();
     }
 
     public List<Cliente> getClientesSemCompras() {
@@ -264,18 +368,6 @@ public class Compras implements Serializable {
         }
 
         return (List<Cliente>) lista_clientes;
-    }
-    
-    public int getTotalClientesSemCompras() {
-        int resultado=0;
-
-        for (Map.Entry<Cliente, FichaClienteCompras> entrada : this.arvoreClientes.entrySet()) {
-            if (entrada.getValue().getTotalCompras() == 0) {
-                resultado++;
-            }
-        }
-
-        return resultado;
     }
 
     public List<Produto> getProdutosSemCompras() {
