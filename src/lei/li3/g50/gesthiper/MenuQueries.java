@@ -16,6 +16,7 @@ import lei.li3.g50.modulos.dados.Cliente;
 import lei.li3.g50.modulos.dados.Mes;
 import lei.li3.g50.modulos.dados.Produto;
 import lei.li3.g50.modulos.dados.TipoCompra;
+import lei.li3.g50.utilitarios.Crono;
 import lei.li3.g50.utilitarios.Matriz_Double_12x2;
 import lei.li3.g50.utilitarios.Matriz_Int_12x2;
 import lei.li3.g50.utilitarios.Paginador;
@@ -189,7 +190,6 @@ public final class MenuQueries {
             System.out.print("Total Produtos Comprados: " + (catalogoClientes.getNumeroClientesTotal() - clientesSemCompras) + "\n");
             System.out.print("Compras de valor zero: " + moduloCompras.getNumeroComprasValorZero() + "\n");
             System.out.print("Facturação total: " + "[Contabilidade]" + "\n");
-
             System.out.print("================================================= \n");
             System.out.print(" 0 - Sair | 1 - Menu Principal   \n");
             System.out.print("==================================================== \n");
@@ -322,6 +322,8 @@ public final class MenuQueries {
                     System.out.printf("| %5d | %9s |\n", inicio_pagina + i + 1, produto.getCodigoProduto());
                 }
                 System.out.printf("--------------------\n");
+                System.out.printf("A mostrar %d-%d de %d resultados.\n",
+                        inicio_pagina + 1, fim_pagina, numero_resultados);
             } else {
                 System.out.print("Não há resultados a mostrar.\n");
             }
@@ -408,6 +410,8 @@ public final class MenuQueries {
                     System.out.printf("| %5d | %9s |\n", inicio_pagina + i + 1, cliente.getCodigoCliente());
                 }
                 System.out.printf("--------------------\n");
+                System.out.printf("A mostrar %d-%d de %d resultados.\n",
+                        inicio_pagina + 1, fim_pagina, numero_resultados);
             } else {
                 System.out.print("Não há resultados a mostrar.\n");
             }
@@ -693,16 +697,12 @@ public final class MenuQueries {
     public static MenuActual _08_comprasProdutoModoNeP() {
         MenuActual estadoMenu = QUERIE_08;
         String produto_inserido;
-        int total_compras_mes, total_compras;
-        double total_facturacao_mes, total_facturacao;
         Mes mes;
         Produto produto;
         int escolha_opcao;
         Scanner input = new Scanner(System.in);
 
         while (estadoMenu == QUERIE_08) {
-            total_compras = 0;
-            total_facturacao = 0;
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");
             System.out.print("GESTHIPER >> QUERIE 8                             \n");
@@ -825,6 +825,8 @@ public final class MenuQueries {
                                 inicio_pagina + i + 1, par.getProduto().getCodigoProduto(), par.getQuantidadeComprada());
                     }
                     System.out.printf("---------------------------------\n");
+                    System.out.printf("A mostrar %d-%d de %d resultados.\n",
+                            inicio_pagina + 1, fim_pagina, numero_resultados);
                 } else {
                     System.out.print("Não há resultados a mostrar.\n");
                 }
@@ -955,6 +957,8 @@ public final class MenuQueries {
                                     inicio_pagina + i + 1, produto.getCodigoProduto(), -1);
                         }
                         System.out.printf("---------------------------------\n");
+                        System.out.printf("A mostrar %d-%d de %d resultados.\n",
+                                inicio_pagina + 1, fim_pagina, numero_resultados);
                     } else {
                         System.out.print("Não há resultados a mostrar.\n");
                     }
@@ -1085,6 +1089,8 @@ public final class MenuQueries {
                                     inicio_pagina + i + 1, par.getCliente().getCodigoCliente(), par.getProdutosDiferentes());
                         }
                         System.out.printf("---------------------------------\n");
+                        System.out.printf("A mostrar %d-%d de %d resultados.\n",
+                                inicio_pagina + 1, fim_pagina, numero_resultados);
                     } else {
                         System.out.print("Não há resultados a mostrar.\n");
                     }
@@ -1227,6 +1233,8 @@ public final class MenuQueries {
                                     inicio_pagina + i + 1, triplo.getCliente().getCodigoCliente(), triplo.getQuantidadeComprada(), triplo.getTotalDinheirGasto());
                         }
                         System.out.printf("---------------------------------------------\n");
+                        System.out.printf("A mostrar %d-%d de %d resultados.\n",
+                                inicio_pagina + 1, fim_pagina, numero_resultados);
                     } else {
                         System.out.print("Não há resultados a mostrar.\n");
                     }
@@ -1331,18 +1339,19 @@ public final class MenuQueries {
             System.out.print("Indique o nome do ficheiro onde guardar: ");
             ficheiro = input.next();
 
-            try {
-                LeituraFicheiros.guarda_ficheiro_objecto(ficheiro);
-            } catch (IOException ex) {
-                System.out.println("Erro ao guardar ficheiro");
-            }
-
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");
             System.out.print("GESTHIPER >> QUERIE 13            \n");
             System.out.print("Guardar hipermercado em ficheiro objecto               \n");
             System.out.print("================================================= \n");
-            System.out.print("Ficheiro guardado com sucesso.\n");
+
+            try {
+                LeituraFicheiros.guarda_ficheiro_objecto(ficheiro);
+                System.out.print("Ficheiro guardado com sucesso.\n");
+            } catch (IOException ex) {
+                System.out.println("Erro ao guardar ficheiro");
+            }
+
             System.out.print("================================================= \n");
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
             System.out.print("==================================================== \n");
@@ -1387,20 +1396,21 @@ public final class MenuQueries {
             System.out.print("Indique o nome do ficheiro: ");
             ficheiro = input.next();
 
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 14            \n");
+            System.out.print("Carregar hipermercado de ficheiro objecto               \n");
+            System.out.print("================================================= \n");
+
             try {
                 LeituraFicheiros.le_ficheiro_objecto(ficheiro);
+                System.out.print("Ficheiro carregado com sucesso.\n");
             } catch (IOException ex) {
                 System.out.println("Erro ao carregar ficheiro.\n");
             } catch (ClassNotFoundException ex) {
                 System.out.println("Classe não conhecida.\n");
             }
 
-            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
-            System.out.print("GESTHIPER >> QUERIE 14            \n");
-            System.out.print("Carregar hipermercado de ficheiro objecto               \n");
-            System.out.print("================================================= \n");
-            System.out.print("Ficheiro carregado com sucesso.\n");
             System.out.print("================================================= \n");
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
             System.out.print("==================================================== \n");
@@ -1446,18 +1456,19 @@ public final class MenuQueries {
             System.out.print("Indique o nome do ficheiro: ");
             ficheiro = input.next();
 
+            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+            System.out.print("================================================= \n");
+            System.out.print("GESTHIPER >> QUERIE 15                            \n");
+            System.out.print("Carregar hipermercado de ficheiro objecto         \n");
+            System.out.print("================================================= \n");
+
             try {
                 hiper.mudaFicheiroCompras(ficheiro);
+                System.out.print("Ficheiro guadado com sucesso.\n");
             } catch (IOException ex) {
                 System.out.print("Erro ao mudar ficheiro compras.\n");
             }
 
-            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
-            System.out.print("GESTHIPER >> QUERIE 15            \n");
-            System.out.print("Carregar hipermercado de ficheiro objecto               \n");
-            System.out.print("================================================= \n");
-            System.out.print("Ficheiro guadado com sucesso.\n");
             System.out.print("================================================= \n");
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
             System.out.print("================================================= \n");
