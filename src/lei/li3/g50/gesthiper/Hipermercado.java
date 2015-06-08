@@ -99,26 +99,34 @@ public class Hipermercado implements Serializable {
     public void setModuloCompras(Compras moduloCompras) {
         this.moduloCompras = moduloCompras;
     }
-    
-    public void addCompraInvalida(String linhaInvalida){
+
+    public void addCompraInvalida(String linhaInvalida) {
         this.comprasInvalidas.add(linhaInvalida);
     }
-    
+
     public void mudaFicheiroCompras(String pathNovoFicheiro) throws IOException {
+        CatalogoClientes backup_catalogo_clientes = this.moduloCatalogoClientes;
+        CatalogoProdutos backup_catalogo_produtos = this.moduloCatalogoProdutos;
         Compras backup_compras = this.moduloCompras;
         Contabilidade backup_contabilidade = this.moduloContabilidade;
-        this.moduloCompras = new Compras();
+        this.moduloCatalogoClientes = new CatalogoClientes();
+        this.moduloCatalogoProdutos = new CatalogoProdutos();
         this.moduloContabilidade = new Contabilidade();
+        this.moduloCompras = new Compras();
 
         try {
+            LeituraFicheiros.le_ficheiro_clientes(this.ficheiro_clientes.getPath());
+            LeituraFicheiros.le_ficheiro_produtos(this.ficheiro_produtos.getPath());
             LeituraFicheiros.le_ficheiro_compras(pathNovoFicheiro);
         } catch (IOException e) {
-            this.moduloCompras = backup_compras;
+            this.moduloCatalogoClientes = backup_catalogo_clientes;
+            this.moduloCatalogoProdutos = backup_catalogo_produtos;
             this.moduloContabilidade = backup_contabilidade;
+            this.moduloCompras = backup_compras;
             throw e;
         }
     }
-    
+
     public void guardaComprasInvalidas(String ficheiro) throws FileNotFoundException{
         PrintWriter pw = new PrintWriter(ficheiro);
         for(String linha : this.comprasInvalidas)

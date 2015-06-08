@@ -66,12 +66,13 @@ public final class MenuQueries {
         Scanner input = new Scanner(System.in);
         MenuActual estadoMenu = MENU_QUERIES;
 
-        catalogoClientes = Gesthiper.getHipermercado().getCatalogoClientes();
-        catalogoProdutos = Gesthiper.getHipermercado().getCatalogoProdutos();
-        moduloContabilidade = Gesthiper.getHipermercado().getContabilidade();
-        moduloCompras = Gesthiper.getHipermercado().getCompras();
-
         while (estadoMenu == MENU_QUERIES) {
+            
+            catalogoClientes = Gesthiper.getHipermercado().getCatalogoClientes();
+            catalogoProdutos = Gesthiper.getHipermercado().getCatalogoProdutos();
+            moduloContabilidade = Gesthiper.getHipermercado().getContabilidade();
+            moduloCompras = Gesthiper.getHipermercado().getCompras();
+
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("=============================\n");
             System.out.print("GESTHIPER >> Menu Queries\n");
@@ -154,7 +155,7 @@ public final class MenuQueries {
             }
 
         }
-
+        input.close();
     }
 
     /*
@@ -207,6 +208,7 @@ public final class MenuQueries {
                     break;
             }
         }
+        input.close();
         return estadoMenu;
     }
 
@@ -281,6 +283,7 @@ public final class MenuQueries {
                     break;
             }
         }
+        input.close();
         return estadoMenu;
     }
 
@@ -369,6 +372,7 @@ public final class MenuQueries {
                     estadoMenu = MENU_QUERIES;
             }
         }
+        input.close();
         return estadoMenu;
     }
 
@@ -457,6 +461,7 @@ public final class MenuQueries {
                     estadoMenu = MENU_QUERIES;
             }
         }
+        input.close();
         return estadoMenu;
     }
 
@@ -515,6 +520,7 @@ public final class MenuQueries {
                     break;
             }
         }
+        input.close();
         return estadoMenu;
     }
 
@@ -603,7 +609,7 @@ public final class MenuQueries {
                     break;
             }
         }
-
+        input.close();
         return estadoMenu;
     }
 
@@ -686,7 +692,7 @@ public final class MenuQueries {
                     break;
             }
         }
-
+        input.close();
         return estadoMenu;
     }
 
@@ -765,7 +771,7 @@ public final class MenuQueries {
                     break;
             }
         }
-
+        input.close();
         return estadoMenu;
     }
 
@@ -897,7 +903,7 @@ public final class MenuQueries {
                     estadoMenu = MENU_QUERIES;
             }
         }
-
+        input.close();
         return estadoMenu;
     }
 
@@ -1030,7 +1036,7 @@ public final class MenuQueries {
                 }
             }
         }
-
+        input.close();
         return estadoMenu;
     }
 
@@ -1162,7 +1168,7 @@ public final class MenuQueries {
                 }
             }
         }
-
+        input.close();
         return estadoMenu;
     }
 
@@ -1313,7 +1319,7 @@ public final class MenuQueries {
             }
 
         }
-
+        input.close();
         return estadoMenu;
     }
 
@@ -1346,6 +1352,7 @@ public final class MenuQueries {
             System.out.print("================================================= \n");
 
             try {
+                System.out.print("A guardar ficheiro...aguarde por favor.\n");
                 LeituraFicheiros.guarda_ficheiro_objecto(ficheiro);
                 System.out.print("Ficheiro guardado com sucesso.\n");
             } catch (IOException ex) {
@@ -1372,6 +1379,7 @@ public final class MenuQueries {
                     break;
             }
         }
+        input.close();
         return estadoMenu;
     }
 
@@ -1403,6 +1411,7 @@ public final class MenuQueries {
             System.out.print("================================================= \n");
 
             try {
+                System.out.print("A ler ficheiro...aguarde por favor.\n");
                 LeituraFicheiros.le_ficheiro_objecto(ficheiro);
                 System.out.print("Ficheiro carregado com sucesso.\n");
             } catch (IOException ex) {
@@ -1431,6 +1440,7 @@ public final class MenuQueries {
                     break;
             }
         }
+        input.close();
         return estadoMenu;
     }
 
@@ -1451,7 +1461,7 @@ public final class MenuQueries {
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");
             System.out.print("GESTHIPER >> QUERIE 15            \n");
-            System.out.print("Carregar hipermercado de ficheiro objecto               \n");
+            System.out.print("Mudar ficheiro de compras              \n");
             System.out.print("================================================= \n");
             System.out.print("Indique o nome do ficheiro: ");
             ficheiro = input.next();
@@ -1459,18 +1469,20 @@ public final class MenuQueries {
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");
             System.out.print("GESTHIPER >> QUERIE 15                            \n");
-            System.out.print("Carregar hipermercado de ficheiro objecto         \n");
+            System.out.print("Mudar ficheiro de compras       \n");
             System.out.print("================================================= \n");
+            
 
             try {
+                System.out.print("A ler ficheiro...aguarde por favor.\n");
                 hiper.mudaFicheiroCompras(ficheiro);
-                System.out.print("Ficheiro guadado com sucesso.\n");
+                System.out.print("Novo ficheiro lido com sucesso.\n");
             } catch (IOException ex) {
                 System.out.print("Erro ao mudar ficheiro compras.\n");
             }
 
             System.out.print("================================================= \n");
-            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
+            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Escolher novo ficheiro \n");
             System.out.print("================================================= \n");
             System.out.print("Escolha opção: ");
             escolha_opcao = input.nextInt();
@@ -1489,6 +1501,7 @@ public final class MenuQueries {
                     break;
             }
         }
+        input.close();
         return estadoMenu;
     }
 
