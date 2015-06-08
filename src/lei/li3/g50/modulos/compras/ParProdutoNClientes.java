@@ -1,46 +1,42 @@
 package lei.li3.g50.modulos.compras;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
 import lei.li3.g50.excepcoes.ArrayNaoTem12Comprimento;
 import lei.li3.g50.modulos.dados.Mes;
-import lei.li3.g50.modulos.dados.Produto;
 
-public class ParProdutoNClientes {
+public class ParProdutoNClientes implements Serializable  {
 
-    private int numeroClientesPorMes[];
-    private int numeroTotalClientes;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3271844417478630684L;
+	private int[] numeroClientesDistintosPorMes;
+    private int numeroTotalClientesDistintos;
 
     /*
      CONSTRUCTORES
      */
     public ParProdutoNClientes() {
-        this.numeroClientesPorMes = new int[12];
-        this.numeroTotalClientes = 0;
+        this.numeroClientesDistintosPorMes = new int[12];
+        this.numeroTotalClientesDistintos = 0;
     }
-
-
-    public ParProdutoNClientes(Produto produto, int[] numeroClientesPorMes)
-            throws ArrayNaoTem12Comprimento {
-
-        this.numeroTotalClientes = 0;
-        this.numeroClientesPorMes = new int[12];
-        if (numeroClientesPorMes.length == 12) {
-            for (int i = 0; i < 12; i++) {
-                this.numeroClientesPorMes[i] = numeroClientesPorMes[i];
-                this.numeroTotalClientes += numeroClientesPorMes[i];
-            }
-        } else {
+    
+    public ParProdutoNClientes(int clientesDistintos[], int totalClientesDistintos) throws ArrayNaoTem12Comprimento {
+        if(clientesDistintos.length!=12)
             throw new ArrayNaoTem12Comprimento();
-        }
-
+        for(int i=0;i<12;i++) this.numeroClientesDistintosPorMes[i] = clientesDistintos[i];
+        this.numeroTotalClientesDistintos = totalClientesDistintos;
     }
+
 
     public ParProdutoNClientes(ParProdutoNClientes par) {
-        this.numeroTotalClientes = par.getNumeroTotalClientes();
-        this.numeroClientesPorMes = new int[12];
-
+        this.numeroTotalClientesDistintos = par.getNumeroTotalClientesDisntintos();
+        this.numeroClientesDistintosPorMes = new int[12];
         for (int i = 0; i < 12; i++) {
-            this.numeroClientesPorMes[i] = par.getNumeroClientesMes(i);
+            this.numeroClientesDistintosPorMes[i] = par.getNumeroClientesDisntintosMes(i);
         }
     }
 
@@ -48,67 +44,67 @@ public class ParProdutoNClientes {
      GETTERS
      */
   
-    public int[] getNumeroClientesPorMes() {
+    public int[] getNumeroClientesDistintosPorMesAsArray() {
         int temp[] = new int[12];
         for (int i = 0; i < 12; i++) {
-            temp[i] = this.numeroClientesPorMes[i];
+            temp[i] = this.numeroClientesDistintosPorMes[i];
         }
         return temp;
     }
-
-    public int getNumeroClientesMes(int indice) {
-        return this.numeroClientesPorMes[indice];
-    }
-
-    public int getNumeroClientesMes(Mes mes) {
-        return this.numeroClientesPorMes[mes.getIndiceArray()];
-    }
-
-    public int getNumeroClientesEntreMeses(Mes mes1, Mes mes2) {
-        int resultado = 0;
-        int indice_menor = Math.min(mes1.getIndiceArray(), mes2.getIndiceArray());
-        int indice_maior = Math.max(mes1.getIndiceArray(), mes2.getIndiceArray());
-
-        for (int i = indice_menor; i <= indice_maior; i++) {
-            resultado += this.numeroClientesPorMes[i];
+    
+    public Map<Mes,Integer> getNumeroClientesDistintosPorMes(){
+        Mes mes;
+        TreeMap<Mes,Integer> mapMeses = new TreeMap<>();
+        
+        for(int i=0;i<12;i++){
+            mes = Mes.numero_to_mes(i+1);
+            mapMeses.put(mes, this.numeroClientesDistintosPorMes[i]);
         }
-
-        return resultado;
+            
+        return mapMeses;
+    }
+    
+    public int getNumeroClientesDisntintosMes(int indice) {
+        return this.numeroClientesDistintosPorMes[indice];
     }
 
-    public int getNumeroTotalClientes() {
-        return numeroTotalClientes;
+    public int getNumeroClientesDisntintosMes(Mes mes) {
+        return this.numeroClientesDistintosPorMes[mes.getIndiceArray()];
+    }
+
+    public int getNumeroTotalClientesDisntintos() {
+        return numeroTotalClientesDistintos;
     }
 
     /*
      SETTERS
      */
     
-
+    
+    public void setNumeroTotalClientesDistintos(int valor){
+        this.numeroTotalClientesDistintos = valor;
+    }
+    public void addNumeroTotalClientesDistintos(int valor){
+        this.numeroTotalClientesDistintos += valor;
+    }
+    
     public void setNumeroClientesMes(Mes mes, int numero_clientes) {
-        int indice = mes.getIndiceArray();
-        int valor_antigo = this.numeroClientesPorMes[indice];
-        int diferenca = numero_clientes - valor_antigo;
-        this.numeroClientesPorMes[indice] = numero_clientes;
-        this.numeroTotalClientes += diferenca;
+        this.numeroClientesDistintosPorMes[mes.getIndiceArray()] = numero_clientes;
     }
     
     public void addNumeroClientesMes(Mes mes, int numero_clientes){
-        this.numeroClientesPorMes[mes.getIndiceArray()] += numero_clientes;
-        this.numeroTotalClientes += numero_clientes;
+        this.numeroClientesDistintosPorMes[mes.getIndiceArray()] += numero_clientes;
     }
     
     public void setNumeroClientesPorMes(int[] numeroClientesPorMes)
             throws ArrayNaoTem12Comprimento {
 
-        this.numeroTotalClientes = 0;
-        if (numeroClientesPorMes.length == 12) {
-            for (int i = 0; i < 12; i++) {
-                this.numeroClientesPorMes[i] = numeroClientesPorMes[i];
-                this.numeroTotalClientes += numeroClientesPorMes[i];
-            }
-        } else {
+        if (numeroClientesPorMes.length != 12) {
             throw new ArrayNaoTem12Comprimento();
+        }
+        
+        for (int i = 0; i < 12; i++) {
+            this.numeroClientesDistintosPorMes[i] = numeroClientesPorMes[i];
         }
     }
 
@@ -125,8 +121,8 @@ public class ParProdutoNClientes {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 41 * hash + Arrays.hashCode(this.numeroClientesPorMes);
-        hash = 41 * hash + this.numeroTotalClientes;
+        hash = 41 * hash + Arrays.hashCode(this.numeroClientesDistintosPorMes);
+        hash = 41 * hash + this.numeroTotalClientesDistintos;
         return hash;
     }
     
@@ -144,16 +140,16 @@ public class ParProdutoNClientes {
             return false;
         }
         final ParProdutoNClientes other = (ParProdutoNClientes) obj;
-        return (this.numeroTotalClientes == other.numeroTotalClientes)
-                && Arrays.equals(this.numeroClientesPorMes, other.numeroClientesPorMes);
+        return (this.numeroTotalClientesDistintos == other.numeroTotalClientesDistintos)
+                && Arrays.equals(this.numeroClientesDistintosPorMes, other.numeroClientesDistintosPorMes);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("ParProdutoNClientes{");;
-        sb.append(", numeroTotalClientes=").append(numeroTotalClientes);
+        sb.append("ParProdutoNClientes{");
+        sb.append("numeroTotalClientesDistintos=").append(numeroTotalClientesDistintos);
         sb.append('}');
         
         return sb.toString();

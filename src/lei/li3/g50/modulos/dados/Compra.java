@@ -1,7 +1,14 @@
 package lei.li3.g50.modulos.dados;
 
+import java.io.Serializable;
 
-public class Compra {
+
+public class Compra implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4178196471556261741L;
+
 	public static final int COMPRA_INVALIDA = -1;
 
 	private Cliente cliente;
@@ -43,19 +50,19 @@ public class Compra {
 	 * GETTERS e SETTERS
 	 */
 	public Cliente getCliente() {
-		return cliente.clone();
+		return cliente;
 	}
 
 	public void setCliente(Cliente cliente) {
-		this.cliente = cliente.clone();
+		this.cliente = cliente;
 	}
 
 	public Produto getProduto() {
-		return produto.clone();
+		return produto;
 	}
 
 	public void setProduto(Produto produto) {
-		this.produto = produto.clone();
+		this.produto = produto;
 	}
 
 	public double getPreco() {

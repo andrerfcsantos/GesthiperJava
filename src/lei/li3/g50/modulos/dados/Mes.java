@@ -1,6 +1,8 @@
 package lei.li3.g50.modulos.dados;
 
-public enum Mes {
+import java.io.Serializable;
+
+public enum Mes implements Serializable {
 
     JANEIRO(1, "Jan", "Janeiro"),
     FEVEREIRO(2, "Fev", "Fevereiro"),

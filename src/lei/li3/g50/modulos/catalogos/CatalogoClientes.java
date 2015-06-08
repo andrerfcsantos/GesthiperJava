@@ -1,5 +1,6 @@
 package lei.li3.g50.modulos.catalogos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,9 +10,13 @@ import java.util.TreeSet;
 import lei.li3.g50.modulos.dados.Cliente;
 import lei.li3.g50.utilitarios.ComparatorClientePorCodigo;
 
-public class CatalogoClientes {
+public class CatalogoClientes implements Serializable {
 
-    private ArrayList<TreeSet<Cliente>> catalogo;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2179945166363982211L;
+	private ArrayList<TreeSet<Cliente>> catalogo;
 
     /*
      CONSTRUCTORES
@@ -29,6 +34,7 @@ public class CatalogoClientes {
 
     public CatalogoClientes(Collection<Cliente> coleccao) {
         this();
+        //FIXME va não usada
         int i, indice;
         for (Cliente cliente : coleccao) {
             indice = calcula_indice(cliente.getCodigoCliente().charAt(0));
@@ -94,7 +100,7 @@ public class CatalogoClientes {
     /*
      METODOS INSTANCIA
      */
-    public void insere_cliente(Cliente cliente) {
+    public void insereCliente(Cliente cliente) {
         int indice = calcula_indice(cliente.getCodigoCliente().charAt(0));
         catalogo.get(indice).add(cliente.clone());
     }

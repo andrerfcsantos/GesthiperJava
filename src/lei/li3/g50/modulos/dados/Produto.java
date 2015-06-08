@@ -1,9 +1,15 @@
 package lei.li3.g50.modulos.dados;
 
-import java.util.Objects;
+import java.io.Serializable;
 
-public class Produto implements Comparable<Produto>{
-    private String codigo_produto;
+
+public class Produto implements Comparable<Produto>, Serializable{
+    
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -700854503228887841L;
+	private String codigo_produto;
     
     /*
     CONSTRUCTORES

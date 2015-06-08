@@ -1,5 +1,6 @@
 package lei.li3.g50.modulos.catalogos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,9 +10,13 @@ import java.util.TreeSet;
 import lei.li3.g50.modulos.dados.Produto;
 import lei.li3.g50.utilitarios.ComparatorProdutoPorCodigo;
 
-public class CatalogoProdutos {
+public class CatalogoProdutos implements Serializable {
 
-    private ArrayList<TreeSet<Produto>> catalogo;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1697318332425633837L;
+	private ArrayList<TreeSet<Produto>> catalogo;
 
     /*
      CONSTRUCTORES
@@ -29,6 +34,8 @@ public class CatalogoProdutos {
 
     public CatalogoProdutos(Collection<Produto> coleccao) {
         this();
+        
+        //FIXME var não usada
         int i, indice;
         for (Produto produto : coleccao) {
             indice = calcula_indice(produto.getCodigoProduto().charAt(0));
@@ -92,7 +99,7 @@ public class CatalogoProdutos {
     /*
      METODOS INSTANCIA
      */
-    public void insere_produto(Produto produto) {
+    public void insereProduto(Produto produto) {
         int indice = calcula_indice(produto.getCodigoProduto().charAt(0));
         catalogo.get(indice).add(produto.clone());
     }

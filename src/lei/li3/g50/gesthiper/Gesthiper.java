@@ -1,5 +1,6 @@
 package lei.li3.g50.gesthiper;
 
+import lei.li3.g50.excepcoes.ClienteNaoExisteException;
 import lei.li3.g50.modulos.dados.Cliente;
 
 public class Gesthiper {
@@ -8,10 +9,7 @@ public class Gesthiper {
 
 	public static void main(String[] args) {
 		hipermercado = new Hipermercado();
-		Leitura.mostra_ficheiros();
-                Leitura.menuLeitura();
-                testes_aos_modulos();
-                Interface.menuQueries();
+                MenuLeitura.menuLeitura();
 	}
         
 
@@ -27,6 +25,10 @@ public class Gesthiper {
 		System.out.print(""+hipermercado.getCatalogoClientes().toString()+"\n");
 		System.out.print(""+hipermercado.getCatalogoProdutos().toString()+"\n");
 		System.out.print(""+hipermercado.getCompras().toString()+"\n");
+            try {
                 System.out.print(" Compras do cliente CW786: "+hipermercado.getCompras().getTotalComprasCliente(new Cliente("CW786"))+"\n");
+            } catch (ClienteNaoExisteException ex) {
+                System.out.print("O cliente nao existe\n");
+            }
 	}
 }

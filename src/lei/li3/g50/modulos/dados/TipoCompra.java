@@ -1,6 +1,8 @@
 package lei.li3.g50.modulos.dados;
 
-public enum TipoCompra {
+import java.io.Serializable;
+
+public enum TipoCompra implements Serializable {
 
     NORMAL(0, 'N', "N", "Normal", "Norm."),
     PROMOCAO(1, 'P', "P", "Promoção", "Promo."),
