@@ -46,6 +46,7 @@ public class LeituraFicheiros {
 
     public static void le_ficheiro_clientes(String str_ficheiro_clientes)
             throws FileNotFoundException, IOException {
+    	//FIXME var não usada
         int i = 1;
         String linha;
         Hipermercado hiper = Gesthiper.getHipermercado();
@@ -71,6 +72,7 @@ public class LeituraFicheiros {
 
     public static void le_ficheiro_compras(String str_ficheiro_compras)
             throws FileNotFoundException, IOException {
+    	//FIXME var não usada
         int i = 0;
         Hipermercado hiper = Gesthiper.getHipermercado();
         String linha;
