@@ -193,7 +193,7 @@ public class Compras implements Serializable {
         return this.getFichaClienteNoClone(cliente).getNumComprasClientePorMes();
     }
 
-    public Matriz_Double_12x2 getDinheirGastoClienteMeses(Cliente cliente) throws ClienteNaoExisteException {
+    public Matriz_Double_12x2 getDinheiroGastoClienteMeses(Cliente cliente) throws ClienteNaoExisteException {
         return this.getFichaClienteNoClone(cliente).getDinheiroGastoClientePorMes();
     }
 
@@ -205,7 +205,7 @@ public class Compras implements Serializable {
         return this.getFichaClienteNoClone(cliente).getNumComprasMes(mes, TipoCompra.AMBOS);
     }
 
-    public double getDinheirGastoClienteMes(Cliente cliente, Mes mes) throws ClienteNaoExisteException {
+    public double getDinheiroGastoClienteMes(Cliente cliente, Mes mes) throws ClienteNaoExisteException {
         return this.getFichaClienteNoClone(cliente).getDinheiroGastoClientePorMes(mes, TipoCompra.AMBOS);
     }
 

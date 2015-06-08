@@ -2,6 +2,7 @@ package lei.li3.g50.utilitarios;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import lei.li3.g50.modulos.dados.Cliente;
 
 public class ParClienteProdutosDiferentes implements Serializable {
@@ -13,7 +14,9 @@ public class ParClienteProdutosDiferentes implements Serializable {
 	private Cliente cliente;
     private int produtos_diferentes;
 
-    private ParClienteProdutosDiferentes() {
+    public ParClienteProdutosDiferentes() {
+      this.cliente = new Cliente();
+      this.produtos_diferentes=0;
     }
 
     public ParClienteProdutosDiferentes(Cliente cliente) {

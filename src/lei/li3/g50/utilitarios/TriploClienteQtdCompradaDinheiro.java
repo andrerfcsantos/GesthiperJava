@@ -5,11 +5,20 @@ import java.util.Objects;
 import lei.li3.g50.modulos.dados.Cliente;
 
 public class TriploClienteQtdCompradaDinheiro implements Serializable{
+    /**
+   * 
+   */
+  private static final long serialVersionUID = 8024952534834211342L;
     private Cliente cliente;
     private int quantidadeComprada;
     private double totalDinheirGasto;
     
-    private TriploClienteQtdCompradaDinheiro(){}
+    public TriploClienteQtdCompradaDinheiro(){
+      this.cliente = new Cliente();
+      this.quantidadeComprada = 0;
+      this.totalDinheirGasto = 0;
+      
+    }
     
     public TriploClienteQtdCompradaDinheiro(Cliente cliente){
         this.cliente = cliente.clone();
@@ -92,8 +101,8 @@ public class TriploClienteQtdCompradaDinheiro implements Serializable{
         }
         final TriploClienteQtdCompradaDinheiro other = (TriploClienteQtdCompradaDinheiro) obj;
         return this.cliente.equals(other.cliente)
-                && this.quantidadeComprada == this.quantidadeComprada
-                && this.totalDinheirGasto == this.totalDinheirGasto;
+                && this.quantidadeComprada == other.getQuantidadeComprada()
+                && this.totalDinheirGasto == other.getTotalDinheirGasto();
     }
 
     @Override

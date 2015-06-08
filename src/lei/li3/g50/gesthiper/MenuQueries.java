@@ -560,7 +560,7 @@ public final class MenuQueries {
 
             try {
                 numeroCompras = moduloCompras.getNumeroComprasClienteMeses(cliente);
-                dinheiroGasto = moduloCompras.getDinheirGastoClienteMeses(cliente);
+                dinheiroGasto = moduloCompras.getDinheiroGastoClienteMeses(cliente);
                 numeroProdsDistintosPorMes = moduloCompras.getNumeroProdutosDisntintosPorMesCliente(cliente);
 
                 System.out.print("Código Cliente: " + cliente.getCodigoCliente() + "\n");

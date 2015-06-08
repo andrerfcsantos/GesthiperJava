@@ -13,7 +13,12 @@ public class ParProdutoQuantidadeComprada implements Serializable {
 	private Produto produto;
     private int quantidade;
 
-    private ParProdutoQuantidadeComprada() {}
+    public ParProdutoQuantidadeComprada() {
+      this.produto = new Produto();
+      this.quantidade = 0;
+      
+      
+    }
 
     public ParProdutoQuantidadeComprada(Produto produto) {
         this.produto = produto.clone();
