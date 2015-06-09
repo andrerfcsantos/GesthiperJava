@@ -3,6 +3,7 @@ package lei.li3.g50.gesthiper;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -169,17 +170,19 @@ public final class MenuQueries {
     public static MenuActual _01_estatisticasUltimoFicheiro() {
         MenuActual estadoMenu = QUERIE_01;
         int escolha_opcao;
+        double tempo_querie;
         Scanner input = new Scanner(System.in);
         Hipermercado hiper = Gesthiper.getHipermercado();
 
         while (estadoMenu == QUERIE_01) {
+            Crono.start();
             int produtosNaoComprados = moduloCompras.getTotalProdutosNaoComprados();
             int clientesSemCompras = moduloCompras.getTotalClientesSemCompras();
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("=================================================== \n");
             System.out.print("GESTHIPER >> QUERIE 1            \n");
             System.out.print("Etsatísticas últimos ficheiros lidos                \n");
-            System.out.print("================================================= \n");
+            System.out.print("=================================================== \n");
 
             System.out.print("Ficheiro Produtos: " + hiper.getFicheiro_produtos().getPath() + "\n");
             System.out.print("Ficheiro Clientes: " + hiper.getFicheiro_clientes().getPath() + "\n");
@@ -191,10 +194,13 @@ public final class MenuQueries {
             System.out.print("Total Clientes Sem Compras: " + clientesSemCompras + "\n");
             System.out.print("Total Produtos Comprados: " + (catalogoClientes.getNumeroClientesTotal() - clientesSemCompras) + "\n");
             System.out.print("Compras de valor zero: " + moduloCompras.getNumeroComprasValorZero() + "\n");
-            System.out.print("Facturação total: " + "[Contabilidade]" + "\n");
-            System.out.print("================================================= \n");
+            System.out.print("Facturação total: " + moduloContabilidade.getTotalFacturado() + "\n");
+            tempo_querie = Crono.stop();
+            System.out.print("--------------------------------------------------- \n");
+            System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
+            System.out.print("=================================================== \n");
             System.out.print(" 0 - Sair | 1 - Menu Principal   \n");
-            System.out.print("==================================================== \n");
+            System.out.print("=================================================== \n");
             System.out.print("Escolha opção: ");
             escolha_opcao = input.nextInt();
             switch (escolha_opcao) {
@@ -228,34 +234,52 @@ public final class MenuQueries {
         int escolha_opcao;
         Mes mes;
         String ficheiro;
+        Map<Mes, Integer> clientesDistintos;
+        Matriz_Double_12x2 facturacao;
+        Matriz_Int_12x2 compras;
+        int totalClientesDistintos;
+        double tempo_querie;
         Scanner input = new Scanner(System.in);
         Hipermercado hiper = Gesthiper.getHipermercado();
 
         while (estadoMenu == QUERIE_02) {
+            Crono.start();
+            compras = moduloContabilidade.getTotalComprasPorMes();
+            facturacao = moduloContabilidade.getTotalFacturadoPorMes();
+            clientesDistintos = moduloCompras.getNumeroClientesDistintosMeses();
+            totalClientesDistintos = moduloCompras.getTotalClientesDistintos();
+            tempo_querie = Crono.stop();
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
-            System.out.print("GESTHIPER >> QUERIE 2            \n");
-            System.out.print("Dados globais                \n");
-            System.out.print("================================================= \n");
+            System.out.print("=============================================================== \n");
+            System.out.print("GESTHIPER >> QUERIE 2                                           \n");
+            System.out.print("Dados globais                                                   \n");
+            System.out.print("=============================================================== \n");
 
-            System.out.print("-----------------------------------------\n");
-            System.out.print("|     | Número  |            | Clientes  |\n");
-            System.out.print("| Mes | Compras | Facturacao | Distintos |\n");
-            System.out.print("-----------------------------------------\n");
+            System.out.print("------------------------------------------- \n");
+            System.out.print("|     | Número  |              | Clientes  |\n");
+            System.out.print("| Mes | Compras |  Facturacao  | Distintos |\n");
+            System.out.print("------------------------------------------- \n");
 
             for (int i = 0; i < 12; i++) {
                 mes = Mes.numero_to_mes(i + 1);
 
-                System.out.printf("| %3s | %7d | %7.2f | %9d |\n", mes.getMes_abreviado(),
-                        -1,
-                        -1.0,
-                        moduloCompras.getNumeroClientesDistintosMes(mes));
+                System.out.printf("| %3s | %7d | %9.2f | %9d |\n", mes.getMes_abreviado(),
+                        compras.getValorMesTipoCompra(mes, TipoCompra.AMBOS),
+                        facturacao.getValorMesTipoCompra(mes, TipoCompra.AMBOS),
+                        clientesDistintos.get(mes));
             }
-            System.out.print("-----------------------------------------\n");
+            System.out.print("------------------------------------------- \n");
+            System.out.printf("| Tot | %7d | %9.2f | %9d |\n",
+                    compras.getSomaTotal(),
+                    facturacao.getSomaTotal(),
+                    moduloCompras.getTotalClientesDistintos());
+
+            System.out.print("-------------------------------------------\n");
             System.out.print("Número compras inválidas: " + hiper.getNumeroComprasInvalidas() + "\n");
-            System.out.print("================================================= \n");
-            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar compras inválidas   \n");
-            System.out.print("==================================================== \n");
+            System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
+            System.out.print("=============================================================== \n");
+            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar compras inválidas  \n");
+            System.out.print("=============================================================== \n");
             System.out.print("Escolha opção: ");
             escolha_opcao = input.nextInt();
             switch (escolha_opcao) {
@@ -293,11 +317,14 @@ public final class MenuQueries {
         MenuActual estadoMenu = QUERIE_03;
         Scanner input = new Scanner(System.in);
         Produto produto;
+        double tempo_querie;
         int numero_pagina = 1, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
 
-        List<Produto> listaProdutosSemCompras = moduloCompras.getProdutosNaoComprados();
+        Crono.start();
+        List<Produto> listaProdutosSemCompras = moduloContabilidade.getProdutosNaoComprados();
         Paginador<List<Produto>> paginador = new Paginador<>(listaProdutosSemCompras, 10, 1);
+        tempo_querie = Crono.stop();
 
         numero_resultados = listaProdutosSemCompras.size();
         total_paginas = paginador.getNumPaginas();
@@ -326,6 +353,7 @@ public final class MenuQueries {
                 System.out.printf("--------------------\n");
                 System.out.printf("A mostrar %d-%d de %d resultados.\n",
                         inicio_pagina + 1, fim_pagina, numero_resultados);
+                System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
             } else {
                 System.out.print("Não há resultados a mostrar.\n");
             }
@@ -381,12 +409,14 @@ public final class MenuQueries {
         MenuActual estadoMenu = QUERIE_04;
         Scanner input = new Scanner(System.in);
         Cliente cliente;
+        double tempo_querie;
         int numero_pagina = 1, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
 
+        Crono.start();
         List<Cliente> listaClientesSemCompras = moduloCompras.getClientesSemCompras();
         Paginador<List<Cliente>> paginador = new Paginador<>(listaClientesSemCompras, 10, 1);
-
+        tempo_querie = Crono.stop();
         numero_resultados = listaClientesSemCompras.size();
         total_paginas = paginador.getNumPaginas();
 
@@ -414,6 +444,7 @@ public final class MenuQueries {
                 System.out.printf("--------------------\n");
                 System.out.printf("A mostrar %d-%d de %d resultados.\n",
                         inicio_pagina + 1, fim_pagina, numero_resultados);
+                System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
             } else {
                 System.out.print("Não há resultados a mostrar.\n");
             }
@@ -470,36 +501,40 @@ public final class MenuQueries {
         MenuActual estadoMenu = QUERIE_05;
         int escolha_mes, escolha_opcao;
         Mes mes_escolhido;
+        double tempo_querie;
         Scanner input = new Scanner(System.in);
 
         while (estadoMenu == QUERIE_05) {
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("========================================================== \n");
             System.out.print("GESTHIPER >> QUERIE 5            \n");
             System.out.print("Nº de compras e Clientes num mês                \n");
-            System.out.print("================================================= \n");
+            System.out.print("========================================================== \n");
             System.out.print("Indique o nº do mês: ");
             escolha_mes = input.nextInt();
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("========================================================== \n");
             System.out.print("GESTHIPER >> QUERIE 5            \n");
             System.out.print("Nº de compras e Clientes num mês                \n");
-            System.out.print("================================================= \n");
+            System.out.print("========================================================== \n");
 
             if (escolha_mes > 0 && escolha_mes <= 12) {
                 mes_escolhido = Mes.numero_to_mes(escolha_mes);
-
+                Crono.start();
                 System.out.print("Mês: " + mes_escolhido.getMes_extenso() + "\n");
                 System.out.print("Nº clientes distintos: " + moduloCompras.getNumeroClientesDistintosMes(mes_escolhido) + "\n");
-                System.out.print("Nº compras: [Contabilidade]\n");
+                System.out.print("Nº compras: " + moduloContabilidade.getTotalComprasPorMes(mes_escolhido) + "\n");
+                tempo_querie = Crono.stop();
+                System.out.print("-------------------------------------------\n");
+                System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
             } else {
                 System.out.print("Mês inserido é inválido\n");
             }
 
-            System.out.print("================================================= \n");
+            System.out.print("========================================================== \n");
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Procurar outro mês    \n");
-            System.out.print("==================================================== \n");
+            System.out.print("========================================================== \n");
             System.out.print("Escolha opção: ");
             escolha_opcao = input.nextInt();
             switch (escolha_opcao) {
@@ -531,6 +566,7 @@ public final class MenuQueries {
         Mes mes;
         Cliente cliente;
         int escolha_opcao;
+        double tempo_querie;
         Matriz_Int_12x2 numeroCompras;
         Matriz_Double_12x2 dinheiroGasto;
         Map<Mes, Integer> numeroProdsDistintosPorMes;
@@ -539,26 +575,27 @@ public final class MenuQueries {
         while (estadoMenu == QUERIE_06) {
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("============================================================ \n");
             System.out.print("GESTHIPER >> QUERIE 6            \n");
             System.out.print("Compras de cliente            \n");
-            System.out.print("================================================= \n");
+            System.out.print("============================================================ \n");
             System.out.print("Indique o cliente que quer procurar: ");
             cliente_inserido = input.next();
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("============================================================ \n");
             System.out.print("GESTHIPER >> QUERIE 6            \n");
             System.out.print("Compras de cliente            \n");
-            System.out.print("================================================= \n");
+            System.out.print("============================================================ \n");
 
             cliente = new Cliente(cliente_inserido);
 
             try {
+                Crono.start();
                 numeroCompras = moduloCompras.getNumeroComprasClienteMeses(cliente);
                 dinheiroGasto = moduloCompras.getDinheiroGastoClienteMeses(cliente);
                 numeroProdsDistintosPorMes = moduloCompras.getNumeroProdutosDisntintosPorMesCliente(cliente);
-
+                tempo_querie = Crono.stop();
                 System.out.print("Código Cliente: " + cliente.getCodigoCliente() + "\n");
                 System.out.print("---------------------------------------\n");
                 System.out.print("|     | Número  | Produtos  |         |\n");
@@ -580,6 +617,7 @@ public final class MenuQueries {
                         moduloCompras.getNumeroProdutosDistintosCliente(cliente),
                         dinheiroGasto.getSomaTotal());
                 System.out.print("---------------------------------------\n");
+                System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
 
             } catch (ClienteNaoExisteException ex) {
                 System.out.print("O cliente " + cliente_inserido + " não existe.\n");
@@ -618,7 +656,10 @@ public final class MenuQueries {
         Mes mes;
         Produto produto;
         Map<Mes, Integer> clientesDistintosProduto;
+        Matriz_Double_12x2 facturacaoProduto;
+        Matriz_Int_12x2 comprasProduto;
         int escolha_opcao;
+        double tempo_querie;
         Scanner input = new Scanner(System.in);
 
         while (estadoMenu == QUERIE_07) {
@@ -639,9 +680,13 @@ public final class MenuQueries {
             produto = new Produto(produto_inserido);
 
             try {
+                Crono.start();
                 clientesDistintosProduto = moduloCompras.getClientesDistintosProdutoMeses(produto);
+                facturacaoProduto = moduloContabilidade.getFacturacaoProdutoMeses(produto);
+                comprasProduto = moduloContabilidade.getComprasProdutoMeses(produto);
+                tempo_querie = Crono.stop();
 
-                System.out.print("PRODUTO:" + produto.getCodigoProduto() + "\n");
+                System.out.print("Código Produto: " + produto.getCodigoProduto() + "\n");
                 System.out.print("-------------------------------------------\n");
                 System.out.print("|     | Número  | Clientes  |             |\n");
                 System.out.print("| Mes | Compras | Distintos | € Facturado |\n");
@@ -651,17 +696,18 @@ public final class MenuQueries {
                     mes = Mes.numero_to_mes(i + 1);
 
                     System.out.printf("| %3s | %7d | %9d | %7.2f |\n", mes.getMes_abreviado(),
-                            -1,
+                            comprasProduto.getValorMesTipoCompra(mes, TipoCompra.AMBOS),
                             clientesDistintosProduto.get(mes),
-                            -1.0);
+                            facturacaoProduto.getValorMesTipoCompra(mes, TipoCompra.AMBOS));
                 }
 
                 System.out.print("---------------------------------------\n");
                 System.out.printf("| Tot | %7d | %9d | %7.2f |\n",
-                        -1,
+                        comprasProduto.getSomaTotal(),
                         moduloCompras.getTotalClientesDistintosProduto(produto),
-                        -1.0);
+                        facturacaoProduto.getSomaTotal());
                 System.out.print("---------------------------------------\n");
+                System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
 
             } catch (ProdutoNaoExisteException ex) {
                 System.out.print("O produto " + produto_inserido + " não existe.\n");
@@ -700,6 +746,9 @@ public final class MenuQueries {
         Mes mes;
         Produto produto;
         int escolha_opcao;
+        double tempo_querie;
+        Matriz_Double_12x2 facturacaoProduto;
+        Matriz_Int_12x2 comprasProduto;
         Scanner input = new Scanner(System.in);
 
         while (estadoMenu == QUERIE_08) {
@@ -718,30 +767,32 @@ public final class MenuQueries {
             System.out.print("================================================= \n");
 
             produto = new Produto(produto_inserido);
-            if (catalogoProdutos.existeProduto(produto)) {
-
-                System.out.print("PRODUTO:" + produto.getCodigoProduto() + "\n");
-                System.out.print("--------------------------------------------------------------.--------- \n");
-                System.out.print("|     |       Número Compras   ||          Facturacao                  ||\n");
-                System.out.print("| Mes | Normal | Promo | Total ||   Normal   |   Promo   |    Total    ||\n");
-                System.out.print("------------------------------------------------------------------------ \n");
+            try {
+                Crono.start();
+                facturacaoProduto = moduloContabilidade.getFacturacaoProdutoMeses(produto);
+                comprasProduto = moduloContabilidade.getComprasProdutoMeses(produto);
+                tempo_querie = Crono.stop();
+                System.out.print("Código Produto:" + produto.getCodigoProduto() + "\n");
+                System.out.print("-------------------------------------------------------------------------- \n");
+                System.out.print("|     |       Número Compras     ||          Facturacao                  ||\n");
+                System.out.print("| Mes | Normal |  Promo  | Total ||   Normal   |   Promo   |    Total    ||\n");
+                System.out.print("-------------------------------------------------------------------------- \n");
 
                 for (int i = 0; i < 12; i++) {
                     mes = Mes.numero_to_mes(i + 1);
 
-                    System.out.printf("| %3s | %6d | %6d | %6d | %7.2f | %7.2f | %8.2f ||\n", mes.getMes_abreviado(),
-                            -1, -1, -1,
-                            -1.0, -1.0, -1.0,
-                            -1.0);
+                    System.out.printf("| %3s | %6d | %7d | %6d || %7.2f | %7.2f | %8.2f ||\n", mes.getMes_abreviado(),
+                            comprasProduto.getValorMesTipoCompra(mes, TipoCompra.NORMAL), comprasProduto.getValorMesTipoCompra(mes, TipoCompra.PROMOCAO), comprasProduto.getValorMesTipoCompra(mes, TipoCompra.AMBOS),
+                            facturacaoProduto.getValorMesTipoCompra(mes, TipoCompra.NORMAL), facturacaoProduto.getValorMesTipoCompra(mes, TipoCompra.PROMOCAO), facturacaoProduto.getValorMesTipoCompra(mes, TipoCompra.AMBOS));
                 }
 
-                System.out.print("------------------------------------------------------------------------ \n");
-                System.out.printf("| Tot | %6d | %6d | %6d | %7.2f | %7.2f | %8.2f ||\n",
-                        -1, -1, -1,
-                        -1.0, -1.0, -1.0);
-                System.out.print("------------------------------------------------------------------------ \n");
-
-            } else {
+                System.out.print("-------------------------------------------------------------------------- \n");
+                System.out.printf("| Tot | %6d | %7d | %6d || %7.2f | %7.2f | %8.2f ||\n",
+                        comprasProduto.getValorEntreMeses(Mes.JANEIRO, Mes.DEZEMBRO, TipoCompra.NORMAL), comprasProduto.getValorEntreMeses(Mes.JANEIRO, Mes.DEZEMBRO, TipoCompra.PROMOCAO), comprasProduto.getValorEntreMeses(Mes.JANEIRO, Mes.DEZEMBRO, TipoCompra.AMBOS),
+                        facturacaoProduto.getValorEntreMeses(Mes.JANEIRO, Mes.DEZEMBRO, TipoCompra.NORMAL), facturacaoProduto.getValorEntreMeses(Mes.JANEIRO, Mes.DEZEMBRO, TipoCompra.PROMOCAO), facturacaoProduto.getValorEntreMeses(Mes.JANEIRO, Mes.DEZEMBRO, TipoCompra.AMBOS));
+                System.out.print("-------------------------------------------------------------------------- \n");
+                System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
+            } catch (ProdutoNaoExisteException ex) {
                 System.out.print("O produto " + produto_inserido + " não existe.\n");
             }
 
@@ -779,6 +830,7 @@ public final class MenuQueries {
         Cliente cliente;
         String cliente_lido;
         ParProdutoQuantidadeComprada par;
+        double tempo_querie;
         int numero_pagina = 1, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
 
@@ -793,9 +845,10 @@ public final class MenuQueries {
         cliente = new Cliente(cliente_lido);
 
         try {
+            Crono.start();
             List<ParProdutoQuantidadeComprada> lista_pares = moduloCompras.getParesProdutoNumComprasCliente(cliente);
             Paginador<List<ParProdutoQuantidadeComprada>> paginador = new Paginador<>(lista_pares, 10, 1);
-
+            tempo_querie = Crono.stop();
             numero_resultados = lista_pares.size();
             total_paginas = paginador.getNumPaginas();
 
@@ -806,34 +859,35 @@ public final class MenuQueries {
                 fim_pagina = inicio_pagina + num_elems_pag_actual;
 
                 System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-                System.out.print("================================================= \n");
+                System.out.print("============================================================= \n");
                 System.out.print("GESTHIPER >> QUERIE 9            \n");
                 System.out.print("Produtos mais comprados cliente                 \n");
-                System.out.print("================================================= \n");
+                System.out.print("============================================================= \n");
 
                 if (numero_resultados > 0) {
-                    System.out.print("CLIENTE: " + cliente.getCodigoCliente() + "\n");
+                    System.out.print("Código Cliente: " + cliente.getCodigoCliente() + "\n");
                     System.out.printf("Pagina %2d/%d \n", numero_pagina, total_paginas);
-                    System.out.printf("---------------------------------\n");
+                    System.out.printf("----------------------------------\n");
                     System.out.printf("|       |  Codigo   |            |\n");
                     System.out.printf("|   #   |  Produto  | Quantidade |\n");
-                    System.out.printf("---------------------------------\n");
+                    System.out.printf("----------------------------------\n");
                     for (int i = 0; i < num_elems_pag_actual; i++) {
                         par = lista_pares.get(inicio_pagina + i);
                         System.out.printf("| %5d | %9s | %10d |\n",
                                 inicio_pagina + i + 1, par.getProduto().getCodigoProduto(), par.getQuantidadeComprada());
                     }
-                    System.out.printf("---------------------------------\n");
+                    System.out.printf("----------------------------------\n");
                     System.out.printf("A mostrar %d-%d de %d resultados.\n",
                             inicio_pagina + 1, fim_pagina, numero_resultados);
+                    System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
                 } else {
                     System.out.print("Não há resultados a mostrar.\n");
                 }
 
-                System.out.print("==================================================== \n");
-                System.out.print("0 - Sair | 1 - Menu Principal  | 3 - Procurar outro cliente \n");
-                System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag...  \n");
-                System.out.print("==================================================== \n");
+                System.out.print("============================================================= \n");
+                System.out.print("0 - Sair | 1 - Menu Principal  | 3 - Procurar outro cliente   \n");
+                System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag..         .  \n");
+                System.out.print("============================================================= \n");
                 System.out.print("Insira nº da opcao > ");
                 escolha_opcao_menu = input.nextInt();
 
@@ -909,6 +963,7 @@ public final class MenuQueries {
         Scanner input = new Scanner(System.in);
         ParProdutoQuantidadeComprada par;
         ParProdutoQuantidadeComprada produto;
+        double tempo_querie;
         int topN;
         int numero_pagina, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
@@ -920,10 +975,11 @@ public final class MenuQueries {
             System.out.print("GESTHIPER >> QUERIE 10                            \n");
             System.out.print("N Produtos mais vendidos                          \n");
             System.out.print("================================================= \n");
-            System.out.print("Qual o top de clientes que deseja ver (N)?: ");
+            System.out.print("Qual o top de produtos deseja ver (N)?: ");
             topN = input.nextInt();
 
             if (topN > 0) {
+                Crono.start();
                 List<ParProdutoQuantidadeComprada> lista_produtos = moduloContabilidade.getProdutosMaisVendidos(topN);
                 Paginador<List<ParProdutoQuantidadeComprada>> paginador = new Paginador<>(lista_produtos, 10, 1);
                 ArrayList<Integer> numeroClientes = new ArrayList<>();
@@ -934,7 +990,7 @@ public final class MenuQueries {
                         numeroClientes.add(0);
                     }
                 }
-                
+                tempo_querie = Crono.stop();
                 estadoMenu = QUERIE_10b;
                 while (estadoMenu == QUERIE_10b) {
                     numero_resultados = lista_produtos.size();
@@ -958,7 +1014,7 @@ public final class MenuQueries {
                         System.out.printf("--------------------------------------------\n");
                         for (int i = 0; i < num_elems_pag_actual; i++) {
                             par = lista_produtos.get(inicio_pagina + i);
-                            System.out.printf("| %5d | %9s | %8d |%9d |\n",
+                            System.out.printf("| %5d | %9s | %8d | %9d |\n",
                                     inicio_pagina + i + 1,
                                     par.getProduto().getCodigoProduto(),
                                     par.getQuantidadeComprada(),
@@ -967,6 +1023,7 @@ public final class MenuQueries {
                         System.out.printf("--------------------------------------------\n");
                         System.out.printf("A mostrar %d-%d de %d resultados.\n",
                                 inicio_pagina + 1, fim_pagina, numero_resultados);
+                        System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
                     } else {
                         System.out.print("Não há resultados a mostrar.\n");
                     }
@@ -1050,6 +1107,7 @@ public final class MenuQueries {
         Scanner input = new Scanner(System.in);
         ParClienteProdutosDiferentes par;
         int topN;
+        double tempo_querie;
         int numero_pagina, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
 
@@ -1064,20 +1122,21 @@ public final class MenuQueries {
             topN = input.nextInt();
 
             if (topN > 0) {
+                Crono.start();
                 List<ParClienteProdutosDiferentes> lista_pares = moduloCompras.getParesClienteProdutosDiferentes(topN);
                 Paginador<List<ParClienteProdutosDiferentes>> paginador = new Paginador<>(lista_pares, 10, 1);
-
+                tempo_querie = Crono.stop();
                 numero_resultados = lista_pares.size();
                 total_paginas = paginador.getNumPaginas();
-
-                paginador.gotoPagina(numero_pagina);
-                inicio_pagina = paginador.getPosInicialPagActual();
-                num_elems_pag_actual = paginador.getNumElemsPagActual();
-                fim_pagina = inicio_pagina + num_elems_pag_actual;
 
                 estadoMenu = QUERIE_11b;
 
                 while (estadoMenu == QUERIE_11b) {
+
+                    paginador.gotoPagina(numero_pagina);
+                    inicio_pagina = paginador.getPosInicialPagActual();
+                    num_elems_pag_actual = paginador.getNumElemsPagActual();
+                    fim_pagina = inicio_pagina + num_elems_pag_actual;
                     System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
                     System.out.print("================================================= \n");
                     System.out.print("GESTHIPER >> QUERIE 11            \n");
@@ -1098,6 +1157,7 @@ public final class MenuQueries {
                         System.out.printf("---------------------------------\n");
                         System.out.printf("A mostrar %d-%d de %d resultados.\n",
                                 inicio_pagina + 1, fim_pagina, numero_resultados);
+                        System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
                     } else {
                         System.out.print("Não há resultados a mostrar.\n");
                     }
@@ -1183,6 +1243,7 @@ public final class MenuQueries {
         Scanner input = new Scanner(System.in);
         TriploClienteQtdCompradaDinheiro triplo;
         int topN;
+        double tempo_querie;
         int numero_pagina, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
 
@@ -1206,8 +1267,10 @@ public final class MenuQueries {
             produto = new Produto(produto_inserido);
 
             if (topN > 0 && catalogoProdutos.existeProduto(produto)) {
+                Crono.start();
                 List<TriploClienteQtdCompradaDinheiro> lista_triplos = moduloCompras.getTriplosClienteQtdCompradaDinheiro(produto, topN);
                 Paginador<List<TriploClienteQtdCompradaDinheiro>> paginador = new Paginador<>(lista_triplos, 10, 1);
+                tempo_querie = Crono.stop();
 
                 numero_resultados = lista_triplos.size();
                 total_paginas = paginador.getNumPaginas();
@@ -1241,6 +1304,7 @@ public final class MenuQueries {
                         System.out.printf("---------------------------------------------\n");
                         System.out.printf("A mostrar %d-%d de %d resultados.\n",
                                 inicio_pagina + 1, fim_pagina, numero_resultados);
+                        System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
                     } else {
                         System.out.print("Não há resultados a mostrar.\n");
                     }
@@ -1332,35 +1396,39 @@ public final class MenuQueries {
         int escolha_opcao;
         Mes mes;
         String ficheiro;
+        double tempo_querie;
         Scanner input = new Scanner(System.in);
         Hipermercado hiper = Gesthiper.getHipermercado();
 
         while (estadoMenu == QUERIE_13) {
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("============================================================= \n");
             System.out.print("GESTHIPER >> QUERIE 13            \n");
             System.out.print("Guardar hipermercado em ficheiro objecto               \n");
-            System.out.print("================================================= \n");
+            System.out.print("============================================================= \n");
             System.out.print("Indique o nome do ficheiro onde guardar: ");
             ficheiro = input.next();
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("============================================================= \n");
             System.out.print("GESTHIPER >> QUERIE 13            \n");
             System.out.print("Guardar hipermercado em ficheiro objecto               \n");
-            System.out.print("================================================= \n");
+            System.out.print("============================================================= \n");
 
             try {
                 System.out.print("A guardar ficheiro...aguarde por favor.\n");
+                Crono.start();
                 LeituraFicheiros.guarda_ficheiro_objecto(ficheiro);
+                tempo_querie = Crono.stop();
                 System.out.print("Ficheiro guardado com sucesso.\n");
+                System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
             } catch (IOException ex) {
                 System.out.println("Erro ao guardar ficheiro");
             }
 
-            System.out.print("================================================= \n");
+            System.out.print("============================================================= \n");
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
-            System.out.print("==================================================== \n");
+            System.out.print("============================================================= \n");
             System.out.print("Escolha opção: ");
             escolha_opcao = input.nextInt();
             switch (escolha_opcao) {
@@ -1389,6 +1457,7 @@ public final class MenuQueries {
     public static MenuActual _14_carregarFicheiroObjecto() {
         MenuActual estadoMenu = QUERIE_14;
         int escolha_opcao;
+        double tempo_querie;
         Mes mes;
         String ficheiro;
         Scanner input = new Scanner(System.in);
@@ -1410,8 +1479,11 @@ public final class MenuQueries {
 
             try {
                 System.out.print("A ler ficheiro...aguarde por favor.\n");
+                Crono.start();
                 LeituraFicheiros.le_ficheiro_objecto(ficheiro);
+                tempo_querie = Crono.stop();
                 System.out.print("Ficheiro carregado com sucesso.\n");
+                System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
             } catch (IOException ex) {
                 System.out.println("Erro ao carregar ficheiro.\n");
             } catch (ClassNotFoundException ex) {
@@ -1450,6 +1522,7 @@ public final class MenuQueries {
         MenuActual estadoMenu = QUERIE_15;
         int escolha_opcao;
         Mes mes;
+        double tempo_querie;
         String ficheiro;
         Hipermercado hiper = Gesthiper.getHipermercado();
         Scanner input = new Scanner(System.in);
@@ -1464,22 +1537,25 @@ public final class MenuQueries {
             ficheiro = input.next();
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("============================================================ \n");
             System.out.print("GESTHIPER >> QUERIE 15                            \n");
             System.out.print("Mudar ficheiro de compras       \n");
-            System.out.print("================================================= \n");
+            System.out.print("============================================================ \n");
 
             try {
                 System.out.print("A ler ficheiro...aguarde por favor.\n");
+                Crono.start();
                 hiper.mudaFicheiroCompras(ficheiro);
+                tempo_querie = Crono.stop();
                 System.out.print("Novo ficheiro lido com sucesso.\n");
+                System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
             } catch (IOException ex) {
                 System.out.print("Erro ao mudar ficheiro compras.\n");
             }
-
-            System.out.print("================================================= \n");
-            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Escolher novo ficheiro \n");
-            System.out.print("================================================= \n");
+            
+            System.out.print("============================================================ \n");
+            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Escolher novo ficheiro  \n");
+            System.out.print("============================================================ \n");
             System.out.print("Escolha opção: ");
             escolha_opcao = input.nextInt();
             switch (escolha_opcao) {

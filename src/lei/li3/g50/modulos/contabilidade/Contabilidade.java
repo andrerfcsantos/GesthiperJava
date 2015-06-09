@@ -160,6 +160,9 @@ public class Contabilidade implements Serializable {
     }
 
     /* NUMERO COMPRAS */
+    public Matriz_Int_12x2 getComprasProdutoMeses(Produto produto) throws ProdutoNaoExisteException {
+        return this.getFichaProdutoNoClone(produto).getMatrizNumComprasProdutoPorMes();
+    }
     public int getNumeroTotalComprasProduto(Produto produto) throws ProdutoNaoExisteException {
         return this.getFichaProdutoNoClone(produto).getNumComprasProduto();
     }
@@ -173,6 +176,9 @@ public class Contabilidade implements Serializable {
     }
 
     /* UNIDADES COMPRADAS*/
+    public Matriz_Int_12x2 getUnidadesProdutoVendidasMeses(Produto produto) throws ProdutoNaoExisteException {
+        return this.getFichaProdutoNoClone(produto).getMatrizNumUnidadesProdutoVendidasPorMes();
+    }
     public int getTotalUnidadesProdutoVendidas(Produto produto) throws ProdutoNaoExisteException {
         return this.getFichaProdutoNoClone(produto).getNumUnidadesProdutoVendidas();
     }
@@ -186,6 +192,9 @@ public class Contabilidade implements Serializable {
     }
 
     /* FACTURACAO */
+    public Matriz_Double_12x2 getFacturacaoProdutoMeses(Produto produto) throws ProdutoNaoExisteException {
+        return this.getFichaProdutoNoClone(produto).getMatrizFacturacaoProdutoPorMes();
+    }
     public double getTotalFacturacaoProduto(Produto produto) throws ProdutoNaoExisteException {
         return this.getFichaProdutoNoClone(produto).getFacturacaoProduto();
     }
@@ -270,7 +279,7 @@ public class Contabilidade implements Serializable {
     /*
      QUERIES
      */
-    List<Produto> getProdutosNaoComprados() {
+    public List<Produto> getProdutosNaoComprados() {
         ArrayList<Produto> tmp = new ArrayList<>();
 
         for (Map.Entry<Produto, FichaProdutoContabilidade> par : this.arvoreProdutos.entrySet()) {

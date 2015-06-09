@@ -315,21 +315,15 @@ public class Compras implements Serializable {
         for (Map.Entry<Cliente, FichaClienteCompras> entrada : this.arvoreClientes.entrySet()) {
             try {
                 unidadesCompradas = this.getTotalComprasProdutoCliente(produto, entrada.getKey());
-            } catch (ClienteNaoComprouProdutoException | ClienteNaoExisteException ex) {
-                unidadesCompradas = 0;
-            }
-            
-            try {
                 dinheiroGasto = this.getTotalDinheiroGastoProdutoCliente(produto, entrada.getKey());
-            } catch (ClienteNaoComprouProdutoException | ClienteNaoExisteException ex) {
-                dinheiroGasto = 0;
-            }
-            
-            novo_triplo = new TriploClienteQtdCompradaDinheiro(entrada.getKey().clone(),
+                novo_triplo = new TriploClienteQtdCompradaDinheiro(entrada.getKey().clone(),
                                                                 unidadesCompradas,
                                                                 dinheiroGasto);
 
             triplos.add(novo_triplo);
+            } catch (ClienteNaoComprouProdutoException | ClienteNaoExisteException ex) {
+            }
+            
         }
 
         for (TriploClienteQtdCompradaDinheiro triplo : triplos) {
