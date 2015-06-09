@@ -180,8 +180,8 @@ public final class MenuQueries {
             int clientesSemCompras = moduloCompras.getTotalClientesSemCompras();
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("=================================================== \n");
-            System.out.print("GESTHIPER >> QUERIE 1            \n");
-            System.out.print("Etsatísticas últimos ficheiros lidos                \n");
+            System.out.print("GESTHIPER >> QUERIE 1                               \n");
+            System.out.print("Estatísticas últimos ficheiros lidos                \n");
             System.out.print("=================================================== \n");
 
             System.out.print("Ficheiro Produtos: " + hiper.getFicheiro_produtos().getPath() + "\n");
@@ -263,13 +263,13 @@ public final class MenuQueries {
             for (int i = 0; i < 12; i++) {
                 mes = Mes.numero_to_mes(i + 1);
 
-                System.out.printf("| %3s | %7d | %9.2f | %9d |\n", mes.getMes_abreviado(),
+                System.out.printf("| %3s | %7d | %12.2f | %9d |\n", mes.getMes_abreviado(),
                         compras.getValorMesTipoCompra(mes, TipoCompra.AMBOS),
                         facturacao.getValorMesTipoCompra(mes, TipoCompra.AMBOS),
                         clientesDistintos.get(mes));
             }
             System.out.print("------------------------------------------- \n");
-            System.out.printf("| Tot | %7d | %9.2f | %9d |\n",
+            System.out.printf("| Tot | %7d | %12.2f | %9d |\n",
                     compras.getSomaTotal(),
                     facturacao.getSomaTotal(),
                     moduloCompras.getTotalClientesDistintos());
@@ -335,10 +335,10 @@ public final class MenuQueries {
             num_elems_pag_actual = paginador.getNumElemsPagActual();
             fim_pagina = inicio_pagina + num_elems_pag_actual;
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("==================================================== \n");
             System.out.print("GESTHIPER >> QUERIE 3            \n");
             System.out.print("Produtos não comprados                 \n");
-            System.out.print("================================================= \n");
+            System.out.print("==================================================== \n");
 
             if (numero_resultados > 0) {
                 System.out.printf("Pagina %2d/%d \n", numero_pagina, total_paginas);
@@ -426,10 +426,10 @@ public final class MenuQueries {
             num_elems_pag_actual = paginador.getNumElemsPagActual();
             fim_pagina = inicio_pagina + num_elems_pag_actual;
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("==================================================== \n");
             System.out.print("GESTHIPER >> QUERIE 4            \n");
             System.out.print("Clientes sem compras                 \n");
-            System.out.print("================================================= \n");
+            System.out.print("==================================================== \n");
 
             if (numero_resultados > 0) {
                 System.out.printf("Pagina %2d/%d \n", numero_pagina, total_paginas);
@@ -664,18 +664,18 @@ public final class MenuQueries {
 
         while (estadoMenu == QUERIE_07) {
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("============================================================ \n");
             System.out.print("GESTHIPER >> QUERIE 7            \n");
             System.out.print("Compras de produto            \n");
-            System.out.print("================================================= \n");
+            System.out.print("============================================================ \n");
             System.out.print("Indique o produto que quer procurar: ");
             produto_inserido = input.next();
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("============================================================ \n");
             System.out.print("GESTHIPER >> QUERIE 7            \n");
             System.out.print("Compras de produto            \n");
-            System.out.print("================================================= \n");
+            System.out.print("============================================================ \n");
 
             produto = new Produto(produto_inserido);
 
@@ -695,14 +695,14 @@ public final class MenuQueries {
                 for (int i = 0; i < 12; i++) {
                     mes = Mes.numero_to_mes(i + 1);
 
-                    System.out.printf("| %3s | %7d | %9d | %7.2f |\n", mes.getMes_abreviado(),
+                    System.out.printf("| %3s | %7d | %9d | %11.2f |\n", mes.getMes_abreviado(),
                             comprasProduto.getValorMesTipoCompra(mes, TipoCompra.AMBOS),
                             clientesDistintosProduto.get(mes),
                             facturacaoProduto.getValorMesTipoCompra(mes, TipoCompra.AMBOS));
                 }
 
                 System.out.print("---------------------------------------\n");
-                System.out.printf("| Tot | %7d | %9d | %7.2f |\n",
+                System.out.printf("| Tot | %7d | %9d | %11.2f |\n",
                         comprasProduto.getSomaTotal(),
                         moduloCompras.getTotalClientesDistintosProduto(produto),
                         facturacaoProduto.getSomaTotal());
@@ -781,13 +781,13 @@ public final class MenuQueries {
                 for (int i = 0; i < 12; i++) {
                     mes = Mes.numero_to_mes(i + 1);
 
-                    System.out.printf("| %3s | %6d | %7d | %6d || %7.2f | %7.2f | %8.2f ||\n", mes.getMes_abreviado(),
+                    System.out.printf("| %3s | %6d | %7d | %5d || %10.2f | %9.2f | %11.2f ||\n", mes.getMes_abreviado(),
                             comprasProduto.getValorMesTipoCompra(mes, TipoCompra.NORMAL), comprasProduto.getValorMesTipoCompra(mes, TipoCompra.PROMOCAO), comprasProduto.getValorMesTipoCompra(mes, TipoCompra.AMBOS),
                             facturacaoProduto.getValorMesTipoCompra(mes, TipoCompra.NORMAL), facturacaoProduto.getValorMesTipoCompra(mes, TipoCompra.PROMOCAO), facturacaoProduto.getValorMesTipoCompra(mes, TipoCompra.AMBOS));
                 }
 
                 System.out.print("-------------------------------------------------------------------------- \n");
-                System.out.printf("| Tot | %6d | %7d | %6d || %7.2f | %7.2f | %8.2f ||\n",
+                System.out.printf("| Tot | %6d | %7d | %5d || %10.2f | %9.2f | %11.2f ||\n",
                         comprasProduto.getValorEntreMeses(Mes.JANEIRO, Mes.DEZEMBRO, TipoCompra.NORMAL), comprasProduto.getValorEntreMeses(Mes.JANEIRO, Mes.DEZEMBRO, TipoCompra.PROMOCAO), comprasProduto.getValorEntreMeses(Mes.JANEIRO, Mes.DEZEMBRO, TipoCompra.AMBOS),
                         facturacaoProduto.getValorEntreMeses(Mes.JANEIRO, Mes.DEZEMBRO, TipoCompra.NORMAL), facturacaoProduto.getValorEntreMeses(Mes.JANEIRO, Mes.DEZEMBRO, TipoCompra.PROMOCAO), facturacaoProduto.getValorEntreMeses(Mes.JANEIRO, Mes.DEZEMBRO, TipoCompra.AMBOS));
                 System.out.print("-------------------------------------------------------------------------- \n");
@@ -886,7 +886,7 @@ public final class MenuQueries {
 
                 System.out.print("============================================================= \n");
                 System.out.print("0 - Sair | 1 - Menu Principal  | 3 - Procurar outro cliente   \n");
-                System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag..         .  \n");
+                System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag..            \n");
                 System.out.print("============================================================= \n");
                 System.out.print("Insira nº da opcao > ");
                 escolha_opcao_menu = input.nextInt();
@@ -1114,10 +1114,10 @@ public final class MenuQueries {
         while (estadoMenu == QUERIE_11a) {
             numero_pagina = 1;
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
+            System.out.print("==================================================== \n");
             System.out.print("GESTHIPER >> QUERIE 11            \n");
             System.out.print("N Clientes com mais produtos diferentes comprados   \n");
-            System.out.print("================================================= \n");
+            System.out.print("==================================================== \n");
             System.out.print("Qual o top de clientes que deseja ver (N)?: ");
             topN = input.nextInt();
 
@@ -1138,10 +1138,10 @@ public final class MenuQueries {
                     num_elems_pag_actual = paginador.getNumElemsPagActual();
                     fim_pagina = inicio_pagina + num_elems_pag_actual;
                     System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-                    System.out.print("================================================= \n");
+                    System.out.print("==================================================== \n");
                     System.out.print("GESTHIPER >> QUERIE 11            \n");
                     System.out.print("N Clientes com mais produtos diferentes comprados   \n");
-                    System.out.print("================================================= \n");
+                    System.out.print("==================================================== \n");
 
                     if (numero_resultados > 0) {
                         System.out.printf("Pagina %2d/%d \n", numero_pagina, total_paginas);
@@ -1282,10 +1282,10 @@ public final class MenuQueries {
 
                 while (estadoMenu == QUERIE_12b) {
                     System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-                    System.out.print("================================================= \n");
+                    System.out.print("================================================================= \n");
                     System.out.print("GESTHIPER >> QUERIE 12            \n");
                     System.out.print("N clientes que mais compraram produto   \n");
-                    System.out.print("================================================= \n");
+                    System.out.print("================================================================= \n");
 
                     num_elems_pag_actual = paginador.getNumElemsPagActual();
                     fim_pagina = inicio_pagina + num_elems_pag_actual;
