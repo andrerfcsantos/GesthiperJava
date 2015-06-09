@@ -258,6 +258,7 @@ public class Compras implements Serializable {
     public int getTotalComprasProdutoCliente(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException{
         return this.getFichaClienteNoClone(cliente).getNumTotalUnidadesCompradasProduto(produto);
     }
+    
     public int getTotalUnidadesCompradasProdutoCliente(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException{
         return this.getFichaClienteNoClone(cliente).getNumTotalUnidadesCompradasProduto(produto);
     }
@@ -345,7 +346,7 @@ public class Compras implements Serializable {
         ParClienteProdutosDiferentes novo_par;
 
         for (Map.Entry<Cliente, FichaClienteCompras> entrada : this.arvoreClientes.entrySet()) {
-            novo_par = new ParClienteProdutosDiferentes(entrada.getKey(), entrada.getValue().getNumeroProdutosDistintos());
+            novo_par = new ParClienteProdutosDiferentes(entrada.getKey().clone(), entrada.getValue().getNumeroProdutosDistintos());
             pares.add(novo_par);
         }
 
