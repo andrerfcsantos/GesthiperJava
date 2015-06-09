@@ -54,7 +54,7 @@ public class Matriz_Double_12x2 implements Serializable{
     public Matriz_Double_12x2(Matriz_Double_12x2 matriz) {
         super();
         this.matriz = matriz.getMatriz();
-        this.total = 0;
+        this.total = matriz.total;
     }
 
     /*
