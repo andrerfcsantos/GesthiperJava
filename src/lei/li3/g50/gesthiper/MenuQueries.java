@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -66,6 +67,7 @@ public final class MenuQueries {
     public static void menuPrincipal() {
         int escolha;
         Scanner input = new Scanner(System.in);
+        String lixo;
         MenuActual estadoMenu = MENU_QUERIES;
 
         while (estadoMenu == MENU_QUERIES) {
@@ -100,7 +102,13 @@ public final class MenuQueries {
             System.out.print("0 - Sair \n");
             System.out.print("=============================\n");
             System.out.print("Escolha o nº opção: ");
-            escolha = input.nextInt();
+
+            try {
+                escolha = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha = -1;
+            }
 
             switch (escolha) {
                 case 0:
@@ -171,6 +179,7 @@ public final class MenuQueries {
         MenuActual estadoMenu = QUERIE_01;
         int escolha_opcao;
         double tempo_querie;
+        String lixo;
         Scanner input = new Scanner(System.in);
         Hipermercado hiper = Gesthiper.getHipermercado();
 
@@ -202,7 +211,12 @@ public final class MenuQueries {
             System.out.print(" 0 - Sair | 1 - Menu Principal   \n");
             System.out.print("=================================================== \n");
             System.out.print("Escolha opção: ");
-            escolha_opcao = input.nextInt();
+            try {
+                escolha_opcao = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha_opcao = -1;
+            }
             switch (escolha_opcao) {
                 case 0:
                     estadoMenu = SAIR;
@@ -211,7 +225,7 @@ public final class MenuQueries {
                     estadoMenu = MENU_QUERIES;
                     break;
                 default:
-                    estadoMenu = MENU_QUERIES;
+                    estadoMenu = QUERIE_01;
                     break;
             }
         }
@@ -234,6 +248,7 @@ public final class MenuQueries {
         int escolha_opcao;
         Mes mes;
         String ficheiro;
+        String lixo;
         Map<Mes, Integer> clientesDistintos;
         Matriz_Double_12x2 facturacao;
         Matriz_Int_12x2 compras;
@@ -281,7 +296,12 @@ public final class MenuQueries {
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar compras inválidas  \n");
             System.out.print("=============================================================== \n");
             System.out.print("Escolha opção: ");
-            escolha_opcao = input.nextInt();
+            try {
+                escolha_opcao = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha_opcao = -1;
+            }
             switch (escolha_opcao) {
                 case 0:
                     estadoMenu = SAIR;
@@ -303,7 +323,7 @@ public final class MenuQueries {
 
                     break;
                 default:
-                    estadoMenu = MENU_QUERIES;
+                    estadoMenu = QUERIE_02;
                     break;
             }
         }
@@ -317,6 +337,7 @@ public final class MenuQueries {
         MenuActual estadoMenu = QUERIE_03;
         Scanner input = new Scanner(System.in);
         Produto produto;
+        String lixo;
         double tempo_querie;
         int numero_pagina = 1, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
@@ -363,7 +384,12 @@ public final class MenuQueries {
             System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag...  \n");
             System.out.print("==================================================== \n");
             System.out.print("Insira nº da opcao > ");
-            escolha_opcao_menu = input.nextInt();
+            try {
+                escolha_opcao_menu = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha_opcao_menu = -1;
+            }
 
             switch (escolha_opcao_menu) {
                 case 0:
@@ -396,7 +422,7 @@ public final class MenuQueries {
                     numero_pagina = total_paginas;
                     break;
                 default:
-                    estadoMenu = MENU_QUERIES;
+                    estadoMenu = QUERIE_03;
             }
         }
         return estadoMenu;
@@ -409,6 +435,7 @@ public final class MenuQueries {
         MenuActual estadoMenu = QUERIE_04;
         Scanner input = new Scanner(System.in);
         Cliente cliente;
+        String lixo;
         double tempo_querie;
         int numero_pagina = 1, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
@@ -454,7 +481,12 @@ public final class MenuQueries {
             System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag...  \n");
             System.out.print("==================================================== \n");
             System.out.print("Insira nº da opcao > ");
-            escolha_opcao_menu = input.nextInt();
+            try {
+                escolha_opcao_menu = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha_opcao_menu = -1;
+            }
 
             switch (escolha_opcao_menu) {
                 case 0:
@@ -487,7 +519,7 @@ public final class MenuQueries {
                     numero_pagina = total_paginas;
                     break;
                 default:
-                    estadoMenu = MENU_QUERIES;
+                    estadoMenu = QUERIE_04;
             }
         }
         return estadoMenu;
@@ -500,6 +532,7 @@ public final class MenuQueries {
     public static MenuActual _05_comprasEClientesNumMes() {
         MenuActual estadoMenu = QUERIE_05;
         int escolha_mes, escolha_opcao;
+        String lixo;
         Mes mes_escolhido;
         double tempo_querie;
         Scanner input = new Scanner(System.in);
@@ -536,7 +569,12 @@ public final class MenuQueries {
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Procurar outro mês    \n");
             System.out.print("========================================================== \n");
             System.out.print("Escolha opção: ");
-            escolha_opcao = input.nextInt();
+            try {
+                escolha_opcao = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha_opcao = -1;
+            }
             switch (escolha_opcao) {
                 case 0:
                     estadoMenu = SAIR;
@@ -548,7 +586,7 @@ public final class MenuQueries {
                     estadoMenu = QUERIE_05;
                     break;
                 default:
-                    estadoMenu = MENU_QUERIES;
+                    estadoMenu = QUERIE_05;
                     break;
             }
         }
@@ -565,6 +603,7 @@ public final class MenuQueries {
         String cliente_inserido;
         Mes mes;
         Cliente cliente;
+        String lixo;
         int escolha_opcao;
         double tempo_querie;
         Matriz_Int_12x2 numeroCompras;
@@ -627,7 +666,12 @@ public final class MenuQueries {
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Procurar outro cliente  \n");
             System.out.print("============================================================ \n");
             System.out.print("Escolha opção: ");
-            escolha_opcao = input.nextInt();
+            try {
+                escolha_opcao = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha_opcao = -1;
+            }
             switch (escolha_opcao) {
                 case 0:
                     estadoMenu = SAIR;
@@ -639,7 +683,7 @@ public final class MenuQueries {
                     estadoMenu = QUERIE_06;
                     break;
                 default:
-                    estadoMenu = MENU_QUERIES;
+                    estadoMenu = QUERIE_06;
                     break;
             }
         }
@@ -654,6 +698,7 @@ public final class MenuQueries {
         MenuActual estadoMenu = QUERIE_07;
         String produto_inserido;
         Mes mes;
+        String lixo;
         Produto produto;
         Map<Mes, Integer> clientesDistintosProduto;
         Matriz_Double_12x2 facturacaoProduto;
@@ -717,7 +762,12 @@ public final class MenuQueries {
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Procurar outro produto  \n");
             System.out.print("============================================================ \n");
             System.out.print("Escolha opção: ");
-            escolha_opcao = input.nextInt();
+            try {
+                escolha_opcao = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha_opcao = -1;
+            }
             switch (escolha_opcao) {
                 case 0:
                     estadoMenu = SAIR;
@@ -729,7 +779,7 @@ public final class MenuQueries {
                     estadoMenu = QUERIE_07;
                     break;
                 default:
-                    estadoMenu = MENU_QUERIES;
+                    estadoMenu = QUERIE_07;
                     break;
             }
         }
@@ -745,6 +795,7 @@ public final class MenuQueries {
         String produto_inserido;
         Mes mes;
         Produto produto;
+        String lixo;
         int escolha_opcao;
         double tempo_querie;
         Matriz_Double_12x2 facturacaoProduto;
@@ -800,7 +851,12 @@ public final class MenuQueries {
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Procurar outro produto  \n");
             System.out.print("============================================================ \n");
             System.out.print("Escolha opção: ");
-            escolha_opcao = input.nextInt();
+            try {
+                escolha_opcao = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha_opcao = -1;
+            }
             switch (escolha_opcao) {
                 case 0:
                     estadoMenu = SAIR;
@@ -812,7 +868,7 @@ public final class MenuQueries {
                     estadoMenu = QUERIE_08;
                     break;
                 default:
-                    estadoMenu = MENU_QUERIES;
+                    estadoMenu = QUERIE_08;
                     break;
             }
         }
@@ -830,6 +886,7 @@ public final class MenuQueries {
         Cliente cliente;
         String cliente_lido;
         ParProdutoQuantidadeComprada par;
+        String lixo;
         double tempo_querie;
         int numero_pagina = 1, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
@@ -840,7 +897,12 @@ public final class MenuQueries {
         System.out.print("Produtos mais comprados cliente                 \n");
         System.out.print("================================================= \n");
         System.out.print("Indique o cliente que pretende procurar: ");
-        cliente_lido = input.next();
+        try {
+            cliente_lido = input.next();
+        } catch (InputMismatchException ex) {
+            lixo = input.next();
+            cliente_lido = "";
+        }
 
         cliente = new Cliente(cliente_lido);
 
@@ -889,7 +951,12 @@ public final class MenuQueries {
                 System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag..            \n");
                 System.out.print("============================================================= \n");
                 System.out.print("Insira nº da opcao > ");
-                escolha_opcao_menu = input.nextInt();
+                try {
+                    escolha_opcao_menu = input.nextInt();
+                } catch (InputMismatchException ex) {
+                    lixo = input.next();
+                    escolha_opcao_menu = -1;
+                }
 
                 switch (escolha_opcao_menu) {
                     case 0:
@@ -925,7 +992,7 @@ public final class MenuQueries {
                         numero_pagina = total_paginas;
                         break;
                     default:
-                        estadoMenu = MENU_QUERIES;
+                        estadoMenu = QUERIE_09;
                 }
             }
         } catch (ClienteNaoExisteException ex) {
@@ -934,7 +1001,12 @@ public final class MenuQueries {
             System.out.print("0 - Sair | 1 - Menu Principal  | 2 - Procurar outro cliente \n");
             System.out.print("==================================================== \n");
             System.out.print("Insira nº da opcao > ");
-            escolha_opcao_menu = input.nextInt();
+            try {
+                escolha_opcao_menu = input.nextInt();
+            } catch (InputMismatchException ex1) {
+                lixo = input.next();
+                escolha_opcao_menu = -1;
+            }
 
             switch (escolha_opcao_menu) {
                 case 0:
@@ -947,7 +1019,7 @@ public final class MenuQueries {
                     estadoMenu = QUERIE_09;
                     break;
                 default:
-                    estadoMenu = MENU_QUERIES;
+                    estadoMenu = QUERIE_09;
             }
         }
         return estadoMenu;
@@ -963,6 +1035,7 @@ public final class MenuQueries {
         Scanner input = new Scanner(System.in);
         ParProdutoQuantidadeComprada par;
         ParProdutoQuantidadeComprada produto;
+        String lixo;
         double tempo_querie;
         int topN;
         int numero_pagina, num_elems_pag_actual, inicio_pagina, fim_pagina;
@@ -976,7 +1049,12 @@ public final class MenuQueries {
             System.out.print("N Produtos mais vendidos                          \n");
             System.out.print("================================================= \n");
             System.out.print("Qual o top de produtos deseja ver (N)?: ");
-            topN = input.nextInt();
+            try {
+                topN = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                topN = -1;
+            }
 
             if (topN > 0) {
                 Crono.start();
@@ -1033,7 +1111,12 @@ public final class MenuQueries {
                     System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag...  \n");
                     System.out.print("==================================================== \n");
                     System.out.print("Insira nº da opcao > ");
-                    escolha_opcao_menu = input.nextInt();
+                    try {
+                        escolha_opcao_menu = input.nextInt();
+                    } catch (InputMismatchException ex) {
+                        lixo = input.next();
+                        escolha_opcao_menu = -1;
+                    }
 
                     switch (escolha_opcao_menu) {
                         case 0:
@@ -1069,7 +1152,7 @@ public final class MenuQueries {
                             numero_pagina = total_paginas;
                             break;
                         default:
-                            estadoMenu = MENU_QUERIES;
+                            estadoMenu = QUERIE_10a;
                     }
                 }
             } else {
@@ -1078,7 +1161,12 @@ public final class MenuQueries {
                 System.out.print("0 - Sair | 1 - Menu Principal  | 2 - Escolher outro N \n");
                 System.out.print("==================================================== \n");
                 System.out.print("Insira nº da opcao > ");
-                escolha_opcao_menu = input.nextInt();
+                try {
+                    escolha_opcao_menu = input.nextInt();
+                } catch (InputMismatchException ex) {
+                    lixo = input.next();
+                    escolha_opcao_menu = -1;
+                }
 
                 switch (escolha_opcao_menu) {
                     case 0:
@@ -1091,7 +1179,7 @@ public final class MenuQueries {
                         estadoMenu = QUERIE_10a;
                         break;
                     default:
-                        estadoMenu = MENU_QUERIES;
+                        estadoMenu = QUERIE_10a;
                 }
             }
         }
@@ -1106,6 +1194,7 @@ public final class MenuQueries {
         MenuActual estadoMenu = QUERIE_11a;
         Scanner input = new Scanner(System.in);
         ParClienteProdutosDiferentes par;
+        String lixo;
         int topN;
         double tempo_querie;
         int numero_pagina, num_elems_pag_actual, inicio_pagina, fim_pagina;
@@ -1119,7 +1208,12 @@ public final class MenuQueries {
             System.out.print("N Clientes com mais produtos diferentes comprados   \n");
             System.out.print("==================================================== \n");
             System.out.print("Qual o top de clientes que deseja ver (N)?: ");
-            topN = input.nextInt();
+            try {
+                topN = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                topN = -1;
+            }
 
             if (topN > 0) {
                 Crono.start();
@@ -1167,7 +1261,12 @@ public final class MenuQueries {
                     System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag...  \n");
                     System.out.print("==================================================== \n");
                     System.out.print("Insira nº da opcao > ");
-                    escolha_opcao_menu = input.nextInt();
+                    try {
+                        escolha_opcao_menu = input.nextInt();
+                    } catch (InputMismatchException ex) {
+                        lixo = input.next();
+                        escolha_opcao_menu = -1;
+                    }
 
                     switch (escolha_opcao_menu) {
                         case 0:
@@ -1203,7 +1302,7 @@ public final class MenuQueries {
                             numero_pagina = total_paginas;
                             break;
                         default:
-                            estadoMenu = MENU_QUERIES;
+                            estadoMenu = QUERIE_11a;
                     }
                 }
             } else {
@@ -1212,7 +1311,12 @@ public final class MenuQueries {
                 System.out.print("0 - Sair | 1 - Menu Principal  | 2 - Escolher outro N \n");
                 System.out.print("==================================================== \n");
                 System.out.print("Insira nº da opcao > ");
-                escolha_opcao_menu = input.nextInt();
+                try {
+                    escolha_opcao_menu = input.nextInt();
+                } catch (InputMismatchException ex) {
+                    lixo = input.next();
+                    escolha_opcao_menu = -1;
+                }
 
                 switch (escolha_opcao_menu) {
                     case 0:
@@ -1225,7 +1329,7 @@ public final class MenuQueries {
                         estadoMenu = QUERIE_11a;
                         break;
                     default:
-                        estadoMenu = MENU_QUERIES;
+                        estadoMenu = QUERIE_11a;
                 }
             }
         }
@@ -1242,6 +1346,7 @@ public final class MenuQueries {
         String produto_inserido;
         Scanner input = new Scanner(System.in);
         TriploClienteQtdCompradaDinheiro triplo;
+        String lixo;
         int topN;
         double tempo_querie;
         int numero_pagina, num_elems_pag_actual, inicio_pagina, fim_pagina;
@@ -1255,7 +1360,12 @@ public final class MenuQueries {
             System.out.print("N clientes que mais compraram produto   \n");
             System.out.print("================================================= \n");
             System.out.print("Qual o top de clientes que deseja ver (N)?: ");
-            topN = input.nextInt();
+            try {
+                topN = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                topN = -1;
+            }
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");
@@ -1263,7 +1373,12 @@ public final class MenuQueries {
             System.out.print("N clientes que mais compraram produto   \n");
             System.out.print("================================================= \n");
             System.out.print("Qual o produto que deseja procurar: ");
-            produto_inserido = input.next();
+            try {
+                produto_inserido = input.next();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                produto_inserido = "";
+            }
             produto = new Produto(produto_inserido);
 
             if (topN > 0 && catalogoProdutos.existeProduto(produto)) {
@@ -1314,7 +1429,12 @@ public final class MenuQueries {
                     System.out.print("[<<] 4   [<] 5  ###  6 [>]   7 [>>]  |   2 - Pag...  \n");
                     System.out.print("================================================================= \n");
                     System.out.print("Insira nº da opcao > ");
-                    escolha_opcao_menu = input.nextInt();
+                    try {
+                        escolha_opcao_menu = input.nextInt();
+                    } catch (InputMismatchException ex) {
+                        lixo = input.next();
+                        escolha_opcao_menu = -1;
+                    }
 
                     switch (escolha_opcao_menu) {
                         case 0:
@@ -1350,7 +1470,7 @@ public final class MenuQueries {
                             numero_pagina = total_paginas;
                             break;
                         default:
-                            estadoMenu = MENU_QUERIES;
+                            estadoMenu = QUERIE_12a;
                     }
 
                 }
@@ -1365,7 +1485,12 @@ public final class MenuQueries {
                 System.out.print("0 - Sair | 1 - Menu Principal  | 2 - Procurar outro produto ou N \n");
                 System.out.print("================================================================= \n");
                 System.out.print("Insira nº da opcao > ");
-                escolha_opcao_menu = input.nextInt();
+                try {
+                    escolha_opcao_menu = input.nextInt();
+                } catch (InputMismatchException ex) {
+                    lixo = input.next();
+                    escolha_opcao_menu = -1;
+                }
 
                 switch (escolha_opcao_menu) {
                     case 0:
@@ -1378,7 +1503,7 @@ public final class MenuQueries {
                         estadoMenu = QUERIE_12a;
                         break;
                     default:
-                        estadoMenu = MENU_QUERIES;
+                        estadoMenu = QUERIE_12a;
                 }
             }
 
@@ -1396,6 +1521,7 @@ public final class MenuQueries {
         int escolha_opcao;
         Mes mes;
         String ficheiro;
+        String lixo;
         double tempo_querie;
         Scanner input = new Scanner(System.in);
         Hipermercado hiper = Gesthiper.getHipermercado();
@@ -1407,7 +1533,12 @@ public final class MenuQueries {
             System.out.print("Guardar hipermercado em ficheiro objecto               \n");
             System.out.print("============================================================= \n");
             System.out.print("Indique o nome do ficheiro onde guardar: ");
-            ficheiro = input.next();
+            try {
+                ficheiro = input.next();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                ficheiro = "";
+            }
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("============================================================= \n");
@@ -1430,7 +1561,12 @@ public final class MenuQueries {
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
             System.out.print("============================================================= \n");
             System.out.print("Escolha opção: ");
-            escolha_opcao = input.nextInt();
+            try {
+                escolha_opcao = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha_opcao = -1;
+            }
             switch (escolha_opcao) {
                 case 0:
                     estadoMenu = SAIR;
@@ -1442,7 +1578,7 @@ public final class MenuQueries {
                     estadoMenu = QUERIE_13;
                     break;
                 default:
-                    estadoMenu = MENU_QUERIES;
+                    estadoMenu = QUERIE_13;
                     break;
             }
         }
@@ -1459,6 +1595,7 @@ public final class MenuQueries {
         int escolha_opcao;
         double tempo_querie;
         Mes mes;
+        String lixo;
         String ficheiro;
         Scanner input = new Scanner(System.in);
 
@@ -1469,7 +1606,12 @@ public final class MenuQueries {
             System.out.print("Carregar hipermercado de ficheiro objecto               \n");
             System.out.print("================================================= \n");
             System.out.print("Indique o nome do ficheiro: ");
-            ficheiro = input.next();
+            try {
+                ficheiro = input.next();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                ficheiro = "";
+            }
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");
@@ -1494,7 +1636,12 @@ public final class MenuQueries {
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
             System.out.print("==================================================== \n");
             System.out.print("Escolha opção: ");
-            escolha_opcao = input.nextInt();
+            try {
+                escolha_opcao = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha_opcao = -1;
+            }
             switch (escolha_opcao) {
                 case 0:
                     estadoMenu = SAIR;
@@ -1506,7 +1653,7 @@ public final class MenuQueries {
                     estadoMenu = QUERIE_14;
                     break;
                 default:
-                    estadoMenu = MENU_QUERIES;
+                    estadoMenu = QUERIE_14;
                     break;
             }
         }
@@ -1523,6 +1670,7 @@ public final class MenuQueries {
         int escolha_opcao;
         Mes mes;
         double tempo_querie;
+        String lixo;
         String ficheiro;
         Hipermercado hiper = Gesthiper.getHipermercado();
         Scanner input = new Scanner(System.in);
@@ -1534,7 +1682,12 @@ public final class MenuQueries {
             System.out.print("Mudar ficheiro de compras              \n");
             System.out.print("================================================= \n");
             System.out.print("Indique o nome do ficheiro: ");
-            ficheiro = input.next();
+            try {
+                ficheiro = input.next();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                ficheiro = "";
+            }
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("============================================================ \n");
@@ -1552,12 +1705,17 @@ public final class MenuQueries {
             } catch (IOException ex) {
                 System.out.print("Erro ao mudar ficheiro compras.\n");
             }
-            
+
             System.out.print("============================================================ \n");
             System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Escolher novo ficheiro  \n");
             System.out.print("============================================================ \n");
             System.out.print("Escolha opção: ");
-            escolha_opcao = input.nextInt();
+            try {
+                escolha_opcao = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha_opcao = -1;
+            }
             switch (escolha_opcao) {
                 case 0:
                     estadoMenu = SAIR;
@@ -1569,7 +1727,7 @@ public final class MenuQueries {
                     estadoMenu = QUERIE_15;
                     break;
                 default:
-                    estadoMenu = MENU_QUERIES;
+                    estadoMenu = QUERIE_15;
                     break;
             }
         }
