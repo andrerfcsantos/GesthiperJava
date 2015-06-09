@@ -915,7 +915,7 @@ public final class MenuQueries {
     public static MenuActual _10_produtosMaisVendidos() {
         MenuActual estadoMenu = QUERIE_10a;
         Scanner input = new Scanner(System.in);
-        Produto produto;
+        ParProdutoQuantidadeComprada produto;
         int topN;
         int numero_pagina, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
@@ -931,8 +931,8 @@ public final class MenuQueries {
             topN = input.nextInt();
 
             if (topN > 0) {
-                List<Produto> lista_produtos = moduloContabilidade.produtosMaisVendidos(topN);
-                Paginador<List<Produto>> paginador = new Paginador<>(lista_produtos, 10, 1);
+                List<ParProdutoQuantidadeComprada> lista_produtos = moduloContabilidade.getProdutosMaisVendidos(topN);
+                Paginador<List<ParProdutoQuantidadeComprada>> paginador = new Paginador<>(lista_produtos, 10, 1);
 
                 numero_resultados = lista_produtos.size();
                 total_paginas = paginador.getNumPaginas();
@@ -960,7 +960,7 @@ public final class MenuQueries {
                         for (int i = 0; i < num_elems_pag_actual; i++) {
                             produto = lista_produtos.get(inicio_pagina + i);
                             System.out.printf("| %5d | %9s | %9d |\n",
-                                    inicio_pagina + i + 1, produto.getCodigoProduto(), -1);
+                                    inicio_pagina + i + 1, produto.getProduto().getCodigoProduto(), -1);
                         }
                         System.out.printf("---------------------------------\n");
                         System.out.printf("A mostrar %d-%d de %d resultados.\n",
