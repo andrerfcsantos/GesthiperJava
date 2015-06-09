@@ -344,7 +344,7 @@ public final class MenuQueries {
 
         Crono.start();
         List<Produto> listaProdutosSemCompras = moduloContabilidade.getProdutosNaoComprados();
-        Paginador<List<Produto>> paginador = new Paginador<>(listaProdutosSemCompras, 10, 1);
+        Paginador<Produto> paginador = new Paginador<>(listaProdutosSemCompras, 10, 1);
         tempo_querie = Crono.stop();
 
         numero_resultados = listaProdutosSemCompras.size();
@@ -442,7 +442,7 @@ public final class MenuQueries {
 
         Crono.start();
         List<Cliente> listaClientesSemCompras = moduloCompras.getClientesSemCompras();
-        Paginador<List<Cliente>> paginador = new Paginador<>(listaClientesSemCompras, 10, 1);
+        Paginador<Cliente> paginador = new Paginador<>(listaClientesSemCompras, 10, 1);
         tempo_querie = Crono.stop();
         numero_resultados = listaClientesSemCompras.size();
         total_paginas = paginador.getNumPaginas();
@@ -909,7 +909,7 @@ public final class MenuQueries {
         try {
             Crono.start();
             List<ParProdutoQuantidadeComprada> lista_pares = moduloCompras.getParesProdutoNumComprasCliente(cliente);
-            Paginador<List<ParProdutoQuantidadeComprada>> paginador = new Paginador<>(lista_pares, 10, 1);
+            Paginador<ParProdutoQuantidadeComprada> paginador = new Paginador<>(lista_pares, 10, 1);
             tempo_querie = Crono.stop();
             numero_resultados = lista_pares.size();
             total_paginas = paginador.getNumPaginas();
@@ -1059,7 +1059,7 @@ public final class MenuQueries {
             if (topN > 0) {
                 Crono.start();
                 List<ParProdutoQuantidadeComprada> lista_produtos = moduloContabilidade.getProdutosMaisVendidos(topN);
-                Paginador<List<ParProdutoQuantidadeComprada>> paginador = new Paginador<>(lista_produtos, 10, 1);
+                Paginador<ParProdutoQuantidadeComprada> paginador = new Paginador<>(lista_produtos, 10, 1);
                 ArrayList<Integer> numeroClientes = new ArrayList<>();
                 for (ParProdutoQuantidadeComprada par_it : lista_produtos) {
                     try {
@@ -1218,7 +1218,7 @@ public final class MenuQueries {
             if (topN > 0) {
                 Crono.start();
                 List<ParClienteProdutosDiferentes> lista_pares = moduloCompras.getParesClienteProdutosDiferentes(topN);
-                Paginador<List<ParClienteProdutosDiferentes>> paginador = new Paginador<>(lista_pares, 10, 1);
+                Paginador<ParClienteProdutosDiferentes> paginador = new Paginador<>(lista_pares, 10, 1);
                 tempo_querie = Crono.stop();
                 numero_resultados = lista_pares.size();
                 total_paginas = paginador.getNumPaginas();
@@ -1384,7 +1384,7 @@ public final class MenuQueries {
             if (topN > 0 && catalogoProdutos.existeProduto(produto)) {
                 Crono.start();
                 List<TriploClienteQtdCompradaDinheiro> lista_triplos = moduloCompras.getTriplosClienteQtdCompradaDinheiro(produto, topN);
-                Paginador<List<TriploClienteQtdCompradaDinheiro>> paginador = new Paginador<>(lista_triplos, 10, 1);
+                Paginador<TriploClienteQtdCompradaDinheiro> paginador = new Paginador<>(lista_triplos, 10, 1);
                 tempo_querie = Crono.stop();
 
                 numero_resultados = lista_triplos.size();

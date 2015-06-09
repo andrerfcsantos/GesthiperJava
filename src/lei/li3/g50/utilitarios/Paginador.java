@@ -3,17 +3,16 @@ package lei.li3.g50.utilitarios;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import lei.li3.g50.excepcoes.PaginaImpossivelException;
 
-public final class Paginador<E extends List<?>> implements Serializable {
+public final class Paginador<E> implements Serializable {
 
-    /**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -5051604213886807288L;
 	public static final int ELEMENTOS_POR_PAG_DEFAULT = 10;
     public static final int PAGINA_IMPOSSIVEL = -1;
 
-    private E lista;
+    private List<E> lista;
     private int numPaginaActual;
     private int posInicialPagActual;
     private int numElemsPagActual;
@@ -25,30 +24,34 @@ public final class Paginador<E extends List<?>> implements Serializable {
     private Paginador() {
     }
 
-    public Paginador(List<?> lista) {
+    public Paginador(List<E> lista) {
         if (lista == null) {
             throw new NullPointerException("Tentativa de inicializar paginador com array nulo.");
         }
-        this.lista = (E) lista;
+        this.lista = lista;
         this.numElemsPorPag = ELEMENTOS_POR_PAG_DEFAULT;
         if (this.paginaExiste(1)) {
             this.gotoPagina(1);
+        }else{
+            throw new PaginaImpossivelException();
         }
     }
 
-    public Paginador(List<?> lista, int num_elemetos_por_pag, int pag) {
+    public Paginador(List<E> lista, int num_elemetos_por_pag, int pag) {
         if (lista == null) {
             throw new NullPointerException("Tentativa de inicializar paginador com array nulo.");
         }
-        this.lista = (E) lista;
+        this.lista = lista;
         this.numElemsPorPag = (num_elemetos_por_pag > 0) ? num_elemetos_por_pag : ELEMENTOS_POR_PAG_DEFAULT;
         if (this.paginaExiste(pag)) {
             this.gotoPagina(pag);
+        }else{
+            throw new PaginaImpossivelException();
         }
     }
 
     public Paginador(Paginador pag) {
-        this.lista = (E) pag.getLista();
+        this.lista = pag.getLista();
         this.numPaginaActual = pag.getNumPaginaActual();
         this.posInicialPagActual = pag.getPosInicialPagActual();
         this.numElemsPagActual = pag.getNumElemsPagActual();
@@ -59,7 +62,7 @@ public final class Paginador<E extends List<?>> implements Serializable {
      GETTERS
      */
 
-    public E getLista() {
+    public List<E> getLista() {
         return lista;
     }
 
@@ -92,7 +95,7 @@ public final class Paginador<E extends List<?>> implements Serializable {
     /*
      SETTERS
      */
-    public void setLista(E lista) {
+    public void setLista(List<E> lista) {
         this.lista = lista;
         if (this.paginaExiste(this.numPaginaActual)) {
             this.gotoPagina(this.numPaginaActual);
