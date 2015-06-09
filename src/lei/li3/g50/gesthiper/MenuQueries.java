@@ -2,6 +2,7 @@ package lei.li3.g50.gesthiper;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -67,7 +68,7 @@ public final class MenuQueries {
         MenuActual estadoMenu = MENU_QUERIES;
 
         while (estadoMenu == MENU_QUERIES) {
-            
+
             catalogoClientes = Gesthiper.getHipermercado().getCatalogoClientes();
             catalogoProdutos = Gesthiper.getHipermercado().getCatalogoProdutos();
             moduloContabilidade = Gesthiper.getHipermercado().getContabilidade();
@@ -208,7 +209,6 @@ public final class MenuQueries {
                     break;
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -283,7 +283,6 @@ public final class MenuQueries {
                     break;
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -372,7 +371,6 @@ public final class MenuQueries {
                     estadoMenu = MENU_QUERIES;
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -461,7 +459,6 @@ public final class MenuQueries {
                     estadoMenu = MENU_QUERIES;
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -520,7 +517,6 @@ public final class MenuQueries {
                     break;
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -609,7 +605,6 @@ public final class MenuQueries {
                     break;
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -692,7 +687,6 @@ public final class MenuQueries {
                     break;
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -771,7 +765,6 @@ public final class MenuQueries {
                     break;
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -903,7 +896,6 @@ public final class MenuQueries {
                     estadoMenu = MENU_QUERIES;
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -916,6 +908,7 @@ public final class MenuQueries {
         MenuActual estadoMenu = QUERIE_10a;
         Scanner input = new Scanner(System.in);
         Produto produto;
+        ParProdutoQuantidadeComprada par;
         int topN;
         int numero_pagina, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
@@ -931,20 +924,27 @@ public final class MenuQueries {
             topN = input.nextInt();
 
             if (topN > 0) {
-                List<Produto> lista_produtos = moduloContabilidade.produtosMaisVendidos(topN);
-                Paginador<List<Produto>> paginador = new Paginador<>(lista_produtos, 10, 1);
-
-                numero_resultados = lista_produtos.size();
-                total_paginas = paginador.getNumPaginas();
-
-                paginador.gotoPagina(numero_pagina);
-                inicio_pagina = paginador.getPosInicialPagActual();
-                num_elems_pag_actual = paginador.getNumElemsPagActual();
-                fim_pagina = inicio_pagina + num_elems_pag_actual;
+                List<ParProdutoQuantidadeComprada> lista_produtos = moduloContabilidade.getProdutosMaisVendidos(topN);
+                Paginador<List<ParProdutoQuantidadeComprada>> paginador = new Paginador<>(lista_produtos, 10, 1);
+                ArrayList<Integer> numeroClientes = new ArrayList<>();
+                for (ParProdutoQuantidadeComprada par_it : lista_produtos) {
+                    try {
+                        numeroClientes.add(moduloCompras.getTotalClientesDistintosProduto(par_it.getProduto()));
+                    } catch (ProdutoNaoExisteException ex) {
+                        numeroClientes.add(0);
+                    }
+                }
 
                 estadoMenu = QUERIE_10b;
 
                 while (estadoMenu == QUERIE_10b) {
+                    numero_resultados = lista_produtos.size();
+                    total_paginas = paginador.getNumPaginas();
+
+                    paginador.gotoPagina(numero_pagina);
+                    inicio_pagina = paginador.getPosInicialPagActual();
+                    num_elems_pag_actual = paginador.getNumElemsPagActual();
+                    fim_pagina = inicio_pagina + num_elems_pag_actual;
                     System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
                     System.out.print("================================================= \n");
                     System.out.print("GESTHIPER >> QUERIE 10                            \n");
@@ -953,16 +953,19 @@ public final class MenuQueries {
 
                     if (numero_resultados > 0) {
                         System.out.printf("Pagina %2d/%d \n", numero_pagina, total_paginas);
-                        System.out.printf("---------------------------------\n");
-                        System.out.printf("|       |  Codigo   | Clientes  |\n");
-                        System.out.printf("|   #   |  Produto  | Distintos |\n");
-                        System.out.printf("---------------------------------\n");
+                        System.out.printf("--------------------------------------------\n");
+                        System.out.printf("|       |  Codigo   | Unidades | Clientes  |\n");
+                        System.out.printf("|   #   |  Produto  | Vendidas | Distintos |\n");
+                        System.out.printf("--------------------------------------------\n");
                         for (int i = 0; i < num_elems_pag_actual; i++) {
-                            produto = lista_produtos.get(inicio_pagina + i);
-                            System.out.printf("| %5d | %9s | %9d |\n",
-                                    inicio_pagina + i + 1, produto.getCodigoProduto(), -1);
+                            par = lista_produtos.get(inicio_pagina + i);
+                            System.out.printf("| %5d | %9s | %8d |%9d |\n",
+                                    inicio_pagina + i + 1,
+                                    par.getProduto().getCodigoProduto(),
+                                    par.getQuantidadeComprada(),
+                                    numeroClientes.get(inicio_pagina + i));
                         }
-                        System.out.printf("---------------------------------\n");
+                        System.out.printf("--------------------------------------------\n");
                         System.out.printf("A mostrar %d-%d de %d resultados.\n",
                                 inicio_pagina + 1, fim_pagina, numero_resultados);
                     } else {
@@ -1036,7 +1039,6 @@ public final class MenuQueries {
                 }
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -1168,7 +1170,6 @@ public final class MenuQueries {
                 }
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -1319,7 +1320,6 @@ public final class MenuQueries {
             }
 
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -1379,7 +1379,6 @@ public final class MenuQueries {
                     break;
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -1440,7 +1439,6 @@ public final class MenuQueries {
                     break;
             }
         }
-        input.close();
         return estadoMenu;
     }
 
@@ -1471,7 +1469,6 @@ public final class MenuQueries {
             System.out.print("GESTHIPER >> QUERIE 15                            \n");
             System.out.print("Mudar ficheiro de compras       \n");
             System.out.print("================================================= \n");
-            
 
             try {
                 System.out.print("A ler ficheiro...aguarde por favor.\n");
@@ -1501,7 +1498,6 @@ public final class MenuQueries {
                     break;
             }
         }
-        input.close();
         return estadoMenu;
     }
 

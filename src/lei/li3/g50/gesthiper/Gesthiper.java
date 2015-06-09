@@ -24,6 +24,7 @@ public class Gesthiper {
 	public static void testes_aos_modulos() {
 		System.out.print(""+hipermercado.getCatalogoClientes().toString()+"\n");
 		System.out.print(""+hipermercado.getCatalogoProdutos().toString()+"\n");
+		System.out.print(""+hipermercado.getContabilidade().toString()+"\n");
 		System.out.print(""+hipermercado.getCompras().toString()+"\n");
             try {
                 System.out.print(" Compras do cliente CW786: "+hipermercado.getCompras().getTotalComprasCliente(new Cliente("CW786"))+"\n");
