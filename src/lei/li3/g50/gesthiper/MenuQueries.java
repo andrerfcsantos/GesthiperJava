@@ -907,8 +907,8 @@ public final class MenuQueries {
     public static MenuActual _10_produtosMaisVendidos() {
         MenuActual estadoMenu = QUERIE_10a;
         Scanner input = new Scanner(System.in);
-        Produto produto;
         ParProdutoQuantidadeComprada par;
+        ParProdutoQuantidadeComprada produto;
         int topN;
         int numero_pagina, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
@@ -934,9 +934,8 @@ public final class MenuQueries {
                         numeroClientes.add(0);
                     }
                 }
-
+                
                 estadoMenu = QUERIE_10b;
-
                 while (estadoMenu == QUERIE_10b) {
                     numero_resultados = lista_produtos.size();
                     total_paginas = paginador.getNumPaginas();
