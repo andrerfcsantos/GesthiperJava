@@ -953,16 +953,16 @@ public final class MenuQueries {
 
                     if (numero_resultados > 0) {
                         System.out.printf("Pagina %2d/%d \n", numero_pagina, total_paginas);
-                        System.out.printf("---------------------------------\n");
-                        System.out.printf("|       |  Codigo   | Clientes  |\n");
-                        System.out.printf("|   #   |  Produto  | Distintos |\n");
-                        System.out.printf("---------------------------------\n");
+                        System.out.printf("------------------------------------\n");
+                        System.out.printf("|       |  Codigo   | Nro Unidades |\n");
+                        System.out.printf("|   #   |  Produto  | Vendidas     |\n");
+                        System.out.printf("------------------------------------\n");
                         for (int i = 0; i < num_elems_pag_actual; i++) {
                             produto = lista_produtos.get(inicio_pagina + i);
-                            System.out.printf("| %5d | %9s | %9d |\n",
-                                    inicio_pagina + i + 1, produto.getProduto().getCodigoProduto(), -1);
+                            System.out.printf("| %5d | %9s | %12d |\n",
+                                    inicio_pagina + i + 1, produto.getProduto().getCodigoProduto(), produto.getQuantidadeComprada());
                         }
-                        System.out.printf("---------------------------------\n");
+                        System.out.printf("------------------------------------\n");
                         System.out.printf("A mostrar %d-%d de %d resultados.\n",
                                 inicio_pagina + 1, fim_pagina, numero_resultados);
                     } else {
