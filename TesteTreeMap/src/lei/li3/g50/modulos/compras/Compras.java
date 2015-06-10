@@ -3,7 +3,7 @@ package lei.li3.g50.modulos.compras;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -36,7 +36,7 @@ public class Compras implements Serializable {
     private int numeroClientesDistintosPorMes[];
     private int numeroTotalClientesDistintos;
     private TreeMap<Cliente, FichaClienteCompras> arvoreClientes;
-    private HashMap<Produto, ParProdutoNClientes> arvoreParesProdutoNClientes;
+    private TreeMap<Produto, ParProdutoNClientes> arvoreParesProdutoNClientes;
 
     /*
      CONSTRUCTORES
@@ -46,7 +46,7 @@ public class Compras implements Serializable {
         numeroTotalClientesDistintos = 0;
         numeroClientesDistintosPorMes = new int[12];
         arvoreClientes = new TreeMap<>();
-        arvoreParesProdutoNClientes = new HashMap<>();
+        arvoreParesProdutoNClientes = new TreeMap<>();
     }
 
     public Compras(Compras compras) {
