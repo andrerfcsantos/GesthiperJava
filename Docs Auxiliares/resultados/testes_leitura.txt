@@ -1,0 +1,12 @@
+Compras Buffered Reader No Parse: 0.116616
+Compras Buffered Reader Parse: 0.388516
+Compras Scanner No Parse: 0.840623
+Compras Scanner Parse: 0.801694
+Compras1 Buffered Reader No Parse: 0.116237
+Compras1 Buffered Reader Parse: 0.476298
+Compras1 Scanner No Parse: 0.933444
+Compras1 Scanner Parse: 1.243196
+Compras3 Buffered Reader No Parse: 0.259233
+Compras3 Buffered Reader Parse: 1.205411
+Compras3 Scanner No Parse: 2.544896
+Compras3 Scanner Parse: 3.637422
