@@ -3,7 +3,6 @@ package lei.li3.g50.gesthiper;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
@@ -714,7 +713,12 @@ public final class MenuQueries {
             System.out.print("Compras de produto            \n");
             System.out.print("============================================================ \n");
             System.out.print("Indique o produto que quer procurar: ");
-            produto_inserido = input.next();
+            try {
+                produto_inserido = input.next();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                produto_inserido = "";
+            }
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("============================================================ \n");
@@ -746,12 +750,12 @@ public final class MenuQueries {
                             facturacaoProduto.getValorMesTipoCompra(mes, TipoCompra.AMBOS));
                 }
 
-                System.out.print("---------------------------------------\n");
+                System.out.print("-------------------------------------------\n");
                 System.out.printf("| Tot | %7d | %9d | %11.2f |\n",
                         comprasProduto.getSomaTotal(),
                         moduloCompras.getTotalClientesDistintosProduto(produto),
                         facturacaoProduto.getSomaTotal());
-                System.out.print("---------------------------------------\n");
+                System.out.print("-------------------------------------------\n");
                 System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
 
             } catch (ProdutoNaoExisteException ex) {
@@ -809,7 +813,12 @@ public final class MenuQueries {
             System.out.print("Compras / Facturação de produto                   \n");
             System.out.print("================================================= \n");
             System.out.print("Indique o produto que quer procurar: ");
-            produto_inserido = input.next();
+            try {
+                produto_inserido = input.next();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                produto_inserido = "";
+            }
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");

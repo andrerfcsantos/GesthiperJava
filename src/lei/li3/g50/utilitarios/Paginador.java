@@ -3,7 +3,6 @@ package lei.li3.g50.utilitarios;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import lei.li3.g50.excepcoes.PaginaImpossivelException;
 
 public final class Paginador<E> implements Serializable {
 
@@ -32,8 +31,6 @@ public final class Paginador<E> implements Serializable {
         this.numElemsPorPag = ELEMENTOS_POR_PAG_DEFAULT;
         if (this.paginaExiste(1)) {
             this.gotoPagina(1);
-        }else{
-            throw new PaginaImpossivelException();
         }
     }
 
@@ -45,8 +42,6 @@ public final class Paginador<E> implements Serializable {
         this.numElemsPorPag = (num_elemetos_por_pag > 0) ? num_elemetos_por_pag : ELEMENTOS_POR_PAG_DEFAULT;
         if (this.paginaExiste(pag)) {
             this.gotoPagina(pag);
-        }else{
-            throw new PaginaImpossivelException();
         }
     }
 
