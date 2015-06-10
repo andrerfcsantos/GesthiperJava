@@ -1,0 +1,9 @@
+=========================================
+Tempo de leitura Clientes: 0.167417158 segs.
+Tempo de leitura Produtos: 4.489983197 segs.
+Tempo de leitura Compras: 16.202306537 segs.
+Tempo total leitura: 20.859706892 segs.
+=========================================
+
+
+
