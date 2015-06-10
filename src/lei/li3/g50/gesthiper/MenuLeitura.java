@@ -43,7 +43,7 @@ public final class MenuLeitura {
         Scanner input = new Scanner(System.in);
 
         while (!leituraCorrecta) {
-            
+
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("============================================\n");
             System.out.print(" GESTHIPER >> Leitura Ficheiros             \n");
@@ -56,7 +56,7 @@ public final class MenuLeitura {
             System.out.print(" 0 - Sair                                   \n");
             System.out.print("============================================\n");
             System.out.print("Escolha uma opção: ");
-            
+
             try {
                 escolha = input.nextInt();
                 switch (escolha) {
@@ -85,11 +85,11 @@ public final class MenuLeitura {
 
             } catch (IOException | ClassNotFoundException ex) {
 
-            } catch(InputMismatchException ex){
+            } catch (InputMismatchException ex) {
                 lixo = input.next();
             }
         }
-        
+
         MenuQueries.menuPrincipal();
 
     }
@@ -105,7 +105,7 @@ public final class MenuLeitura {
         Scanner sc = new Scanner(System.in);
 
         /*
-         LEITURA CLIENTES
+         PEDIDO FICHEIRO CLIENTES
          */
         if (ficheiros_clientes.size() >= 1) {
 
@@ -121,22 +121,13 @@ public final class MenuLeitura {
                 ficheiro_clientes = ficheiros_clientes.get(escolha - 1);
             }
 
-            Crono.start();
-            try {
-                LeituraFicheiros.le_ficheiro_clientes(ficheiro_clientes.getPath());
-            } catch (IOException ex) {
-                System.out.print("Erro ao ler ficheiro de clientes. Excepção IOException.\n");
-                System.out.print("A abortar leitura dos restantes ficheiros...\n");
-                throw ex;
-            }
-            tempo_leitura_clientes = Crono.stop();
         } else {
             System.out.print("Não foi encontrado nenhum ficheiro de clientes.\n");
             throw new FileNotFoundException();
         }
 
         /*
-         LEITURA PRODUTOS
+         PEDIDO FICHEIRO PRODUTOS
          */
         if (ficheiros_produtos.size() >= 1) {
 
@@ -152,23 +143,13 @@ public final class MenuLeitura {
                 ficheiro_produtos = ficheiros_produtos.get(escolha - 1);
             }
 
-            Crono.start();
-            try {
-                LeituraFicheiros.le_ficheiro_produtos(ficheiro_produtos.getPath());
-            } catch (IOException ex) {
-                System.out.print("Erro ao ler ficheiro de produtos. Excepção IOException.\n");
-                System.out.print("A abortar leitura dos restantes ficheiros...\n");
-                throw ex;
-            }
-            tempo_leitura_produtos = Crono.stop();
-
         } else {
             System.out.print("Não foi encontrado nenhum ficheiro de produtos.\n");
             throw new FileNotFoundException();
         }
 
         /*
-         LEITURA COMPRAS
+         PEDIDO FICHEIRO COMPRAS
          */
         if (ficheiros_compras.size() >= 1) {
 
@@ -185,19 +166,59 @@ public final class MenuLeitura {
                 ficheiro_compras = ficheiros_compras.get(escolha - 1);
             }
 
-            Crono.start();
-            try {
-                LeituraFicheiros.le_ficheiro_compras(ficheiro_compras.getPath());
-            } catch (IOException ex) {
-                System.out.print("Erro ao ler ficheiro de compras. Excepção IOException.\n");
-                System.out.print("A abortar leitura...\n");
-            }
-            tempo_leitura_compras = Crono.stop();
-
         } else {
             System.out.print("Não foi encontrado nenhum ficheiro de compras.\n");
             throw new FileNotFoundException();
         }
+
+        System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+        System.out.print("============================================\n");
+        System.out.print(" GESTHIPER >> Leitura Ficheiros             \n");
+        System.out.print("============================================\n");
+
+        /*
+         LEITURA FICHEIRO CLIENTES
+         */
+        Crono.start();
+        try {
+            System.out.print("A ler " + ficheiro_clientes.getPath() + "...\n");
+            LeituraFicheiros.le_ficheiro_clientes(ficheiro_clientes.getPath());
+            System.out.print("Ficheiro " + ficheiro_clientes.getPath() + " lido com sucesso.\n");
+        } catch (IOException ex) {
+            System.out.print("Erro ao ler ficheiro de clientes. Excepção IOException.\n");
+            System.out.print("A abortar leitura dos restantes ficheiros...\n");
+            throw ex;
+        }
+        tempo_leitura_clientes = Crono.stop();
+
+        /*
+         LEITURA FICHEIRO PRODUTOS
+         */
+        Crono.start();
+        try {
+            System.out.print("A ler " + ficheiro_produtos.getPath() + "...\n");
+            LeituraFicheiros.le_ficheiro_produtos(ficheiro_produtos.getPath());
+            System.out.print("Ficheiro " + ficheiro_produtos.getPath() + " lido com sucesso.\n");
+        } catch (IOException ex) {
+            System.out.print("Erro ao ler ficheiro de produtos. Excepção IOException.\n");
+            System.out.print("A abortar leitura dos restantes ficheiros...\n");
+            throw ex;
+        }
+        tempo_leitura_produtos = Crono.stop();
+
+        /*
+         LEITURA FICHEIRO COMPRAS
+         */
+        Crono.start();
+        try {
+            System.out.print("A ler " + ficheiro_compras.getPath() + "...\n");
+            LeituraFicheiros.le_ficheiro_compras(ficheiro_compras.getPath());
+            System.out.print("Ficheiro " + ficheiro_compras.getPath() + " lido com sucesso.\n");
+        } catch (IOException ex) {
+            System.out.print("Erro ao ler ficheiro de compras. Excepção IOException.\n");
+            System.out.print("A abortar leitura...\n");
+        }
+        tempo_leitura_compras = Crono.stop();
 
         System.out.print("=========================================\n");
         System.out.print("Tempo de leitura Clientes: " + tempo_leitura_clientes + " segs.\n");
@@ -324,8 +345,8 @@ public final class MenuLeitura {
             }
 
         } else {
-           System.out.print("Não foi encontrado nenhum ficheiro terminado por .obj\n");
-           throw new FileNotFoundException();
+            System.out.print("Não foi encontrado nenhum ficheiro terminado por .obj\n");
+            throw new FileNotFoundException();
         }
 
     }
