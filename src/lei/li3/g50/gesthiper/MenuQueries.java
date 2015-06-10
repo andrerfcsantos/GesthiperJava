@@ -48,7 +48,8 @@ public final class MenuQueries {
         QUERIE_06,
         QUERIE_07,
         QUERIE_08,
-        QUERIE_09,
+        QUERIE_09a,
+        QUERIE_09b,
         QUERIE_10a,
         QUERIE_10b,
         QUERIE_11a,
@@ -543,7 +544,12 @@ public final class MenuQueries {
             System.out.print("Nº de compras e Clientes num mês                \n");
             System.out.print("========================================================== \n");
             System.out.print("Indique o nº do mês: ");
-            escolha_mes = input.nextInt();
+            try {
+                escolha_mes = input.nextInt();
+            } catch (InputMismatchException ex) {
+                lixo = input.next();
+                escolha_mes = 1;
+            }
 
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("========================================================== \n");
@@ -890,7 +896,7 @@ public final class MenuQueries {
      quantidades iguais, por ordem alfabética dos códigos;
      */
     public static MenuActual _09_produtosMaisCompradosCliente() {
-        MenuActual estadoMenu = QUERIE_09;
+        MenuActual estadoMenu = QUERIE_09a;
         Scanner input = new Scanner(System.in);
         Cliente cliente;
         String cliente_lido;
@@ -899,7 +905,8 @@ public final class MenuQueries {
         double tempo_querie;
         int numero_pagina = 1, num_elems_pag_actual, inicio_pagina, fim_pagina;
         int numero_resultados, total_paginas, escolha_pag, escolha_opcao_menu;
-
+        
+        while(estadoMenu==QUERIE_09a){
         System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
         System.out.print("================================================= \n");
         System.out.print("GESTHIPER >> QUERIE 9            \n");
@@ -922,8 +929,8 @@ public final class MenuQueries {
             tempo_querie = Crono.stop();
             numero_resultados = lista_pares.size();
             total_paginas = paginador.getNumPaginas();
-
-            while (estadoMenu == QUERIE_09) {
+            estadoMenu = QUERIE_09b;
+            while (estadoMenu == QUERIE_09b) {
                 paginador.gotoPagina(numero_pagina);
                 inicio_pagina = paginador.getPosInicialPagActual();
                 num_elems_pag_actual = paginador.getNumElemsPagActual();
@@ -982,7 +989,7 @@ public final class MenuQueries {
                         }
                         break;
                     case 3:
-                        estadoMenu = QUERIE_09;
+                        estadoMenu = QUERIE_09a;
                         break;
                     case 4:
                         numero_pagina = 1;
@@ -1001,7 +1008,7 @@ public final class MenuQueries {
                         numero_pagina = total_paginas;
                         break;
                     default:
-                        estadoMenu = QUERIE_09;
+                        estadoMenu = QUERIE_09b;
                 }
             }
         } catch (ClienteNaoExisteException ex) {
@@ -1025,11 +1032,12 @@ public final class MenuQueries {
                     estadoMenu = MENU_QUERIES;
                     break;
                 case 2:
-                    estadoMenu = QUERIE_09;
+                    estadoMenu = QUERIE_09a;
                     break;
                 default:
-                    estadoMenu = QUERIE_09;
+                    estadoMenu = QUERIE_09a;
             }
+        }
         }
         return estadoMenu;
     }
@@ -1492,7 +1500,7 @@ public final class MenuQueries {
 
                 }
             } else {
-                if (topN > 0) {
+                if (topN < 0) {
                     System.out.print("Não foi possível ler o número inserido correctamente.\n");
                 } else {
                     System.out.print("O produto não existe.\n");
