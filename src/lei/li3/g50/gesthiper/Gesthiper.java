@@ -10,6 +10,7 @@ public class Gesthiper {
 	public static void main(String[] args) {
 		hipermercado = new Hipermercado();
                 MenuLeitura.menuLeitura();
+                MenuQueries.menuPrincipal();
 	}
         
 

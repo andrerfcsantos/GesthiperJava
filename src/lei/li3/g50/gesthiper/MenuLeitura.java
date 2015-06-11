@@ -90,7 +90,7 @@ public final class MenuLeitura {
             }
         }
 
-        MenuQueries.menuPrincipal();
+        
 
     }
 
