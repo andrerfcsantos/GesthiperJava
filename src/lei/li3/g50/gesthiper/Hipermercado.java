@@ -113,7 +113,6 @@ public class Hipermercado implements Serializable {
     public void addCompraInvalida(String linhaInvalida) {
         this.comprasInvalidas.add(linhaInvalida);
     }
-    
 
     public void guardaComprasInvalidas(String ficheiro) throws FileNotFoundException{
         PrintWriter pw = new PrintWriter(ficheiro);
