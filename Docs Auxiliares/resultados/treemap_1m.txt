@@ -1,8 +1,50 @@
+============================================
+ GESTHIPER >> Leitura Ficheiros             
+============================================
+A ler datasets/FichClientes.txt...
+Ficheiro datasets/FichClientes.txt lido com sucesso.
+A ler datasets/FichProdutos.txt...
+Ficheiro datasets/FichProdutos.txt lido com sucesso.
+A ler datasets/Compras.txt...
+Ficheiro datasets/Compras.txt lido com sucesso.
 =========================================
-Tempo de leitura Clientes: 0.163064675 segs.
-Tempo de leitura Produtos: 4.699402021 segs.
-Tempo de leitura Compras: 40.884316838 segs.
-Tempo total leitura: 45.746783533999995 segs.
+Tempo de leitura Clientes: 0.155167657 segs.
+Tempo de leitura Produtos: 4.733588046 segs.
+Tempo de leitura Compras: 17.003848268 segs.
+Tempo total leitura: 21.892603971 segs.
+=========================================
+
+
+============================================
+ GESTHIPER >> Leitura Ficheiros             
+============================================
+A ler datasets/FichClientes.txt...
+Ficheiro datasets/FichClientes.txt lido com sucesso.
+A ler datasets/FichProdutos.txt...
+Ficheiro datasets/FichProdutos.txt lido com sucesso.
+A ler datasets/Compras1.txt...
+Ficheiro datasets/Compras1.txt lido com sucesso.
+=========================================
+Tempo de leitura Clientes: 0.160527881 segs.
+Tempo de leitura Produtos: 4.568818557 segs.
+Tempo de leitura Compras: 38.736266014 segs.
+Tempo total leitura: 43.465612452 segs.
+=========================================
+
+============================================
+ GESTHIPER >> Leitura Ficheiros             
+============================================
+A ler datasets/FichClientes.txt...
+Ficheiro datasets/FichClientes.txt lido com sucesso.
+A ler datasets/FichProdutos.txt...
+Ficheiro datasets/FichProdutos.txt lido com sucesso.
+A ler datasets/Compras3.txt...
+Ficheiro datasets/Compras3.txt lido com sucesso.
+=========================================
+Tempo de leitura Clientes: 0.154066035 segs.
+Tempo de leitura Produtos: 4.901181098 segs.
+Tempo de leitura Compras: 116.166552911 segs.
+Tempo total leitura: 121.22180004399999 segs.
 =========================================
 
 

@@ -5,6 +5,21 @@ A ler datasets/FichClientes.txt...
 Ficheiro datasets/FichClientes.txt lido com sucesso.
 A ler datasets/FichProdutos.txt...
 Ficheiro datasets/FichProdutos.txt lido com sucesso.
+A ler datasets/Compras.txt...
+Ficheiro datasets/Compras.txt lido com sucesso.
+=========================================
+Tempo de leitura Clientes: 0.1578914 segs.
+Tempo de leitura Produtos: 3.8700024 segs.
+Tempo de leitura Compras: 15.351297507 segs.
+Tempo total leitura: 19.379191307 segs.
+=========================================
+============================================
+ GESTHIPER >> Leitura Ficheiros             
+============================================
+A ler datasets/FichClientes.txt...
+Ficheiro datasets/FichClientes.txt lido com sucesso.
+A ler datasets/FichProdutos.txt...
+Ficheiro datasets/FichProdutos.txt lido com sucesso.
 A ler datasets/Compras1.txt...
 Ficheiro datasets/Compras1.txt lido com sucesso.
 =========================================
@@ -13,6 +28,24 @@ Tempo de leitura Produtos: 3.777111702 segs.
 Tempo de leitura Compras: 37.660374851 segs.
 Tempo total leitura: 41.606402995 segs.
 =========================================
+============================================
+ GESTHIPER >> Leitura Ficheiros             
+============================================
+A ler datasets/FichClientes.txt...
+Ficheiro datasets/FichClientes.txt lido com sucesso.
+A ler datasets/FichProdutos.txt...
+Ficheiro datasets/FichProdutos.txt lido com sucesso.
+A ler datasets/Compras3.txt...
+Ficheiro datasets/Compras3.txt lido com sucesso.
+=========================================
+Tempo de leitura Clientes: 0.161555041 segs.
+Tempo de leitura Produtos: 4.027265148 segs.
+Tempo de leitura Compras: 111.687879578 segs.
+Tempo total leitura: 115.87669976699999 segs.
+=========================================
+
+
+
 
 =================================================== 
 GESTHIPER >> QUERIE 1                               
