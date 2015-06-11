@@ -69,6 +69,12 @@ public class Hipermercado implements Serializable {
         return this.comprasInvalidas.size();
     }
 
+    public ArrayList<String> getComprasInvalidas() {
+        return comprasInvalidas;
+    }
+    
+    
+    
     /*
      SETTERS
      */
@@ -100,10 +106,15 @@ public class Hipermercado implements Serializable {
         this.moduloCompras = moduloCompras;
     }
 
+    public void setComprasInvalidas(ArrayList<String> comprasInvalidas) {
+        this.comprasInvalidas = comprasInvalidas;
+    }
+    
     public void addCompraInvalida(String linhaInvalida) {
         this.comprasInvalidas.add(linhaInvalida);
     }
-
+    
+    
     public void mudaFicheiroCompras(String pathNovoFicheiro) throws IOException {
         CatalogoClientes backup_catalogo_clientes = this.moduloCatalogoClientes;
         CatalogoProdutos backup_catalogo_produtos = this.moduloCatalogoProdutos;
