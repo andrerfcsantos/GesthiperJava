@@ -109,10 +109,12 @@ public class Hipermercado implements Serializable {
         CatalogoProdutos backup_catalogo_produtos = this.moduloCatalogoProdutos;
         Compras backup_compras = this.moduloCompras;
         Contabilidade backup_contabilidade = this.moduloContabilidade;
+        ArrayList<String> backup_compras_invalidas = this.comprasInvalidas;
         this.moduloCatalogoClientes = new CatalogoClientes();
         this.moduloCatalogoProdutos = new CatalogoProdutos();
         this.moduloContabilidade = new Contabilidade();
         this.moduloCompras = new Compras();
+        this.comprasInvalidas = new ArrayList<>();
 
         try {
             LeituraFicheiros.le_ficheiro_clientes(this.ficheiro_clientes.getPath());
@@ -123,6 +125,7 @@ public class Hipermercado implements Serializable {
             this.moduloCatalogoProdutos = backup_catalogo_produtos;
             this.moduloContabilidade = backup_contabilidade;
             this.moduloCompras = backup_compras;
+            this.comprasInvalidas = backup_compras_invalidas;
             throw e;
         }
     }
