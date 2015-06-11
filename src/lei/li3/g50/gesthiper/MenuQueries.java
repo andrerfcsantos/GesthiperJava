@@ -1723,7 +1723,7 @@ public final class MenuQueries {
             try {
                 System.out.print("A ler ficheiro...aguarde por favor.\n");
                 Crono.start();
-                hiper.mudaFicheiroCompras(ficheiro);
+                Gesthiper.mudaFicheiroCompras(ficheiro);
                 tempo_querie = Crono.stop();
                 System.out.print("Novo ficheiro lido com sucesso.\n");
                 System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);

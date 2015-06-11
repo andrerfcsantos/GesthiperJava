@@ -69,6 +69,12 @@ public class Hipermercado implements Serializable {
         return this.comprasInvalidas.size();
     }
 
+    public ArrayList<String> getComprasInvalidas() {
+        return comprasInvalidas;
+    }
+    
+    
+    
     /*
      SETTERS
      */
@@ -100,35 +106,14 @@ public class Hipermercado implements Serializable {
         this.moduloCompras = moduloCompras;
     }
 
+    public void setComprasInvalidas(ArrayList<String> comprasInvalidas) {
+        this.comprasInvalidas = comprasInvalidas;
+    }
+    
     public void addCompraInvalida(String linhaInvalida) {
         this.comprasInvalidas.add(linhaInvalida);
     }
-
-    public void mudaFicheiroCompras(String pathNovoFicheiro) throws IOException {
-        CatalogoClientes backup_catalogo_clientes = this.moduloCatalogoClientes;
-        CatalogoProdutos backup_catalogo_produtos = this.moduloCatalogoProdutos;
-        Compras backup_compras = this.moduloCompras;
-        Contabilidade backup_contabilidade = this.moduloContabilidade;
-        ArrayList<String> backup_compras_invalidas = this.comprasInvalidas;
-        this.moduloCatalogoClientes = new CatalogoClientes();
-        this.moduloCatalogoProdutos = new CatalogoProdutos();
-        this.moduloContabilidade = new Contabilidade();
-        this.moduloCompras = new Compras();
-        this.comprasInvalidas = new ArrayList<>();
-
-        try {
-            LeituraFicheiros.le_ficheiro_clientes(this.ficheiro_clientes.getPath());
-            LeituraFicheiros.le_ficheiro_produtos(this.ficheiro_produtos.getPath());
-            LeituraFicheiros.le_ficheiro_compras(pathNovoFicheiro);
-        } catch (IOException e) {
-            this.moduloCatalogoClientes = backup_catalogo_clientes;
-            this.moduloCatalogoProdutos = backup_catalogo_produtos;
-            this.moduloContabilidade = backup_contabilidade;
-            this.moduloCompras = backup_compras;
-            this.comprasInvalidas = backup_compras_invalidas;
-            throw e;
-        }
-    }
+    
 
     public void guardaComprasInvalidas(String ficheiro) throws FileNotFoundException{
         PrintWriter pw = new PrintWriter(ficheiro);
