@@ -1,5 +1,6 @@
 package lei.li3.g50.gesthiper;
 
+import lei.li3.g50.modulos.dados.Hipermercado;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
