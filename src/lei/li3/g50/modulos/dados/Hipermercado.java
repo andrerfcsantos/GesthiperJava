@@ -17,7 +17,7 @@ public class Hipermercado implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -9073031387966524796L;
-	ArrayList<String> comprasInvalidas;
+	private ArrayList<String> comprasInvalidas;
     private File ficheiro_clientes;
     private File ficheiro_produtos;
     private File ficheiro_compras;
