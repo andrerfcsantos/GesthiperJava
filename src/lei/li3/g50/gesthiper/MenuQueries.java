@@ -66,9 +66,12 @@ public final class MenuQueries {
         QUERIE_12a,
         QUERIE_12b,
         QUERIE_12c,
-        QUERIE_13,
-        QUERIE_14,
-        QUERIE_15;
+        QUERIE_13a,
+        QUERIE_13b,
+        QUERIE_14a,
+        QUERIE_14b,
+        QUERIE_15a,
+        QUERIE_15b;
     }
 
     private MenuQueries() {
@@ -1563,7 +1566,7 @@ public final class MenuQueries {
                     produto_inserido = "";
                     estadoMenu = QUERIE_12a;
                 }
-                
+
                 System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
                 System.out.print("================================================= \n");
                 System.out.print("GESTHIPER >> QUERIE 12                            \n");
@@ -1713,69 +1716,83 @@ public final class MenuQueries {
      */
 
     public static MenuActual _13_guardarEmFicheiroObjecto() {
-        MenuActual estadoMenu = QUERIE_13;
+        MenuActual estadoMenu = QUERIE_13a;
         int escolha_opcao;
         Mes mes;
         String ficheiro;
         String lixo;
         double tempo_querie;
-        Scanner input = new Scanner(System.in);
+        Scanner input;
         Hipermercado hiper = Gesthiper.getHipermercado();
 
-        while (estadoMenu == QUERIE_13) {
+        while (estadoMenu == QUERIE_13a) {
+            input = new Scanner(System.in);
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("============================================================= \n");
-            System.out.print("GESTHIPER >> QUERIE 13            \n");
-            System.out.print("Guardar hipermercado em ficheiro objecto               \n");
+            System.out.print("GESTHIPER >> QUERIE 13                                        \n");
+            System.out.print("Guardar hipermercado em ficheiro objecto                      \n");
             System.out.print("============================================================= \n");
+            System.out.print("q - sair | b - voltar                                         \n");
+            System.out.print("------------------------------------------------------------- \n");
             System.out.print("Indique o nome do ficheiro onde guardar: ");
             try {
-                ficheiro = input.next();
-            } catch (InputMismatchException ex) {
+                ficheiro = input.nextLine();
+                if (ficheiro.compareToIgnoreCase("q") == 0) {
+                    estadoMenu = SAIR;
+                } else if (ficheiro.compareToIgnoreCase("b") == 0) {
+                    estadoMenu = MENU_QUERIES;
+                } else {
+                    estadoMenu = QUERIE_13b;
+                }
+            } catch (NoSuchElementException ex) {
                 lixo = input.next();
                 ficheiro = "";
+                estadoMenu = QUERIE_13a;
             }
 
-            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("============================================================= \n");
-            System.out.print("GESTHIPER >> QUERIE 13            \n");
-            System.out.print("Guardar hipermercado em ficheiro objecto               \n");
-            System.out.print("============================================================= \n");
+            while (estadoMenu == QUERIE_13b) {
+                input = new Scanner(System.in);
+                System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+                System.out.print("============================================================= \n");
+                System.out.print("GESTHIPER >> QUERIE 13            \n");
+                System.out.print("Guardar hipermercado em ficheiro objecto               \n");
+                System.out.print("============================================================= \n");
 
-            try {
-                System.out.print("A guardar ficheiro...aguarde por favor.\n");
-                Crono.start();
-                LeituraFicheiros.guarda_ficheiro_objecto(ficheiro);
-                tempo_querie = Crono.stop();
-                System.out.print("Ficheiro guardado com sucesso.\n");
-                System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
-            } catch (IOException ex) {
-                System.out.println("Erro ao guardar ficheiro");
-            }
+                try {
+                    System.out.print("A guardar ficheiro...aguarde por favor.\n");
+                    Crono.start();
+                    LeituraFicheiros.guarda_ficheiro_objecto(ficheiro);
+                    tempo_querie = Crono.stop();
+                    System.out.print("Ficheiro guardado com sucesso.\n");
+                    System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
+                } catch (IOException ex) {
+                    System.out.println("Erro ao guardar ficheiro");
+                }
 
-            System.out.print("============================================================= \n");
-            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
-            System.out.print("============================================================= \n");
-            System.out.print("Escolha opção: ");
-            try {
-                escolha_opcao = input.nextInt();
-            } catch (InputMismatchException ex) {
-                lixo = input.next();
-                escolha_opcao = -1;
-            }
-            switch (escolha_opcao) {
-                case 0:
-                    estadoMenu = SAIR;
-                    break;
-                case 1:
-                    estadoMenu = MENU_QUERIES;
-                    break;
-                case 2:
-                    estadoMenu = QUERIE_13;
-                    break;
-                default:
-                    estadoMenu = QUERIE_13;
-                    break;
+                System.out.print("============================================================= \n");
+                System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
+                System.out.print("============================================================= \n");
+                System.out.print("Escolha opção: ");
+                try {
+                    escolha_opcao = input.nextInt();
+                } catch (InputMismatchException ex) {
+                    lixo = input.next();
+                    escolha_opcao = -1;
+                }
+                switch (escolha_opcao) {
+                    case 0:
+                        estadoMenu = SAIR;
+                        break;
+                    case 1:
+                        estadoMenu = MENU_QUERIES;
+                        break;
+                    case 2:
+                        estadoMenu = QUERIE_13a;
+                        break;
+                    default:
+                        estadoMenu = QUERIE_13a;
+                        break;
+                }
             }
         }
         return estadoMenu;
@@ -1787,70 +1804,84 @@ public final class MenuQueries {
      de dados até então existente em memória.
      */
     public static MenuActual _14_carregarFicheiroObjecto() {
-        MenuActual estadoMenu = QUERIE_14;
+        MenuActual estadoMenu = QUERIE_14a;
         int escolha_opcao;
         double tempo_querie;
         Mes mes;
         String lixo;
         String ficheiro;
-        Scanner input = new Scanner(System.in);
+        Scanner input;
 
-        while (estadoMenu == QUERIE_14) {
+        while (estadoMenu == QUERIE_14a) {
+            input = new Scanner(System.in);
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");
-            System.out.print("GESTHIPER >> QUERIE 14            \n");
-            System.out.print("Carregar hipermercado de ficheiro objecto               \n");
+            System.out.print("GESTHIPER >> QUERIE 14                            \n");
+            System.out.print("Carregar hipermercado de ficheiro objecto         \n");
             System.out.print("================================================= \n");
+            System.out.print("q - sair | b - voltar                             \n");
+            System.out.print("------------------------------------------------- \n");
             System.out.print("Indique o nome do ficheiro: ");
             try {
-                ficheiro = input.next();
-            } catch (InputMismatchException ex) {
+                ficheiro = input.nextLine();
+                if (ficheiro.compareToIgnoreCase("q") == 0) {
+                    estadoMenu = SAIR;
+                } else if (ficheiro.compareToIgnoreCase("b") == 0) {
+                    estadoMenu = MENU_QUERIES;
+                } else {
+                    estadoMenu = QUERIE_14b;
+                }
+            } catch (NoSuchElementException ex) {
                 lixo = input.next();
                 ficheiro = "";
+                estadoMenu = QUERIE_14a;
             }
 
-            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("================================================= \n");
-            System.out.print("GESTHIPER >> QUERIE 14            \n");
-            System.out.print("Carregar hipermercado de ficheiro objecto               \n");
-            System.out.print("================================================= \n");
+            while (estadoMenu == QUERIE_14b) {
+                input = new Scanner(System.in);
+                System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+                System.out.print("================================================= \n");
+                System.out.print("GESTHIPER >> QUERIE 14            \n");
+                System.out.print("Carregar hipermercado de ficheiro objecto               \n");
+                System.out.print("================================================= \n");
 
-            try {
-                System.out.print("A ler ficheiro...aguarde por favor.\n");
-                Crono.start();
-                LeituraFicheiros.le_ficheiro_objecto(ficheiro);
-                tempo_querie = Crono.stop();
-                System.out.print("Ficheiro carregado com sucesso.\n");
-                System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
-            } catch (IOException ex) {
-                System.out.println("Erro ao carregar ficheiro.\n");
-            } catch (ClassNotFoundException ex) {
-                System.out.println("Classe não conhecida.\n");
-            }
+                try {
+                    System.out.print("A ler ficheiro...aguarde por favor.\n");
+                    Crono.start();
+                    LeituraFicheiros.le_ficheiro_objecto(ficheiro);
+                    tempo_querie = Crono.stop();
+                    System.out.print("Ficheiro carregado com sucesso.\n");
+                    System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
+                } catch (IOException ex) {
+                    System.out.println("Erro ao carregar ficheiro.\n");
+                } catch (ClassNotFoundException ex) {
+                    System.out.println("Classe não conhecida.\n");
+                }
 
-            System.out.print("================================================= \n");
-            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
-            System.out.print("==================================================== \n");
-            System.out.print("Escolha opção: ");
-            try {
-                escolha_opcao = input.nextInt();
-            } catch (InputMismatchException ex) {
-                lixo = input.next();
-                escolha_opcao = -1;
-            }
-            switch (escolha_opcao) {
-                case 0:
-                    estadoMenu = SAIR;
-                    break;
-                case 1:
-                    estadoMenu = MENU_QUERIES;
-                    break;
-                case 2:
-                    estadoMenu = QUERIE_14;
-                    break;
-                default:
-                    estadoMenu = QUERIE_14;
-                    break;
+                System.out.print("================================================= \n");
+                System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
+                System.out.print("==================================================== \n");
+                System.out.print("Escolha opção: ");
+                try {
+                    escolha_opcao = input.nextInt();
+                } catch (InputMismatchException ex) {
+                    lixo = input.next();
+                    escolha_opcao = -1;
+                }
+                switch (escolha_opcao) {
+                    case 0:
+                        estadoMenu = SAIR;
+                        break;
+                    case 1:
+                        estadoMenu = MENU_QUERIES;
+                        break;
+                    case 2:
+                        estadoMenu = QUERIE_14a;
+                        break;
+                    default:
+                        estadoMenu = QUERIE_14a;
+                        break;
+                }
             }
         }
         return estadoMenu;
@@ -1862,69 +1893,84 @@ public final class MenuQueries {
      Compras3.txt).
      */
     public static MenuActual _15_mudarFicheiroCompras() {
-        MenuActual estadoMenu = QUERIE_15;
+        MenuActual estadoMenu = QUERIE_15a;
         int escolha_opcao;
         Mes mes;
         double tempo_querie;
         String lixo;
         String ficheiro;
         Hipermercado hiper = Gesthiper.getHipermercado();
-        Scanner input = new Scanner(System.in);
+        Scanner input;
 
-        while (estadoMenu == QUERIE_15) {
+        while (estadoMenu == QUERIE_15a) {
+            input = new Scanner(System.in);
             System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
             System.out.print("================================================= \n");
-            System.out.print("GESTHIPER >> QUERIE 15            \n");
-            System.out.print("Mudar ficheiro de compras              \n");
+            System.out.print("GESTHIPER >> QUERIE 15                            \n");
+            System.out.print("Mudar ficheiro de compras                         \n");
             System.out.print("================================================= \n");
+            System.out.print("q - sair | b - voltar                             \n");
+            System.out.print("------------------------------------------------- \n");
             System.out.print("Indique o nome do ficheiro: ");
+            
             try {
-                ficheiro = input.next();
-            } catch (InputMismatchException ex) {
+                ficheiro = input.nextLine();
+                if (ficheiro.compareToIgnoreCase("q") == 0) {
+                    estadoMenu = SAIR;
+                } else if (ficheiro.compareToIgnoreCase("b") == 0) {
+                    estadoMenu = MENU_QUERIES;
+                } else {
+                    estadoMenu = QUERIE_15b;
+                }
+            } catch (NoSuchElementException ex) {
                 lixo = input.next();
                 ficheiro = "";
+                estadoMenu = QUERIE_15a;
             }
 
-            System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
-            System.out.print("============================================================ \n");
-            System.out.print("GESTHIPER >> QUERIE 15                            \n");
-            System.out.print("Mudar ficheiro de compras       \n");
-            System.out.print("============================================================ \n");
+            while (estadoMenu == QUERIE_15b) {
+                input = new Scanner(System.in);
+                System.out.print(ANSI_CLEARSCREEN + ANSI_HOME);
+                System.out.print("============================================================ \n");
+                System.out.print("GESTHIPER >> QUERIE 15                            \n");
+                System.out.print("Mudar ficheiro de compras       \n");
+                System.out.print("============================================================ \n");
 
-            try {
-                System.out.print("A ler ficheiro...aguarde por favor.\n");
-                Crono.start();
-                Gesthiper.mudaFicheiroCompras(ficheiro);
-                tempo_querie = Crono.stop();
-                System.out.print("Novo ficheiro lido com sucesso.\n");
-                System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
-            } catch (IOException ex) {
-                System.out.print("Erro ao mudar ficheiro compras.\n");
-            }
+                try {
+                    System.out.print("A ler ficheiro...aguarde por favor.\n");
+                    Crono.start();
+                    Gesthiper.mudaFicheiroCompras(ficheiro);
+                    tempo_querie = Crono.stop();
+                    System.out.print("Novo ficheiro lido com sucesso.\n");
+                    System.out.printf("Tempo querie: %.4f segundos.\n", tempo_querie);
+                } catch (IOException ex) {
+                    System.out.print("Erro ao mudar ficheiro compras.\n");
+                }
 
-            System.out.print("============================================================ \n");
-            System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Escolher novo ficheiro  \n");
-            System.out.print("============================================================ \n");
-            System.out.print("Escolha opção: ");
-            try {
-                escolha_opcao = input.nextInt();
-            } catch (InputMismatchException ex) {
-                lixo = input.next();
-                escolha_opcao = -1;
-            }
-            switch (escolha_opcao) {
-                case 0:
-                    estadoMenu = SAIR;
-                    break;
-                case 1:
-                    estadoMenu = MENU_QUERIES;
-                    break;
-                case 2:
-                    estadoMenu = QUERIE_15;
-                    break;
-                default:
-                    estadoMenu = QUERIE_15;
-                    break;
+                System.out.print("============================================================ \n");
+                System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Escolher novo ficheiro  \n");
+                System.out.print("============================================================ \n");
+                System.out.print("Escolha opção: ");
+                try {
+                    escolha_opcao = input.nextInt();
+                } catch (InputMismatchException ex) {
+                    lixo = input.next();
+                    escolha_opcao = -1;
+                }
+                switch (escolha_opcao) {
+                    case 0:
+                        estadoMenu = SAIR;
+                        break;
+                    case 1:
+                        estadoMenu = MENU_QUERIES;
+                        break;
+                    case 2:
+                        estadoMenu = QUERIE_15a;
+                        break;
+                    default:
+                        estadoMenu = QUERIE_15a;
+                        break;
+                }
             }
         }
         return estadoMenu;
