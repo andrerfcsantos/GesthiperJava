@@ -20,11 +20,9 @@ import lei.li3.g50.utilitarios.ParProdutoQuantidadeComprada;
 
 public class FichaClienteCompras implements Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8760467704570262649L;
-	private Matriz_Int_12x2 numUnidadesCompradasClientePorMes;
+    
+    private static final long serialVersionUID = -8760467704570262649L;
+    private Matriz_Int_12x2 numUnidadesCompradasClientePorMes;
     private Matriz_Int_12x2 numComprasClientePorMes;
     private Matriz_Double_12x2 dinheiroGastoClientePorMes;
     private TreeMap<Produto, FichaProdutoDeClienteCompras> produtosCliente;
@@ -59,11 +57,10 @@ public class FichaClienteCompras implements Serializable {
         this.numUnidadesCompradasClientePorMes.addValorMesTipoCompra(mes, tipo_compra, unidades_compradas);
         this.numComprasClientePorMes.addValorMesTipoCompra(mes, tipo_compra, 1);
         this.dinheiroGastoClientePorMes.addValorMesTipoCompra(mes, tipo_compra, preco * (unidades_compradas + 0.0));
-        
-        
-        try{
+
+        try {
             ficha_produto = this.getFichaProdutoNoClone(compra.getProduto());
-        }catch(ClienteNaoComprouProdutoException ex){
+        } catch (ClienteNaoComprouProdutoException ex) {
             ficha_produto = new FichaProdutoDeClienteCompras();
             this.produtosCliente.put(compra.getProduto().clone(), ficha_produto);
         }
@@ -135,13 +132,13 @@ public class FichaClienteCompras implements Serializable {
     /*GETTERS CLASSES INFERIORES*/
     private FichaProdutoDeClienteCompras getFichaProdutoNoClone(Produto produto) throws ClienteNaoComprouProdutoException {
         FichaProdutoDeClienteCompras resultado;
-        
-        if(this.produtosCliente.containsKey(produto)){
+
+        if (this.produtosCliente.containsKey(produto)) {
             resultado = this.produtosCliente.get(produto);
-        }else{
+        } else {
             throw new ClienteNaoComprouProdutoException();
         }
-        
+
         return resultado;
     }
 
@@ -203,13 +200,11 @@ public class FichaClienteCompras implements Serializable {
         return resultado;
     }
 
-    
     /*RESULTADOS PARA QUERIES*/
-    
     public int getNumeroProdutosDistintos() {
         return this.produtosCliente.size();
     }
-    
+
     public List<ParProdutoQuantidadeComprada> getParesProdutoQuantidadeComprada() {
         TreeSet<ParProdutoQuantidadeComprada> pares = new TreeSet<>(new ComparatorParProdutoQuantidadeComprada());
         ArrayList<ParProdutoQuantidadeComprada> lista_pares = new ArrayList<>();
@@ -228,7 +223,7 @@ public class FichaClienteCompras implements Serializable {
         return (List<ParProdutoQuantidadeComprada>) lista_pares;
     }
 
-    public Map<Mes,Integer> getNumeroProdutosDistintosPorMes() {
+    public Map<Mes, Integer> getNumeroProdutosDistintosPorMes() {
         int numeroProdsDistintosPorMes[] = new int[12];
         TreeMap<Mes, Integer> resultado = new TreeMap<>();
 
@@ -326,7 +321,8 @@ public class FichaClienteCompras implements Serializable {
         return this.dinheiroGastoClientePorMes.equals(other.getDinheiroGastoClientePorMes())
                 && this.numComprasClientePorMes.equals(other.getNumComprasClientePorMes())
                 && this.numUnidadesCompradasClientePorMes.equals(other.getNumUnidadesCompradasClientePorMes())
-                && this.produtosCliente.size() == other.produtosCliente.size();
+                && this.produtosCliente.keySet().containsAll(other.produtosCliente.keySet())
+                && this.produtosCliente.values().containsAll(other.produtosCliente.values());
     }
 
     @Override

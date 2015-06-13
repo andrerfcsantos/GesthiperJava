@@ -7,13 +7,10 @@ import java.util.TreeMap;
 import lei.li3.g50.excepcoes.ArrayNaoTem12Comprimento;
 import lei.li3.g50.modulos.dados.Mes;
 
-public class ParProdutoNClientes implements Serializable  {
+public class ParProdutoNClientes implements Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3271844417478630684L;
-	private int[] numeroClientesDistintosPorMes;
+    private static final long serialVersionUID = 3271844417478630684L;
+    private int[] numeroClientesDistintosPorMes;
     private int numeroTotalClientesDistintos;
 
     /*
@@ -23,14 +20,16 @@ public class ParProdutoNClientes implements Serializable  {
         this.numeroClientesDistintosPorMes = new int[12];
         this.numeroTotalClientesDistintos = 0;
     }
-    
+
     public ParProdutoNClientes(int clientesDistintos[], int totalClientesDistintos) throws ArrayNaoTem12Comprimento {
-        if(clientesDistintos.length!=12)
+        if (clientesDistintos.length != 12) {
             throw new ArrayNaoTem12Comprimento();
-        for(int i=0;i<12;i++) this.numeroClientesDistintosPorMes[i] = clientesDistintos[i];
+        }
+        for (int i = 0; i < 12; i++) {
+            this.numeroClientesDistintosPorMes[i] = clientesDistintos[i];
+        }
         this.numeroTotalClientesDistintos = totalClientesDistintos;
     }
-
 
     public ParProdutoNClientes(ParProdutoNClientes par) {
         this.numeroTotalClientesDistintos = par.getNumeroTotalClientesDisntintos();
@@ -43,7 +42,6 @@ public class ParProdutoNClientes implements Serializable  {
     /*
      GETTERS
      */
-  
     public int[] getNumeroClientesDistintosPorMesAsArray() {
         int temp[] = new int[12];
         for (int i = 0; i < 12; i++) {
@@ -51,19 +49,19 @@ public class ParProdutoNClientes implements Serializable  {
         }
         return temp;
     }
-    
-    public Map<Mes,Integer> getNumeroClientesDistintosPorMes(){
+
+    public Map<Mes, Integer> getNumeroClientesDistintosPorMes() {
         Mes mes;
-        TreeMap<Mes,Integer> mapMeses = new TreeMap<>();
-        
-        for(int i=0;i<12;i++){
-            mes = Mes.numero_to_mes(i+1);
+        TreeMap<Mes, Integer> mapMeses = new TreeMap<>();
+
+        for (int i = 0; i < 12; i++) {
+            mes = Mes.numero_to_mes(i + 1);
             mapMeses.put(mes, this.numeroClientesDistintosPorMes[i]);
         }
-            
+
         return mapMeses;
     }
-    
+
     public int getNumeroClientesDisntintosMes(int indice) {
         return this.numeroClientesDistintosPorMes[indice];
     }
@@ -79,30 +77,29 @@ public class ParProdutoNClientes implements Serializable  {
     /*
      SETTERS
      */
-    
-    
-    public void setNumeroTotalClientesDistintos(int valor){
+    public void setNumeroTotalClientesDistintos(int valor) {
         this.numeroTotalClientesDistintos = valor;
     }
-    public void addNumeroTotalClientesDistintos(int valor){
+
+    public void addNumeroTotalClientesDistintos(int valor) {
         this.numeroTotalClientesDistintos += valor;
     }
-    
+
     public void setNumeroClientesMes(Mes mes, int numero_clientes) {
         this.numeroClientesDistintosPorMes[mes.getIndiceArray()] = numero_clientes;
     }
-    
-    public void addNumeroClientesMes(Mes mes, int numero_clientes){
+
+    public void addNumeroClientesMes(Mes mes, int numero_clientes) {
         this.numeroClientesDistintosPorMes[mes.getIndiceArray()] += numero_clientes;
     }
-    
+
     public void setNumeroClientesPorMes(int[] numeroClientesPorMes)
             throws ArrayNaoTem12Comprimento {
 
         if (numeroClientesPorMes.length != 12) {
             throw new ArrayNaoTem12Comprimento();
         }
-        
+
         for (int i = 0; i < 12; i++) {
             this.numeroClientesDistintosPorMes[i] = numeroClientesPorMes[i];
         }
@@ -112,9 +109,8 @@ public class ParProdutoNClientes implements Serializable  {
     /*
      METODOS STANDARD
      */
-    
     @Override
-    public ParProdutoNClientes clone(){
+    public ParProdutoNClientes clone() {
         return new ParProdutoNClientes(this);
     }
 
@@ -125,14 +121,13 @@ public class ParProdutoNClientes implements Serializable  {
         hash = 41 * hash + this.numeroTotalClientesDistintos;
         return hash;
     }
-    
-    
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj)
+        if (this == obj) {
             return true;
-        
+        }
+
         if (obj == null) {
             return false;
         }
@@ -151,8 +146,8 @@ public class ParProdutoNClientes implements Serializable  {
         sb.append("ParProdutoNClientes{");
         sb.append("numeroTotalClientesDistintos=").append(numeroTotalClientesDistintos);
         sb.append('}');
-        
+
         return sb.toString();
     }
-    
+
 }

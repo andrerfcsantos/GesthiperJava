@@ -6,30 +6,26 @@ import lei.li3.g50.modulos.dados.Produto;
 
 public class ParProdutoQuantidadeComprada implements Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7078413263130812242L;
-	private Produto produto;
+    private static final long serialVersionUID = -7078413263130812242L;
+    private Produto produto;
     private int quantidade;
 
     public ParProdutoQuantidadeComprada() {
-      this.produto = new Produto();
-      this.quantidade = 0;
-      
-      
+        this.produto = new Produto();
+        this.quantidade = 0;
+
     }
 
     public ParProdutoQuantidadeComprada(Produto produto) {
         this.produto = produto.clone();
         this.quantidade = 0;
     }
-    
+
     public ParProdutoQuantidadeComprada(Produto produto, int numero_compras) {
         this.produto = produto.clone();
         this.quantidade = numero_compras;
     }
-    
+
     public ParProdutoQuantidadeComprada(ParProdutoQuantidadeComprada par) {
         this.produto = par.produto.clone();
         this.quantidade = par.quantidade;
@@ -39,7 +35,7 @@ public class ParProdutoQuantidadeComprada implements Serializable {
      GETTERS
      */
     public Produto getProduto() {
-        return produto;
+        return produto.clone();
     }
 
     public int getQuantidadeComprada() {
@@ -56,11 +52,11 @@ public class ParProdutoQuantidadeComprada implements Serializable {
     public void setQuantidadeComprada(int quantidade) {
         this.quantidade = quantidade;
     }
-    
-    public void addQuantidadeComprada(int quantidade){
-        this.quantidade+=quantidade;
+
+    public void addQuantidadeComprada(int quantidade) {
+        this.quantidade += quantidade;
     }
-    
+
 
     /*
      METODOS STANDARD
@@ -81,29 +77,27 @@ public class ParProdutoQuantidadeComprada implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        
+
         final ParProdutoQuantidadeComprada other = (ParProdutoQuantidadeComprada) obj;
-        return this.produto.equals(other.produto) 
-                && this.quantidade==other.quantidade;
+        return this.produto.equals(other.produto)
+                && this.quantidade == other.quantidade;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        
-         sb.append("ParProdutoQuantidadeComprada{");
-         sb.append("produto=").append(produto);
-         sb.append(", quantidade=").append(quantidade);
-         sb.append('}');
-        
+
+        sb.append("ParProdutoQuantidadeComprada{");
+        sb.append("produto=").append(produto);
+        sb.append(", quantidade=").append(quantidade);
+        sb.append('}');
+
         return sb.toString();
     }
-    
+
     @Override
-    public ParProdutoQuantidadeComprada clone(){
+    public ParProdutoQuantidadeComprada clone() {
         return new ParProdutoQuantidadeComprada(this);
     }
-
-
 
 }

@@ -26,18 +26,6 @@ public enum TipoCompra implements Serializable {
         this.abreviatura = abreviatura;
     }
 
-    public static TipoCompra getNORMAL() {
-        return NORMAL;
-    }
-
-    public static TipoCompra getPROMOCAO() {
-        return PROMOCAO;
-    }
-
-    public static TipoCompra getAMBOS() {
-        return AMBOS;
-    }
-
     public int getIndiceArray() {
         return indice;
     }

@@ -8,27 +8,25 @@ import lei.li3.g50.utilitarios.Matriz_Int_12x2;
 
 public class FichaProdutoDeClienteCompras implements Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8460055101460936902L;
-	private Matriz_Int_12x2 numUnidadesCompradasProdutoClientePorMes;
+    
+    private static final long serialVersionUID = 8460055101460936902L;
+    private Matriz_Int_12x2 numUnidadesCompradasProdutoClientePorMes;
     private Matriz_Int_12x2 numComprasProdutoClientePorMes;
     private double totalGastoClienteProduto;
-    
+
     /*
      CONSTRUCTORES
      */
     public FichaProdutoDeClienteCompras() {
         numUnidadesCompradasProdutoClientePorMes = new Matriz_Int_12x2();
         numComprasProdutoClientePorMes = new Matriz_Int_12x2();
-        totalGastoClienteProduto=0;
+        totalGastoClienteProduto = 0;
     }
-    
+
     public FichaProdutoDeClienteCompras(Matriz_Int_12x2 unidades, Matriz_Int_12x2 compras, double total_gasto) {
         numUnidadesCompradasProdutoClientePorMes = unidades.clone();
         numComprasProdutoClientePorMes = compras.clone();
-        totalGastoClienteProduto=total_gasto;
+        totalGastoClienteProduto = total_gasto;
     }
 
     public FichaProdutoDeClienteCompras(FichaProdutoDeClienteCompras ficha) {
@@ -40,12 +38,10 @@ public class FichaProdutoDeClienteCompras implements Serializable {
     /*
      GET'S
      */
-
     public double getTotalGastoClienteProduto() {
         return totalGastoClienteProduto;
     }
-    
-    
+
     /* Nº UNIDADES COMPRADAS*/
     public Matriz_Int_12x2 getNumUnidadesCompradasProdutoClientePorMes() {
         return numUnidadesCompradasProdutoClientePorMes.clone();
@@ -92,17 +88,14 @@ public class FichaProdutoDeClienteCompras implements Serializable {
     /*
      SET'S
      */
-
     public void setTotalGastoClienteProduto(double totalGastoClienteProduto) {
         this.totalGastoClienteProduto = totalGastoClienteProduto;
     }
-    
+
     public void addTotalGastoClienteProduto(double valor) {
         this.totalGastoClienteProduto += valor;
     }
-    
-    
-    
+
     /* Nº UNIDADES COMPRADAS*/
     public void setNumUnidadesCompradasProdutoClientePorMes(Matriz_Int_12x2 numUnidadesCompradasProdutoClientePorMes) {
         this.numUnidadesCompradasProdutoClientePorMes = numUnidadesCompradasProdutoClientePorMes.clone();

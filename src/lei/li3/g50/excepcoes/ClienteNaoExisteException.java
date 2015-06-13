@@ -4,12 +4,9 @@ import java.io.Serializable;
 
 public class ClienteNaoExisteException extends Exception implements Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5086976191514780368L;
+    private static final long serialVersionUID = 5086976191514780368L;
 
-	public ClienteNaoExisteException() {
+    public ClienteNaoExisteException() {
     }
 
     public ClienteNaoExisteException(String msg) {

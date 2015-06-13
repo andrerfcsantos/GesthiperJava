@@ -2,7 +2,6 @@ package lei.li3.g50.modulos.contabilidade;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import lei.li3.g50.modulos.dados.Mes;
 import lei.li3.g50.modulos.dados.TipoCompra;
 import lei.li3.g50.utilitarios.Matriz_Double_12x2;

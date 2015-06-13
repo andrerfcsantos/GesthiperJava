@@ -42,8 +42,8 @@ public class Gesthiper {
         hipermercado.setComprasInvalidas(new ArrayList<>());
 
         try {
-            LeituraFicheiros.le_ficheiro_clientes(hipermercado.getFicheiro_clientes().getPath());
-            LeituraFicheiros.le_ficheiro_produtos(hipermercado.getFicheiro_produtos().getPath());
+            LeituraFicheiros.le_ficheiro_clientes(hipermercado.getFicheiroClientes().getPath());
+            LeituraFicheiros.le_ficheiro_produtos(hipermercado.getFicheiroProdutos().getPath());
             LeituraFicheiros.le_ficheiro_compras(pathNovoFicheiro);
         } catch (IOException e) {
             hipermercado.setModuloCatalogoClientes(backup_catalogo_clientes);

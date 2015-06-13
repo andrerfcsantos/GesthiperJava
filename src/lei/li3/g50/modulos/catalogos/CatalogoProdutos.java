@@ -11,12 +11,10 @@ import lei.li3.g50.modulos.dados.Produto;
 import lei.li3.g50.utilitarios.ComparatorProdutoPorCodigo;
 
 public class CatalogoProdutos implements Serializable {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1697318332425633837L;
-	private ArrayList<TreeSet<Produto>> catalogo;
+    
+    
+    private static final long serialVersionUID = -1697318332425633837L;
+    private ArrayList<TreeSet<Produto>> catalogo;
 
     /*
      CONSTRUCTORES
@@ -34,7 +32,7 @@ public class CatalogoProdutos implements Serializable {
 
     public CatalogoProdutos(Collection<Produto> coleccao) {
         this();
-        
+
         //FIXME var não usada
         int i, indice;
         for (Produto produto : coleccao) {

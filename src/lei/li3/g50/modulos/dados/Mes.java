@@ -26,54 +26,8 @@ public enum Mes implements Serializable {
         this.mes_abreviado = mes_abreviado;
         this.mes_extenso = mes_extenso;
     }
-
-    public static Mes getJANEIRO() {
-        return JANEIRO;
-    }
-
-    public static Mes getFEVEREIRO() {
-        return FEVEREIRO;
-    }
-
-    public static Mes getMARCO() {
-        return MARCO;
-    }
-
-    public static Mes getABRIL() {
-        return ABRIL;
-    }
-
-    public static Mes getMAIO() {
-        return MAIO;
-    }
-
-    public static Mes getJUNHO() {
-        return JUNHO;
-    }
-
-    public static Mes getJULHO() {
-        return JULHO;
-    }
-
-    public static Mes getAGOSTO() {
-        return AGOSTO;
-    }
-
-    public static Mes getSETEMBRO() {
-        return SETEMBRO;
-    }
-
-    public static Mes getOUTUBRO() {
-        return OUTUBRO;
-    }
-
-    public static Mes getNOVEMBRO() {
-        return NOVEMBRO;
-    }
-
-    public static Mes getDEZEMBRO() {
-        return DEZEMBRO;
-    }
+    
+    /*GETTERS*/
 
     public int getNum_mes() {
         return num_mes;
@@ -86,11 +40,12 @@ public enum Mes implements Serializable {
     public String getMes_extenso() {
         return mes_extenso;
     }
-    
-    public int getIndiceArray(){
-        return this.num_mes-1;
+
+    public int getIndiceArray() {
+        return this.num_mes - 1;
     }
     
+    /*OUTROS MÉTODOS*/
     public static Mes numero_to_mes(int n_mes) {
         Mes resultado;
         switch (n_mes) {

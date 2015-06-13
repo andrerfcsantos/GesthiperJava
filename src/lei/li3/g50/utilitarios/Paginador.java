@@ -6,9 +6,8 @@ import java.util.Objects;
 
 public final class Paginador<E> implements Serializable {
 
-
-	private static final long serialVersionUID = -5051604213886807288L;
-	public static final int ELEMENTOS_POR_PAG_DEFAULT = 10;
+    private static final long serialVersionUID = -5051604213886807288L;
+    public static final int ELEMENTOS_POR_PAG_DEFAULT = 10;
     public static final int PAGINA_IMPOSSIVEL = -1;
 
     private List<E> lista;
@@ -56,7 +55,6 @@ public final class Paginador<E> implements Serializable {
     /*
      GETTERS
      */
-
     public List<E> getLista() {
         return lista;
     }
@@ -72,15 +70,15 @@ public final class Paginador<E> implements Serializable {
     public int getNumElemsPagActual() {
         return numElemsPagActual;
     }
-    
-    public int getNumElems(){
+
+    public int getNumElems() {
         return lista.size();
     }
 
     public int getNumElemsPorPag() {
         return numElemsPorPag;
     }
-    
+
     public int getNumPaginas() {
         int num_elems = this.lista.size();
         int elems_por_pag = this.numElemsPorPag;

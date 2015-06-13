@@ -7,16 +7,13 @@ import lei.li3.g50.modulos.dados.Cliente;
 
 public class ParClienteProdutosDiferentes implements Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3903263451938015355L;
-	private Cliente cliente;
+    private static final long serialVersionUID = -3903263451938015355L;
+    private Cliente cliente;
     private int produtos_diferentes;
 
     public ParClienteProdutosDiferentes() {
-      this.cliente = new Cliente();
-      this.produtos_diferentes=0;
+        this.cliente = new Cliente();
+        this.produtos_diferentes = 0;
     }
 
     public ParClienteProdutosDiferentes(Cliente cliente) {
@@ -38,20 +35,20 @@ public class ParClienteProdutosDiferentes implements Serializable {
      GETTERS
      */
     public Cliente getCliente() {
-        return cliente;
+        return cliente.clone();
     }
 
     public int getProdutosDiferentes() {
         return produtos_diferentes;
     }
 
+    /*
+     SETTERS
+     */
     public void setCliente(Cliente cliente) {
         this.cliente = cliente.clone();
     }
 
-    /*
-     SETTERS
-     */
     public void setProdutosDiferentes(int produtos_diferentes) {
         this.produtos_diferentes = produtos_diferentes;
     }

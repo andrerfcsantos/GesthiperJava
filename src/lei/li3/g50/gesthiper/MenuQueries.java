@@ -206,9 +206,9 @@ public final class MenuQueries {
             System.out.print("Estatísticas últimos ficheiros lidos                \n");
             System.out.print("=================================================== \n");
 
-            System.out.print("Ficheiro Produtos: " + hiper.getFicheiro_produtos().getPath() + "\n");
-            System.out.print("Ficheiro Clientes: " + hiper.getFicheiro_clientes().getPath() + "\n");
-            System.out.print("Ficheiro Compras: " + hiper.getFicheiro_compras().getPath() + "\n");
+            System.out.print("Ficheiro Produtos: " + hiper.getFicheiroProdutos().getPath() + "\n");
+            System.out.print("Ficheiro Clientes: " + hiper.getFicheiroClientes().getPath() + "\n");
+            System.out.print("Ficheiro Compras: " + hiper.getFicheiroCompras().getPath() + "\n");
             System.out.print("Total Produtos: " + catalogoProdutos.getNumeroProdutosTotal() + "\n");
             System.out.print("Total Produtos Nao Comprados: " + produtosNaoComprados + "\n");
             System.out.print("Total Produtos Comprados: " + (catalogoProdutos.getNumeroProdutosTotal() - produtosNaoComprados) + "\n");
@@ -1912,7 +1912,7 @@ public final class MenuQueries {
             System.out.print("q - sair | b - voltar                             \n");
             System.out.print("------------------------------------------------- \n");
             System.out.print("Indique o nome do ficheiro: ");
-            
+
             try {
                 ficheiro = input.nextLine();
                 if (ficheiro.compareToIgnoreCase("q") == 0) {

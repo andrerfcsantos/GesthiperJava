@@ -28,11 +28,8 @@ import lei.li3.g50.utilitarios.TriploClienteQtdCompradaDinheiro;
 
 public class Compras implements Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7175792608614138915L;
-	private int numeroComprasValorZero;
+    private static final long serialVersionUID = 7175792608614138915L;
+    private int numeroComprasValorZero;
     private int numeroClientesDistintosPorMes[];
     private int numeroTotalClientesDistintos;
     private TreeMap<Cliente, FichaClienteCompras> arvoreClientes;
@@ -172,13 +169,13 @@ public class Compras implements Serializable {
     /*CLASSE FICHA CLIENTE*/
     private FichaClienteCompras getFichaClienteNoClone(Cliente cliente) throws ClienteNaoExisteException {
         FichaClienteCompras ficha;
-        
-        if(this.arvoreClientes.containsKey(cliente)){
+
+        if (this.arvoreClientes.containsKey(cliente)) {
             ficha = this.arvoreClientes.get(cliente);
-        }else{
+        } else {
             throw new ClienteNaoExisteException();
         }
-        
+
         return ficha;
     }
 
@@ -225,13 +222,13 @@ public class Compras implements Serializable {
     /*CLASSE ParProdutoNClientes*/
     private ParProdutoNClientes getParProdutoNClientesNoClone(Produto produto) throws ProdutoNaoExisteException {
         ParProdutoNClientes resultado;
-        
-        if(this.arvoreParesProdutoNClientes.containsKey(produto)){
+
+        if (this.arvoreParesProdutoNClientes.containsKey(produto)) {
             resultado = this.arvoreParesProdutoNClientes.get(produto);
-        }else{
+        } else {
             throw new ProdutoNaoExisteException();
         }
-        
+
         return resultado;
     }
 
@@ -255,15 +252,15 @@ public class Compras implements Serializable {
     public Matriz_Int_12x2 getUnidadesCompradasProdutoClienteMeses(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException {
         return this.getFichaClienteNoClone(cliente).getNumUnidadesCompradasProdutoMeses(produto);
     }
-    
-    public int getTotalComprasProdutoCliente(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException{
+
+    public int getTotalComprasProdutoCliente(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException {
         return this.getFichaClienteNoClone(cliente).getNumTotalUnidadesCompradasProduto(produto);
     }
-    
-    public int getTotalUnidadesCompradasProdutoCliente(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException{
+
+    public int getTotalUnidadesCompradasProdutoCliente(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException {
         return this.getFichaClienteNoClone(cliente).getNumTotalUnidadesCompradasProduto(produto);
     }
-    
+
     public double getTotalDinheiroGastoProdutoCliente(Produto produto, Cliente cliente) throws ClienteNaoExisteException, ClienteNaoComprouProdutoException {
         return this.getFichaClienteNoClone(cliente).getDinheiroGastoProduto(produto);
     }
@@ -318,20 +315,20 @@ public class Compras implements Serializable {
                 unidadesCompradas = this.getTotalComprasProdutoCliente(produto, entrada.getKey());
                 dinheiroGasto = this.getTotalDinheiroGastoProdutoCliente(produto, entrada.getKey());
                 novo_triplo = new TriploClienteQtdCompradaDinheiro(entrada.getKey().clone(),
-                                                                unidadesCompradas,
-                                                                dinheiroGasto);
+                        unidadesCompradas,
+                        dinheiroGasto);
 
-            triplos.add(novo_triplo);
+                triplos.add(novo_triplo);
             } catch (ClienteNaoComprouProdutoException | ClienteNaoExisteException ex) {
             }
-            
+
         }
 
         for (TriploClienteQtdCompradaDinheiro triplo : triplos) {
             lista_triplos.add(triplo);
         }
 
-        return lista_triplos.subList(0, (topN > lista_triplos.size()) ? lista_triplos.size() :topN);
+        return lista_triplos.subList(0, (topN > lista_triplos.size()) ? lista_triplos.size() : topN);
 
     }
 
@@ -401,7 +398,7 @@ public class Compras implements Serializable {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
-          return true;
+            return true;
         }
         if (obj == null) {
             return false;
@@ -410,8 +407,10 @@ public class Compras implements Serializable {
             return false;
         }
         final Compras other = (Compras) obj;
-        return this.arvoreClientes.size() == other.arvoreClientes.size()
-                && this.arvoreParesProdutoNClientes.size() == other.arvoreParesProdutoNClientes.size()
+        return this.arvoreClientes.keySet().containsAll(other.arvoreClientes.keySet())
+                && this.arvoreClientes.values().containsAll(other.arvoreClientes.values())
+                && this.arvoreParesProdutoNClientes.keySet().containsAll(other.arvoreParesProdutoNClientes.keySet())
+                && this.arvoreParesProdutoNClientes.values().containsAll(other.arvoreParesProdutoNClientes.values())
                 && Arrays.equals(this.numeroClientesDistintosPorMes, other.numeroClientesDistintosPorMes)
                 && this.numeroComprasValorZero == other.numeroComprasValorZero;
     }

@@ -163,6 +163,7 @@ public class Contabilidade implements Serializable {
     public Matriz_Int_12x2 getComprasProdutoMeses(Produto produto) throws ProdutoNaoExisteException {
         return this.getFichaProdutoNoClone(produto).getMatrizNumComprasProdutoPorMes();
     }
+
     public int getNumeroTotalComprasProduto(Produto produto) throws ProdutoNaoExisteException {
         return this.getFichaProdutoNoClone(produto).getNumComprasProduto();
     }
@@ -179,6 +180,7 @@ public class Contabilidade implements Serializable {
     public Matriz_Int_12x2 getUnidadesProdutoVendidasMeses(Produto produto) throws ProdutoNaoExisteException {
         return this.getFichaProdutoNoClone(produto).getMatrizNumUnidadesProdutoVendidasPorMes();
     }
+
     public int getTotalUnidadesProdutoVendidas(Produto produto) throws ProdutoNaoExisteException {
         return this.getFichaProdutoNoClone(produto).getNumUnidadesProdutoVendidas();
     }
@@ -195,6 +197,7 @@ public class Contabilidade implements Serializable {
     public Matriz_Double_12x2 getFacturacaoProdutoMeses(Produto produto) throws ProdutoNaoExisteException {
         return this.getFichaProdutoNoClone(produto).getMatrizFacturacaoProdutoPorMes();
     }
+
     public double getTotalFacturacaoProduto(Produto produto) throws ProdutoNaoExisteException {
         return this.getFichaProdutoNoClone(produto).getFacturacaoProduto();
     }
@@ -332,7 +335,8 @@ public class Contabilidade implements Serializable {
         return this.totalComprasPorMes.equals(other.totalComprasPorMes)
                 && this.totalFacturadoPorMes.equals(other.totalFacturadoPorMes)
                 && this.totalUnidadesVendidasPorMes.equals(other.totalUnidadesVendidasPorMes)
-                && this.arvoreProdutos.size() == other.arvoreProdutos.size();
+                && this.arvoreProdutos.keySet().containsAll(other.arvoreProdutos.keySet())
+                && this.arvoreProdutos.values().containsAll(other.arvoreProdutos.values());
     }
 
     @Override
@@ -355,5 +359,10 @@ public class Contabilidade implements Serializable {
         sb.append(", Total Produtos=").append(arvoreProdutos.size());
         sb.append("}");
         return sb.toString();
+    }
+
+    @Override
+    public Contabilidade clone() {
+        return new Contabilidade(this);
     }
 }

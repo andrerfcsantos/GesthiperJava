@@ -19,10 +19,10 @@ import lei.li3.g50.modulos.dados.Produto;
 import lei.li3.g50.modulos.dados.TipoCompra;
 
 public class LeituraFicheiros {
-    
+
     public static void le_ficheiro_produtos(String str_ficheiro_produtos)
             throws FileNotFoundException, IOException {
-    	//FIXME var não usada
+        //FIXME var não usada
         int i = 1;
         String linha;
         Hipermercado hiper = Gesthiper.getHipermercado();
@@ -31,7 +31,7 @@ public class LeituraFicheiros {
         File ficheiro = new File(str_ficheiro_produtos);
 
         if (ficheiro.exists()) {
-            hiper.setFicheiro_produtos(ficheiro);
+            hiper.setFicheiroProdutos(ficheiro);
         }
 
         bin = new BufferedReader(new FileReader(ficheiro));
@@ -47,7 +47,7 @@ public class LeituraFicheiros {
 
     public static void le_ficheiro_clientes(String str_ficheiro_clientes)
             throws FileNotFoundException, IOException {
-    	//FIXME var não usada
+        //FIXME var não usada
         int i = 1;
         String linha;
         Hipermercado hiper = Gesthiper.getHipermercado();
@@ -56,7 +56,7 @@ public class LeituraFicheiros {
         File ficheiro = new File(str_ficheiro_clientes);
 
         if (ficheiro.exists()) {
-            hiper.setFicheiro_clientes(ficheiro);
+            hiper.setFicheiroClientes(ficheiro);
         }
 
         bin = new BufferedReader(new FileReader(ficheiro));
@@ -81,7 +81,7 @@ public class LeituraFicheiros {
         File ficheiro = new File(str_ficheiro_compras);
 
         if (ficheiro.exists()) {
-            hiper.setFicheiro_compras(ficheiro);
+            hiper.setFicheiroCompras(ficheiro);
         }
 
         bin = new BufferedReader(new FileReader(ficheiro));
@@ -93,7 +93,7 @@ public class LeituraFicheiros {
              */
             linha = bin.readLine();
             st = new StringTokenizer(linha, " \r\n");
-            
+
             compra.setProduto(new Produto(st.nextToken()));
             compra.setPreco(Double.parseDouble(st.nextToken()));
             compra.setQuantidade(Integer.parseInt(st.nextToken()));
@@ -110,8 +110,8 @@ public class LeituraFicheiros {
         }
         bin.close();
     }
-    
-        public static void le_ficheiro_compras_cc(String str_ficheiro_compras)
+
+    public static void le_ficheiro_compras_cc(String str_ficheiro_compras)
             throws FileNotFoundException, IOException {
         Hipermercado hiper = Gesthiper.getHipermercado();
         String linha;
@@ -128,7 +128,7 @@ public class LeituraFicheiros {
         File ficheiro = new File(str_ficheiro_compras);
 
         if (ficheiro.exists()) {
-            hiper.setFicheiro_compras(ficheiro);
+            hiper.setFicheiroCompras(ficheiro);
         }
 
         bin = new BufferedReader(new FileReader(ficheiro));
@@ -143,16 +143,19 @@ public class LeituraFicheiros {
             produto = new Produto(st.nextToken());
             preco = Double.parseDouble(st.nextToken());
             quantidade = Integer.parseInt(st.nextToken());
-            
+
             token = st.nextToken();
-            if(token.compareTo("N") ==0) tipo_compra = TipoCompra.NORMAL;
-            else tipo_compra = TipoCompra.PROMOCAO;
-            
+            if (token.compareTo("N") == 0) {
+                tipo_compra = TipoCompra.NORMAL;
+            } else {
+                tipo_compra = TipoCompra.PROMOCAO;
+            }
+
             cliente = new Cliente(st.nextToken());
             mes = Mes.numero_to_mes(Integer.parseInt(st.nextToken()));
-            
+
             compra = new Compra(cliente, produto, preco, quantidade, mes, tipo_compra);
-            
+
             if (compraValida(compra)) {
                 hiper.regista_compra(compra);
             } else {
@@ -162,7 +165,6 @@ public class LeituraFicheiros {
         }
         bin.close();
     }
-
 
     public static void le_ficheiro_objecto(String str_ficheiro_objecto) throws IOException, ClassNotFoundException {
         ObjectInputStream fich_obj = new ObjectInputStream(new FileInputStream(str_ficheiro_objecto));

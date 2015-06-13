@@ -4,60 +4,56 @@ import java.io.Serializable;
 import java.util.Objects;
 import lei.li3.g50.modulos.dados.Cliente;
 
-public class TriploClienteQtdCompradaDinheiro implements Serializable{
-    /**
-   * 
-   */
-  private static final long serialVersionUID = 8024952534834211342L;
+public class TriploClienteQtdCompradaDinheiro implements Serializable {
+
+    private static final long serialVersionUID = 8024952534834211342L;
     private Cliente cliente;
     private int quantidadeComprada;
     private double totalDinheirGasto;
-    
-    public TriploClienteQtdCompradaDinheiro(){
-      this.cliente = new Cliente();
-      this.quantidadeComprada = 0;
-      this.totalDinheirGasto = 0;
-      
+
+    public TriploClienteQtdCompradaDinheiro() {
+        this.cliente = new Cliente();
+        this.quantidadeComprada = 0;
+        this.totalDinheirGasto = 0;
+
     }
-    
-    public TriploClienteQtdCompradaDinheiro(Cliente cliente){
+
+    public TriploClienteQtdCompradaDinheiro(Cliente cliente) {
         this.cliente = cliente.clone();
-        this.quantidadeComprada =0;
-        this.totalDinheirGasto=0;
+        this.quantidadeComprada = 0;
+        this.totalDinheirGasto = 0;
     }
-    
-    public TriploClienteQtdCompradaDinheiro(Cliente cliente, int qtdComprada, double dinheiro){
+
+    public TriploClienteQtdCompradaDinheiro(Cliente cliente, int qtdComprada, double dinheiro) {
         this.cliente = cliente.clone();
-        this.quantidadeComprada =qtdComprada;
-        this.totalDinheirGasto=dinheiro;
+        this.quantidadeComprada = qtdComprada;
+        this.totalDinheirGasto = dinheiro;
     }
-    
-    public TriploClienteQtdCompradaDinheiro(TriploClienteQtdCompradaDinheiro triplo){
+
+    public TriploClienteQtdCompradaDinheiro(TriploClienteQtdCompradaDinheiro triplo) {
         this.cliente = triplo.cliente.clone();
-        this.quantidadeComprada =triplo.getQuantidadeComprada();
-        this.totalDinheirGasto=triplo.getTotalDinheirGasto();
+        this.quantidadeComprada = triplo.getQuantidadeComprada();
+        this.totalDinheirGasto = triplo.getTotalDinheirGasto();
     }
-    
-    
+
     /*
-    GETTERS
-    */
+     GETTERS
+     */
     public Cliente getCliente() {
-        return cliente;
+        return cliente.clone();
     }
 
     public int getQuantidadeComprada() {
         return quantidadeComprada;
     }
-    
+
     public double getTotalDinheirGasto() {
         return totalDinheirGasto;
     }
-    
+
     /*
-    SETTERS
-    */
-    
+     SETTERS
+     */
     public void setCliente(Cliente cliente) {
         this.cliente = cliente.clone();
     }
@@ -65,7 +61,7 @@ public class TriploClienteQtdCompradaDinheiro implements Serializable{
     public void setQuantidadeComprada(int quantidadeComprada) {
         this.quantidadeComprada = quantidadeComprada;
     }
-    
+
     public void addQuantidadeComprada(int valor) {
         this.quantidadeComprada += valor;
     }
@@ -73,15 +69,14 @@ public class TriploClienteQtdCompradaDinheiro implements Serializable{
     public void setTotalDinheirGasto(double totalDinheirGasto) {
         this.totalDinheirGasto = totalDinheirGasto;
     }
-    
+
     public void addTotalDinheirGasto(double valor) {
         this.totalDinheirGasto += valor;
     }
-    
-    
+
     /*
-    METODOS STANDARD
-    */
+     METODOS STANDARD
+     */
     @Override
     public int hashCode() {
         int hash = 3;
@@ -116,8 +111,9 @@ public class TriploClienteQtdCompradaDinheiro implements Serializable{
         return sb.toString();
     }
     
-    
-    
-    
-    
+    @Override
+    public TriploClienteQtdCompradaDinheiro clone(){
+        return new TriploClienteQtdCompradaDinheiro(this);
+    }
+
 }

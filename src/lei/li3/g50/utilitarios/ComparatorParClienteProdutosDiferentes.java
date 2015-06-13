@@ -3,15 +3,12 @@ package lei.li3.g50.utilitarios;
 import java.io.Serializable;
 import java.util.Comparator;
 
+public class ComparatorParClienteProdutosDiferentes implements Comparator<ParClienteProdutosDiferentes>, Serializable {
 
-public class ComparatorParClienteProdutosDiferentes implements Comparator<ParClienteProdutosDiferentes>, Serializable{
+    
+    private static final long serialVersionUID = -4970362995100984462L;
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4970362995100984462L;
-
-	@Override
+    @Override
     public int compare(ParClienteProdutosDiferentes p1, ParClienteProdutosDiferentes p2) {
 
         if (p1.getProdutosDiferentes() < p2.getProdutosDiferentes()) {
@@ -27,5 +24,4 @@ public class ComparatorParClienteProdutosDiferentes implements Comparator<ParCli
         return p1.getCliente().getCodigoCliente().compareTo(p2.getCliente().getCodigoCliente());
     }
 
-    
 }

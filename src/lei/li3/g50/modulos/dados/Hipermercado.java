@@ -2,22 +2,18 @@ package lei.li3.g50.modulos.dados;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 import lei.li3.g50.modulos.catalogos.*;
 import lei.li3.g50.modulos.compras.*;
 import lei.li3.g50.modulos.contabilidade.*;
-import lei.li3.g50.modulos.dados.*;
 
 public class Hipermercado implements Serializable {
-    
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -9073031387966524796L;
-	private ArrayList<String> comprasInvalidas;
+
+    private static final long serialVersionUID = -9073031387966524796L;
+    private ArrayList<String> comprasInvalidas;
     private File ficheiro_clientes;
     private File ficheiro_produtos;
     private File ficheiro_compras;
@@ -32,6 +28,16 @@ public class Hipermercado implements Serializable {
         moduloCatalogoProdutos = new CatalogoProdutos();
         moduloContabilidade = new Contabilidade();
         moduloCompras = new Compras();
+    }
+    public Hipermercado(Hipermercado hiper) {
+        comprasInvalidas = hiper.getComprasInvalidas();
+        moduloCatalogoClientes = hiper.getCatalogoClientes();
+        moduloCatalogoProdutos = hiper.getCatalogoProdutos();
+        moduloContabilidade = hiper.getContabilidade();
+        moduloCompras = hiper.getCompras();
+        ficheiro_clientes = hiper.getFicheiroClientes();
+        ficheiro_produtos = hiper.getFicheiroProdutos();
+        ficheiro_compras = hiper.getFicheiroCompras();
     }
 
     /*
@@ -53,40 +59,38 @@ public class Hipermercado implements Serializable {
         return moduloCompras;
     }
 
-    public File getFicheiro_clientes() {
+    public File getFicheiroClientes() {
         return ficheiro_clientes;
     }
 
-    public File getFicheiro_produtos() {
+    public File getFicheiroProdutos() {
         return ficheiro_produtos;
     }
 
-    public File getFicheiro_compras() {
+    public File getFicheiroCompras() {
         return ficheiro_compras;
     }
-    
-    public int getNumeroComprasInvalidas(){
+
+    public int getNumeroComprasInvalidas() {
         return this.comprasInvalidas.size();
     }
 
     public ArrayList<String> getComprasInvalidas() {
         return comprasInvalidas;
     }
-    
-    
-    
+
     /*
      SETTERS
      */
-    public void setFicheiro_clientes(File ficheiro_clientes) {
+    public void setFicheiroClientes(File ficheiro_clientes) {
         this.ficheiro_clientes = ficheiro_clientes;
     }
 
-    public void setFicheiro_produtos(File ficheiro_produtos) {
+    public void setFicheiroProdutos(File ficheiro_produtos) {
         this.ficheiro_produtos = ficheiro_produtos;
     }
 
-    public void setFicheiro_compras(File ficheiro_compras) {
+    public void setFicheiroCompras(File ficheiro_compras) {
         this.ficheiro_compras = ficheiro_compras;
     }
 
@@ -109,20 +113,11 @@ public class Hipermercado implements Serializable {
     public void setComprasInvalidas(ArrayList<String> comprasInvalidas) {
         this.comprasInvalidas = comprasInvalidas;
     }
-    
+
     public void addCompraInvalida(String linhaInvalida) {
         this.comprasInvalidas.add(linhaInvalida);
     }
 
-    public void guardaComprasInvalidas(String ficheiro) throws FileNotFoundException{
-        PrintWriter pw = new PrintWriter(ficheiro);
-        for(String linha : this.comprasInvalidas)
-            pw.print(linha+"\n");
-        
-        pw.flush();
-        pw.close();
-    }
-    
     /*
      OPERAÇÕES SOBRE HIPERMERCADO
      */
@@ -142,4 +137,54 @@ public class Hipermercado implements Serializable {
         moduloContabilidade.registaCompra(compra);
     }
 
+    public void guardaComprasInvalidas(String ficheiro) throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(ficheiro);
+        for (String linha : this.comprasInvalidas) {
+            pw.print(linha + "\n");
+        }
+
+        pw.flush();
+        pw.close();
+    }
+    
+    /* METODOS STANDARD */
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.comprasInvalidas);
+        hash = 97 * hash + Objects.hashCode(this.ficheiro_clientes);
+        hash = 97 * hash + Objects.hashCode(this.ficheiro_produtos);
+        hash = 97 * hash + Objects.hashCode(this.ficheiro_compras);
+        hash = 97 * hash + Objects.hashCode(this.moduloCatalogoClientes);
+        hash = 97 * hash + Objects.hashCode(this.moduloCatalogoProdutos);
+        hash = 97 * hash + Objects.hashCode(this.moduloContabilidade);
+        hash = 97 * hash + Objects.hashCode(this.moduloCompras);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Hipermercado other = (Hipermercado) obj;
+        
+        return this.ficheiro_clientes.equals(other.ficheiro_clientes)
+                && this.ficheiro_produtos.equals(other.ficheiro_produtos)
+                && this.ficheiro_compras.equals(other.ficheiro_compras)
+                && this.comprasInvalidas.containsAll(other.comprasInvalidas)
+                && this.moduloCatalogoClientes.equals(other.moduloCatalogoClientes)
+                && this.moduloCatalogoProdutos.equals(other.moduloCatalogoProdutos)
+                && this.moduloContabilidade.equals(other.moduloContabilidade)
+                && this.moduloCompras.equals(other.moduloCompras);
+    }
+    
+    
+    
+    
+    
 }

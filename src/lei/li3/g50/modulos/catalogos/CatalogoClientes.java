@@ -12,11 +12,8 @@ import lei.li3.g50.utilitarios.ComparatorClientePorCodigo;
 
 public class CatalogoClientes implements Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2179945166363982211L;
-	private ArrayList<TreeSet<Cliente>> catalogo;
+    private static final long serialVersionUID = 2179945166363982211L;
+    private ArrayList<TreeSet<Cliente>> catalogo;
 
     /*
      CONSTRUCTORES
