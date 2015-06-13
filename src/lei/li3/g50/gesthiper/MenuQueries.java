@@ -1290,7 +1290,7 @@ public final class MenuQueries {
                         }
                     }
                 } else {
-                    System.out.print("Não foi possível ler o número inserido correctamente.\n");
+                    System.out.print("O número é inválido ou não foi possível lê-lo correctamente.\n");
                     System.out.print("==================================================== \n");
                     System.out.print("0 - Sair | 1 - Menu Principal  | 2 - Escolher outro N \n");
                     System.out.print("==================================================== \n");
