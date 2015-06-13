@@ -1858,9 +1858,9 @@ public final class MenuQueries {
                     System.out.println("Classe não conhecida.\n");
                 }
 
-                System.out.print("================================================= \n");
-                System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Guardar noutro ficheiro  \n");
-                System.out.print("==================================================== \n");
+                System.out.print("======================================================= \n");
+                System.out.print(" 0 - Sair | 1 - Menu Principal | 2 - Carregar ficheiro  \n");
+                System.out.print("======================================================= \n");
                 System.out.print("Escolha opção: ");
                 try {
                     escolha_opcao = input.nextInt();
