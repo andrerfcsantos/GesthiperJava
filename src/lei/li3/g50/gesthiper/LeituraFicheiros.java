@@ -9,8 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.StringTokenizer;
 
 import lei.li3.g50.modulos.dados.Cliente;
@@ -19,6 +17,7 @@ import lei.li3.g50.modulos.dados.Hipermercado;
 import lei.li3.g50.modulos.dados.Mes;
 import lei.li3.g50.modulos.dados.Produto;
 import lei.li3.g50.modulos.dados.TipoCompra;
+import lei.li3.g50.utilitarios.HipermercadoKryoSerializer;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
@@ -26,7 +25,6 @@ import com.esotericsoftware.kryo.io.Output;
 
 public class LeituraFicheiros {
 
-  private static Kryo kryo = new Kryo();
   
     public static void le_ficheiro_produtos(String str_ficheiro_produtos)
             throws FileNotFoundException, IOException {
@@ -176,23 +174,27 @@ public class LeituraFicheiros {
 
     public static void le_ficheiro_objecto(String str_ficheiro_objecto) throws IOException, ClassNotFoundException {
       
-      
-      
-      Input input = new Input(new FileInputStream(str_ficheiro_objecto));
-      Hipermercado someObject = kryo.readObject(input, Hipermercado.class);
-      Gesthiper.setHipermercado(someObject);
-      input.close();
+    	Kryo kryo = new Kryo();
+		kryo.register(Hipermercado.class, new HipermercadoKryoSerializer());
+	   
+	    
+	   
+		Input input = new Input(new FileInputStream(str_ficheiro_objecto));
+		Hipermercado someObject = (Hipermercado)kryo.readObject(input, Hipermercado.class);
+		Gesthiper.setHipermercado(someObject);
+		input.close();
 //        ObjectInputStream fich_obj = new ObjectInputStream(new FileInputStream(str_ficheiro_objecto));
 //        Gesthiper.setHipermercado((Hipermercado) fich_obj.readObject());
 //        fich_obj.close();
     }
 
     public static void guarda_ficheiro_objecto(String ficheiro) throws FileNotFoundException, IOException {
-        
-      Output output = new Output(new FileOutputStream(ficheiro));
-      
-      kryo.writeObject(output, Gesthiper.getHipermercado());
-      output.close();
+    	Kryo kryo = new Kryo();
+		kryo.register(Hipermercado.class, new HipermercadoKryoSerializer());
+		Output output = new Output(new FileOutputStream(ficheiro));
+
+		kryo.writeObject(output, Gesthiper.getHipermercado());
+		output.close();
       
 //      ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(ficheiro));
 //        out.writeObject(Gesthiper.getHipermercado());
