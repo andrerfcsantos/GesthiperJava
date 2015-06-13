@@ -178,7 +178,7 @@ public class LeituraFicheiros {
       
       
       
-      Input input = new Input(new FileInputStream("file.bin"));
+      Input input = new Input(new FileInputStream(str_ficheiro_objecto));
       Hipermercado someObject = kryo.readObject(input, Hipermercado.class);
       Gesthiper.setHipermercado(someObject);
       input.close();
