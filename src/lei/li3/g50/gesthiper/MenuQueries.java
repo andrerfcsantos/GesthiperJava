@@ -1672,8 +1672,8 @@ public final class MenuQueries {
 
                         }
                     } else {
-                        if (topN < 0) {
-                            System.out.print("Não foi possível ler o número inserido correctamente.\n");
+                        if (topN <= 0) {
+                            System.out.print("O número inserido é inválido ou não foi possível lê-lo correctamente.\n");
                         } else {
                             System.out.print("O produto não existe.\n");
                         }
