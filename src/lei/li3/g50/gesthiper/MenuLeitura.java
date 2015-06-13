@@ -91,13 +91,12 @@ public final class MenuLeitura {
             }
         }
 
-        
-
     }
 
     public static void opcao_FicheirosGenericosPAutomatica() throws FileNotFoundException, IOException {
         int escolha;
         String input;
+        String lixo;
         double tempo_leitura_produtos = -1, tempo_leitura_clientes = -1, tempo_leitura_compras = -1;
         File ficheiro_clientes, ficheiro_produtos, ficheiro_compras;
         ArrayList<File> ficheiros_clientes = procura_ficheiros_clientes();
@@ -118,8 +117,17 @@ public final class MenuLeitura {
                 System.out.print("" + ficheiros_clientes.size() + " ficheiros de clientes encontrados \n");
                 mostraOpcoesFicheiros(ficheiros_clientes);
                 System.out.print("Insira nº do ficheiro que quer ler: ");
-                escolha = sc.nextInt();
-                ficheiro_clientes = ficheiros_clientes.get(escolha - 1);
+                try {
+                    escolha = sc.nextInt();
+                } catch (InputMismatchException ex) {
+                    lixo = sc.next();
+                    throw new FileNotFoundException();
+                }
+                if (escolha > 0 && escolha <= ficheiros_clientes.size()) {
+                    ficheiro_clientes = ficheiros_clientes.get(escolha - 1);
+                } else {
+                    throw new FileNotFoundException();
+                }
             }
 
         } else {
@@ -140,8 +148,17 @@ public final class MenuLeitura {
                 System.out.print("" + ficheiros_produtos.size() + " ficheiros de produtos encontrados.\n");
                 mostraOpcoesFicheiros(ficheiros_produtos);
                 System.out.print("Insira nº do ficheiro: ");
-                escolha = sc.nextInt();
-                ficheiro_produtos = ficheiros_produtos.get(escolha - 1);
+                try {
+                    escolha = sc.nextInt();
+                } catch (InputMismatchException ex) {
+                    lixo = sc.next();
+                    throw new FileNotFoundException();
+                }
+                if (escolha > 0 && escolha <= ficheiros_produtos.size()) {
+                    ficheiro_produtos = ficheiros_produtos.get(escolha - 1);
+                } else {
+                    throw new FileNotFoundException();
+                }
             }
 
         } else {
@@ -163,8 +180,17 @@ public final class MenuLeitura {
                 System.out.print("" + ficheiros_compras.size() + " ficheiros de compras encontrados \n");
                 mostraOpcoesFicheiros(ficheiros_compras);
                 System.out.print("Insira nº do ficheiro: ");
-                escolha = sc.nextInt();
-                ficheiro_compras = ficheiros_compras.get(escolha - 1);
+                try {
+                    escolha = sc.nextInt();
+                } catch (InputMismatchException ex) {
+                    lixo = sc.next();
+                    throw new FileNotFoundException();
+                }
+                if (escolha > 0 && escolha <= ficheiros_compras.size()) {
+                    ficheiro_compras = ficheiros_compras.get(escolha - 1);
+                } else {
+                    throw new FileNotFoundException();
+                }
             }
 
         } else {
