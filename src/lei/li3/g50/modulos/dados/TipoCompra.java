@@ -8,11 +8,11 @@ public enum TipoCompra implements Serializable {
     PROMOCAO(1, 'P', "P", "Promoção", "Promo."),
     AMBOS(2, 'A', "A", "Ambos", "Amb.");
 
-    int indice;
-    char letra_representativa;
-    String representacao_ficheiro;
-    String representacao_capitalizada;
-    String abreviatura;
+    private int indice;
+    private char letra_representativa;
+    private String representacao_ficheiro;
+    private String representacao_capitalizada;
+    private String abreviatura;
 
     private TipoCompra(int indice,
             char letra_representativa,

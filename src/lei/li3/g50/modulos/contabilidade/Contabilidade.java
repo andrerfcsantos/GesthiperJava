@@ -25,7 +25,7 @@ public class Contabilidade implements Serializable {
     private Matriz_Int_12x2 totalComprasPorMes;
     private Matriz_Int_12x2 totalUnidadesVendidasPorMes;
     private Matriz_Double_12x2 totalFacturadoPorMes;
-    TreeMap<Produto, FichaProdutoContabilidade> arvoreProdutos;
+    private TreeMap<Produto, FichaProdutoContabilidade> arvoreProdutos;
 
     /*
      CONSTRUCTORES
