@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package lei.li3.g50.utilitarios;
 
 import java.io.File;
@@ -72,9 +75,9 @@ public class HipermercadoKryoSerializer extends Serializer<Hipermercado> {
 	@Override
 	public void write(Kryo kryo, Output output, Hipermercado hipermercado) {
 
-		kryo.register(Collection.class, 0);
-		kryo.register(CatalogoClientes.class, 1);
-		kryo.register(CatalogoProdutos.class, 2);
+		kryo.register(Collection.class, 1);
+		kryo.register(CatalogoClientes.class, 2);
+		kryo.register(CatalogoProdutos.class, 3);
 		kryo.register(Contabilidade.class, 4);
 		kryo.register(Compras.class, 5);
 		kryo.register(String.class, 6);

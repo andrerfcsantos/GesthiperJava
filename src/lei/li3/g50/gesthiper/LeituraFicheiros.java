@@ -172,9 +172,10 @@ public class LeituraFicheiros {
         bin.close();
     }
 
-    public static void le_ficheiro_objecto(String str_ficheiro_objecto) throws IOException, ClassNotFoundException {
-      
-    	Kryo kryo = new Kryo();
+    public static void le_ficheiro_objecto(String str_ficheiro_objecto)
+			throws IOException, ClassNotFoundException {
+
+		Kryo kryo = new Kryo();
 		kryo.register(Hipermercado.class, new HipermercadoKryoSerializer());
 	   
 	    
@@ -183,22 +184,25 @@ public class LeituraFicheiros {
 		Hipermercado someObject = (Hipermercado)kryo.readObject(input, Hipermercado.class);
 		Gesthiper.setHipermercado(someObject);
 		input.close();
-//        ObjectInputStream fich_obj = new ObjectInputStream(new FileInputStream(str_ficheiro_objecto));
-//        Gesthiper.setHipermercado((Hipermercado) fich_obj.readObject());
-//        fich_obj.close();
-    }
+		// ObjectInputStream fich_obj = new ObjectInputStream(new
+		// FileInputStream(str_ficheiro_objecto));
+		// Gesthiper.setHipermercado((Hipermercado) fich_obj.readObject());
+		// fich_obj.close();
+	}
 
-    public static void guarda_ficheiro_objecto(String ficheiro) throws FileNotFoundException, IOException {
-    	Kryo kryo = new Kryo();
+	public static void guarda_ficheiro_objecto(String ficheiro)
+			throws FileNotFoundException, IOException {
+		Kryo kryo = new Kryo();
 		kryo.register(Hipermercado.class, new HipermercadoKryoSerializer());
 		Output output = new Output(new FileOutputStream(ficheiro));
 
 		kryo.writeObject(output, Gesthiper.getHipermercado());
 		output.close();
-      
-//      ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(ficheiro));
-//        out.writeObject(Gesthiper.getHipermercado());
-//        out.flush();
-//        out.close();
-    }
+
+		// ObjectOutputStream out = new ObjectOutputStream(new
+		// FileOutputStream(ficheiro));
+		// out.writeObject(Gesthiper.getHipermercado());
+		// out.flush();
+		// out.close();
+	}
 }
