@@ -29,6 +29,21 @@ public class Hipermercado implements Serializable {
         moduloContabilidade = new Contabilidade();
         moduloCompras = new Compras();
     }
+    
+    	public Hipermercado(ArrayList<String> comprasInvalidas,
+			CatalogoClientes moduloCatalogoClientes,
+			CatalogoProdutos moduloCatalogoProdutos,
+			Contabilidade moduloContabilidade, Compras moduloCompras) {
+		super();
+		this.comprasInvalidas = comprasInvalidas;
+		this.moduloCatalogoClientes = moduloCatalogoClientes;
+		this.moduloCatalogoProdutos = moduloCatalogoProdutos;
+		this.moduloContabilidade = moduloContabilidade;
+		this.moduloCompras = moduloCompras;
+		
+	}
+
+    
     public Hipermercado(Hipermercado hiper) {
         comprasInvalidas = hiper.getComprasInvalidas();
         moduloCatalogoClientes = hiper.getCatalogoClientes();
