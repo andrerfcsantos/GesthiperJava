@@ -7,7 +7,7 @@ Projecto de gestão de produtos de hipermercados para a cadeira de Laboratórios
 Informática III, do curso de Licenciatura em Engenharia Informática da Universidade
 do Minho. Trabalho prático de *JAVA*.
 
-|*Autores*     |Nº Aluno |  Email                                             | Telemóvel |
-|------------- |---------|----------------------------------------------------|---------- |
-|André Santos  | a61778  | [a61778@alunos.uminho.pt](a61778@alunos.uminho.pt) |           |
-|Bruno Pereira | a72628  | [pereirabruno05@gmail.com](pereirabruno05@gmail.com)   | 917691726 |
+|*Autores*     |Nº Aluno |  Email                        |
+|------------- |---------|-------------------------------|
+|André Santos  | a61778  | a61778[at]alunos.uminho.pt    |
+|Bruno Pereira | a72628  | pereirabruno05[at]gmail.com   |
